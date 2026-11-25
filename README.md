@@ -24,8 +24,9 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 8. [Caso: Licenciatura en Derecho](#caso-licenciatura-en-derecho)
 9. [Licenciaturas más frecuentes: vigentes por año](#licenciaturas-más-frecuentes-vigentes-por-año)
 10. [Doctorados por área: vigentes por año](#doctorados-por-área-vigentes-por-año)
-11. [Limitaciones y advertencias](#limitaciones-y-advertencias)
-12. [Reproducir](#reproducir)
+11. [Doctorados jurídicos por subárea](#doctorados-jurídicos-por-subárea)
+12. [Limitaciones y advertencias](#limitaciones-y-advertencias)
+13. [Reproducir](#reproducir)
 
 ---
 
@@ -40,6 +41,7 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 | `img/derecho_por_anio.png` | Gráfica: Derecho, RVOE otorgados por año y modalidad | — |
 | `img/vigentes_acumulados.png` | Gráfica: programas vigentes en cada año, top 5 licenciaturas | — |
 | `img/doctorados_acumulados.png` | Gráfica: doctorados vigentes en cada año, por área | — |
+| `img/doctorados_derecho_subareas.png` | Gráfica: doctorados jurídicos vigentes en cada año, por subárea | — |
 | `parse_dgair.py` | Extrae las tablas de los PDFs (pdfplumber) | |
 | `scrape_sirvoes.py` | Descarga SIRVOES desde su API JSON | |
 | `cruce.py` | Cruza ambas fuentes y genera la tabla unificada | |
@@ -335,22 +337,22 @@ Es el mismo cálculo que la gráfica anterior (otorgados menos retirados al cier
 
 | Área | Palabras clave | Ejemplos |
 |---|---|---|
-| Derecho y C. Jurídicas | `DERECHO`, `JURIDIC` | Derecho, Derecho Penal, Derechos Humanos, Ciencias Jurídicas |
+| Derecho, C. Jurídicas y Criminología | `DERECHO`, `JURIDIC`, `CRIMIN`, `PENAL`, `JUICIO`, `FORENS`, `SEGURIDAD PUBLICA`, `JUSTICIA` | Derecho, Derecho Penal, Ciencias Jurídicas, Criminología, Política Criminal, Ciencias Penales, Juicios Orales, Ciencias Forenses, Seguridad Pública |
 | Educación y Pedagogía | `EDUCACI`, `PEDAGOG`, `EDUCATIV` | Educación, Ciencias de la Educación, Innovación Educativa, Innovación y Administración Educativa |
 | Administración | `ADMINISTRACI` | Administración, Administración Pública, Ciencias de la Administración |
 | Mercadotecnia | `MERCADOTECNIA`, `MARKETING` | Mercadotecnia Estratégica, Dirección y Mercadotecnia |
 | Psicología | `PSICOLOG` | Psicología, Investigación Psicológica |
 
-- **Educación domina los doctorados:** 434 programas vigentes, y junto con Derecho (268) suman más de la mitad de los 1,328 doctorados vigentes.
-- **Crecieron más rápido que las licenciaturas.** Educación pasó de 19 programas en 2000 a 432 (unas 23 veces) y Derecho de 11 a 266 (unas 24 veces). Las licenciaturas más frecuentes crecieron entre 4 y 14 veces en el mismo periodo.
-- **Buena parte del crecimiento es reciente.** De 2021 a 2026, Educación se duplicó (de 212 a 432 programas) y Derecho casi (de 144 a 266).
-- **Administración iba por delante de Derecho hasta 2007** y ahora tiene la mitad.
+- **Educación domina los doctorados:** 434 programas vigentes, y junto con Derecho, Ciencias Jurídicas y Criminología (300) suman más de la mitad de los 1,328 doctorados vigentes.
+- **Crecieron más rápido que las licenciaturas.** Educación pasó de 19 programas en 2000 a 432 (unas 23 veces) y el área jurídica de 11 a 298 (unas 27 veces). Las licenciaturas más frecuentes crecieron entre 4 y 14 veces en el mismo periodo.
+- **Buena parte del crecimiento es reciente.** De 2021 a 2026, Educación se duplicó (de 212 a 432 programas) y el área jurídica casi (de 161 a 298).
+- **Administración iba por delante del área jurídica hasta 2007**; hoy tiene menos de la mitad.
 - **En Mercadotecnia y Psicología casi no hay doctorados** (7 y 8 programas), aunque estén entre las licenciaturas más frecuentes.
 
 <details>
 <summary>Tabla de la gráfica: doctorados vigentes al cierre de cada año, por área</summary>
 
-| Año | Derecho y C. Jurídicas | Administración | Educación y Pedagogía | Mercadotecnia | Psicología |
+| Año | Derecho, C. Jurídicas y Criminología | Administración | Educación y Pedagogía | Mercadotecnia | Psicología |
 |--:|--:|--:|--:|--:|--:|
 | 2000 | 11 | 16 | 19 | 2 | 3 |
 | 2001 | 11 | 16 | 19 | 2 | 3 |
@@ -364,21 +366,21 @@ Es el mismo cálculo que la gráfica anterior (otorgados menos retirados al cier
 | 2009 | 30 | 28 | 41 | 2 | 4 |
 | 2010 | 37 | 29 | 43 | 2 | 4 |
 | 2011 | 43 | 30 | 49 | 2 | 4 |
-| 2012 | 66 | 45 | 83 | 2 | 5 |
-| 2013 | 72 | 47 | 88 | 2 | 5 |
-| 2014 | 72 | 47 | 90 | 2 | 5 |
-| 2015 | 77 | 48 | 92 | 2 | 5 |
-| 2016 | 85 | 53 | 104 | 2 | 5 |
-| 2017 | 98 | 63 | 130 | 2 | 5 |
-| 2018 | 106 | 67 | 149 | 2 | 5 |
-| 2019 | 125 | 76 | 183 | 2 | 6 |
-| 2020 | 131 | 76 | 193 | 2 | 6 |
-| 2021 | 144 | 81 | 212 | 3 | 6 |
-| 2022 | 157 | 87 | 242 | 5 | 6 |
-| 2023 | 182 | 104 | 292 | 5 | 6 |
-| 2024 | 213 | 119 | 325 | 5 | 7 |
-| 2025 | 252 | 130 | 396 | 5 | 8 |
-| 2026* | 266 | 135 | 432 | 7 | 8 |
+| 2012 | 68 | 45 | 83 | 2 | 5 |
+| 2013 | 74 | 47 | 88 | 2 | 5 |
+| 2014 | 74 | 47 | 90 | 2 | 5 |
+| 2015 | 80 | 48 | 92 | 2 | 5 |
+| 2016 | 88 | 53 | 104 | 2 | 5 |
+| 2017 | 104 | 63 | 130 | 2 | 5 |
+| 2018 | 117 | 67 | 149 | 2 | 5 |
+| 2019 | 138 | 76 | 183 | 2 | 6 |
+| 2020 | 144 | 76 | 193 | 2 | 6 |
+| 2021 | 161 | 81 | 212 | 3 | 6 |
+| 2022 | 177 | 87 | 242 | 5 | 6 |
+| 2023 | 209 | 104 | 292 | 5 | 6 |
+| 2024 | 243 | 119 | 325 | 5 | 7 |
+| 2025 | 284 | 130 | 396 | 5 | 8 |
+| 2026* | 298 | 135 | 432 | 7 | 8 |
 
 \* 2026 parcial, con registros hasta el 27-10-2026.
 </details>
@@ -387,6 +389,69 @@ Es el mismo cálculo que la gráfica anterior (otorgados menos retirados al cier
 - Aplican las mismas advertencias que en la gráfica de licenciaturas.
 - La clasificación por palabra clave es aproximada: un doctorado en "Gestión de Instituciones" que no use ninguna de las palabras clave no cuenta, aunque sea del área educativa.
 - Las áreas de doctorado no equivalen a las carreras de licenciatura: aquí "Administración" incluye la pública y "Educación" incluye todo lo educativo, no solo Pedagogía.
+- Quedan fuera del área jurídica los doctorados fiscales que no dicen "Derecho" (`CIENCIAS DE LO FISCAL`, `ESTUDIOS FISCALES`), que son más contables, y los de ciberseguridad.
+
+---
+
+## Doctorados jurídicos por subárea
+
+![Doctorados en Derecho, Ciencias Jurídicas y Criminología, por subárea](img/doctorados_derecho_subareas.png)
+
+Desglose de los 300 doctorados vigentes del área jurídica (Derecho, Ciencias Jurídicas y Criminología) de la gráfica anterior. Usa el mismo cálculo: vigentes al cierre de cada año. La subárea se asigna por palabra clave y gana la primera regla que coincide, así que `DERECHO PROCESAL PENAL` cuenta como Penal y `DERECHO PROCESAL CONSTITUCIONAL` como Constitucional.
+
+| Subárea | Palabras clave | Programas más frecuentes (vigentes) | Vigentes 2026 |
+|---|---|---|--:|
+| Penal y criminología | `PENAL`, `CRIMIN`, `FORENS`, `SEGURIDAD PUBLICA` | Derecho Penal (21), Seguridad Pública (5), Criminología (4), Ciencias Forenses (4), Derecho Procesal Penal (4), Política Criminal (3) | 60 |
+| Constitucional y derechos humanos | `CONSTITU`, `HUMANOS`, `AMPARO`, `PUBLICO`, `ANTICORRUP` | Derechos Humanos (5), Derecho Público (5), Derecho Constitucional (4), Constitucional y Amparo (3) | 33 |
+| Procesal, civil y juicios orales | `PROCESAL`, `CIVIL`, `FAMILIAR`, `JUICIO`, `ORAL`, `LITIG` | Derecho Civil (9), Derecho Procesal (6), Derecho y Procedimientos Orales (2), Civil con Juicio Oral (2) | 26 |
+| Fiscal, laboral y empresarial | `FISCAL`, `TRIBUT`, `LABORAL`, `TRABAJO`, `CORPORAT`, `EMPRESA`, `COMERCI`, `ADUAN`, `MARITIM` | Derecho Fiscal (4), Derecho Laboral (3), Aduanero y Comercio Exterior (2) | 14 |
+| Derecho / Ciencias jurídicas (general) | nombre exacto: `DERECHO`, `CIENCIAS JURIDICAS`, `DERECHO Y CIENCIAS JURIDICAS`, `INVESTIGACION JURIDICA` | Derecho (144), Ciencias Jurídicas (5), Derecho y Ciencias Jurídicas (3) | 153 |
+| Otras especialidades | lo que no entra en las anteriores | Filosofía del Derecho, Marco Jurídico de Gestión de Riesgos, Ciencias Jurídicas, Política y Gobierno, Derecho Sanitario | 12 |
+
+- **La mitad son doctorados genéricos "en Derecho"** (153 de 298). Las especialidades crecen, pero el título general sigue siendo el más común.
+- **Penal y criminología es la especialidad más grande** (60 programas, uno de cada cinco). No existía antes de 2008 y creció de forma sostenida desde entonces.
+- **Constitucional y derechos humanos es lo que más crece en los últimos años:** se triplicó de 2022 (11) a 2026 (33).
+- **Antes de 2008 casi no había doctorados jurídicos especializados:** en 2007, 12 de 16 programas eran genéricos.
+
+<details>
+<summary>Tabla de la gráfica: doctorados jurídicos vigentes al cierre de cada año, por subárea</summary>
+
+| Año | Penal y criminología | Constitucional y DD. HH. | Procesal, civil y juicios orales | Fiscal, laboral y empresarial | General | Otras |
+|--:|--:|--:|--:|--:|--:|--:|
+| 2000 | 0 | 0 | 0 | 1 | 8 | 2 |
+| 2001 | 0 | 0 | 0 | 1 | 8 | 2 |
+| 2002 | 0 | 0 | 0 | 1 | 8 | 2 |
+| 2003 | 0 | 0 | 0 | 1 | 9 | 2 |
+| 2004 | 0 | 0 | 0 | 2 | 10 | 2 |
+| 2005 | 0 | 0 | 0 | 2 | 10 | 2 |
+| 2006 | 0 | 0 | 0 | 2 | 12 | 2 |
+| 2007 | 0 | 0 | 0 | 2 | 12 | 2 |
+| 2008 | 2 | 1 | 0 | 3 | 19 | 2 |
+| 2009 | 3 | 2 | 0 | 4 | 19 | 2 |
+| 2010 | 5 | 3 | 3 | 4 | 20 | 2 |
+| 2011 | 5 | 3 | 3 | 4 | 25 | 3 |
+| 2012 | 10 | 5 | 6 | 4 | 40 | 3 |
+| 2013 | 13 | 5 | 6 | 4 | 43 | 3 |
+| 2014 | 13 | 5 | 6 | 4 | 43 | 3 |
+| 2015 | 14 | 6 | 7 | 4 | 46 | 3 |
+| 2016 | 16 | 6 | 7 | 5 | 51 | 3 |
+| 2017 | 19 | 7 | 12 | 8 | 55 | 3 |
+| 2018 | 24 | 9 | 12 | 8 | 61 | 3 |
+| 2019 | 30 | 11 | 13 | 9 | 72 | 3 |
+| 2020 | 31 | 11 | 13 | 10 | 76 | 3 |
+| 2021 | 35 | 11 | 14 | 11 | 87 | 3 |
+| 2022 | 39 | 11 | 17 | 11 | 94 | 5 |
+| 2023 | 49 | 16 | 17 | 11 | 111 | 5 |
+| 2024 | 55 | 25 | 22 | 13 | 121 | 7 |
+| 2025 | 60 | 29 | 25 | 13 | 147 | 10 |
+| 2026* | 60 | 33 | 26 | 14 | 153 | 12 |
+
+\* 2026 parcial, con registros hasta el 27-10-2026.
+</details>
+
+**Cómo leer la gráfica:**
+- Aplican las mismas advertencias que en las gráficas anteriores. Las subáreas suman el total del área jurídica (298 en 2026; 2 programas vigentes no tienen fecha).
+- Un programa con nombre mixto cae en la primera regla que coincide: por ejemplo, "Juicio Oral Penal y Derechos Humanos" cuenta como Penal.
 
 ---
 
