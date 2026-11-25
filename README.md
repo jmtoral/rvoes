@@ -235,7 +235,7 @@ Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre 
 - **Es la licenciatura con más RVOE federales: 2,149 vigentes**, casi el doble que la segunda (Administración de Empresas) y el 8.8% de todas las licenciaturas vigentes. Otros 457 programas de Derecho ya fueron retirados.
 - **Los otorgamientos llegan en oleadas:** picos en 2012 (219), 2018 (208) y sobre todo 2019 (303), seguidos de caídas abruptas (37 en 2013, 34 en 2020).
 - **La modalidad cambió.** Entre 2008 y 2011, el 64% de los nuevos RVOE eran escolarizados; entre 2023 y 2026 solo el 26%. Hoy predominan las modalidades mixta y no escolarizada.
-- Estados con más programas vigentes de Derecho: Estado de México (458), CDMX (297), Guanajuato (179), Veracruz (132), Jalisco (107), Puebla (101).
+- Estados con más programas vigentes de Derecho (todos, incluidos los de acuerdo institucional): Estado de México (458), CDMX (297), Guanajuato (179), Veracruz (132), Jalisco (107), Puebla (101).
 
 <details>
 <summary>Tabla de la gráfica: RVOE de Licenciatura en Derecho otorgados por año y modalidad (vigentes + retirados)</summary>
@@ -246,12 +246,12 @@ Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre 
 | 2001 | 13 | 3 | 1 | 17 |
 | 2002 | 12 | 3 | 0 | 15 |
 | 2003 | 14 | 3 | 0 | 17 |
-| 2004 | 13 | 3 | 0 | 16 |
+| 2004 | 12 | 3 | 0 | 15 |
 | 2005 | 25 | 11 | 0 | 36 |
 | 2006 | 19 | 5 | 0 | 24 |
 | 2007 | 27 | 3 | 0 | 30 |
 | 2008 | 60 | 39 | 1 | 100 |
-| 2009 | 60 | 24 | 0 | 84 |
+| 2009 | 59 | 24 | 0 | 83 |
 | 2010 | 52 | 26 | 2 | 80 |
 | 2011 | 37 | 26 | 0 | 63 |
 | 2012 | 81 | 127 | 11 | 219 |
@@ -265,7 +265,7 @@ Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre 
 | 2020 | 19 | 12 | 3 | 34 |
 | 2021 | 51 | 55 | 14 | 120 |
 | 2022 | 39 | 44 | 20 | 103 |
-| 2023 | 40 | 84 | 40 | 164 |
+| 2023 | 40 | 84 | 39 | 163 |
 | 2024 | 44 | 59 | 29 | 132 |
 | 2025 | 43 | 66 | 46 | 155 |
 | 2026* | 17 | 68 | 22 | 107 |
@@ -275,7 +275,7 @@ Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre 
 
 **Cómo leer la gráfica:**
 - Cuenta RVOE por **fecha de otorgamiento**, incluyendo los ya retirados. No es el número de programas activos en cada año.
-- Empieza en 2000. Antes de ese año, la fecha de los acuerdos secretariales es la del acuerdo de la institución y no la del programa: por ejemplo, 83 programas de Derecho de UVM aparecen con fecha 25-02-1988 y 17 de UNITEC con 24-10-1988.
+- **Solo se cuentan programas con RVOE propio**, en esta y en todas las series por año. Los que dependen de un acuerdo o decreto institucional (139 de los 2,149 programas de Derecho vigentes: UVM, UNITEC, Tec…) llevan la fecha del acuerdo (1988, 1952) y no la del programa, así que se excluyen.
 - Solo se ven los retiros que SIRVOES registra. Si hay programas antiguos retirados que no están en el sistema, los años viejos quedan subrepresentados.
 
 ### Por estado
@@ -284,10 +284,10 @@ Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre 
 
 Una línea por estado con los programas de Derecho **vigentes al cierre de cada año** (otorgados menos retirados), ordenados de mayor a menor. **Cada panel tiene su propia escala vertical** para que se vea la forma de la curva aun en estados con pocos programas; la cifra grande es el número de vigentes hoy y la marca superior del eje es el máximo del estado.
 
-- **Estado de México y CDMX concentran el 35%** de los programas vigentes de Derecho (458 y 297 de 2,147).
-- **Puebla es el que más se aceleró recientemente:** se duplicó de 2020 a 2026 (de 51 a 101).
+- **Estado de México y CDMX concentran el 35%** de los programas vigentes de Derecho con RVOE propio (437 y 266 de 2,010).
+- **Puebla es el que más se aceleró recientemente:** se duplicó de 2020 a 2026 (de 47 a 97).
 - **Chiapas** creció de golpe en 2012, se mantuvo estable casi una década y volvió a crecer desde 2023.
-- **Solo dos estados tienen hoy menos programas que en su máximo:** Sonora (50 → 48) y Sinaloa (19 → 18).
+- **Solo Sinaloa tiene hoy menos programas que en su máximo** (19 → 18).
 - **Tlaxcala** no tuvo ningún RVOE federal de Derecho hasta 2017 y hoy tiene 5. Es probable que la mayor parte de la oferta de algunos estados esté en RVOE estatales, que esta base no incluye.
 
 <details>
@@ -295,30 +295,30 @@ Una línea por estado con los programas de Derecho **vigentes al cierre de cada 
 
 | Estado | 2000 | 2010 | 2020 | 2026* | Máximo |
 |---|--:|--:|--:|--:|--:|
-| Estado de México | 43 | 126 | 339 | 458 | 458 |
-| Ciudad de México | 67 | 117 | 238 | 297 | 297 |
-| Guanajuato | 17 | 61 | 138 | 179 | 179 |
-| Veracruz | 23 | 58 | 100 | 131 | 131 |
-| Jalisco | 16 | 34 | 77 | 107 | 107 |
-| Puebla | 6 | 18 | 51 | 101 | 101 |
-| Querétaro | 7 | 18 | 47 | 76 | 76 |
+| Estado de México | 22 | 105 | 318 | 437 | 437 |
+| Ciudad de México | 36 | 86 | 207 | 266 | 266 |
+| Guanajuato | 13 | 57 | 134 | 175 | 175 |
+| Veracruz | 17 | 52 | 94 | 125 | 125 |
+| Jalisco | 7 | 24 | 67 | 97 | 97 |
+| Puebla | 2 | 14 | 47 | 97 | 97 |
 | Michoacán | 6 | 22 | 53 | 76 | 76 |
-| Chiapas | 4 | 18 | 36 | 61 | 61 |
+| Querétaro | 2 | 13 | 42 | 70 | 70 |
 | Hidalgo | 5 | 20 | 40 | 59 | 59 |
-| Coahuila | 7 | 18 | 42 | 56 | 56 |
-| Sonora | 10 | 21 | 47 | 48 | 50 |
-| San Luis Potosí | 5 | 8 | 22 | 41 | 41 |
-| Aguascalientes | 5 | 8 | 26 | 40 | 40 |
-| Baja California | 3 | 7 | 34 | 40 | 40 |
-| Yucatán | 5 | 13 | 30 | 39 | 39 |
-| Tamaulipas | 10 | 19 | 28 | 38 | 38 |
-| Quintana Roo | 2 | 7 | 22 | 33 | 33 |
-| Morelos | 5 | 12 | 24 | 32 | 32 |
-| Chihuahua | 5 | 14 | 25 | 32 | 32 |
-| Oaxaca | 3 | 12 | 24 | 29 | 29 |
-| Nuevo León | 6 | 17 | 23 | 29 | 29 |
-| Tabasco | 3 | 6 | 17 | 26 | 26 |
+| Chiapas | 1 | 15 | 33 | 58 | 58 |
+| Coahuila | 0 | 11 | 35 | 49 | 49 |
+| Sonora | 1 | 12 | 38 | 42 | 42 |
+| San Luis Potosí | 2 | 5 | 19 | 38 | 38 |
+| Aguascalientes | 2 | 5 | 23 | 37 | 37 |
+| Baja California | 0 | 4 | 31 | 37 | 37 |
+| Yucatán | 2 | 9 | 26 | 35 | 35 |
+| Quintana Roo | 1 | 6 | 21 | 32 | 32 |
+| Morelos | 3 | 10 | 22 | 30 | 30 |
+| Oaxaca | 2 | 11 | 23 | 28 | 28 |
+| Tamaulipas | 0 | 9 | 18 | 28 | 28 |
+| Chihuahua | 1 | 10 | 21 | 28 | 28 |
 | Guerrero | 1 | 8 | 22 | 25 | 25 |
+| Tabasco | 1 | 4 | 15 | 24 | 24 |
+| Nuevo León | 0 | 11 | 17 | 23 | 23 |
 | Campeche | 1 | 3 | 14 | 19 | 19 |
 | Sinaloa | 0 | 6 | 16 | 18 | 19 |
 | Zacatecas | 0 | 2 | 8 | 14 | 14 |
@@ -337,51 +337,51 @@ Una línea por estado con los programas de Derecho **vigentes al cierre de cada 
 
 Es la misma serie dividida entre la **población a mitad de año de cada estado** (CONAPO: Conciliación Demográfica 1950–2019 y Proyecciones 2020–2070, edición 2023) y multiplicada por 100,000. Aquí **todos los paneles comparten escala**, porque las tasas sí son comparables entre estados. La línea gris es la tasa nacional.
 
-- **A escala nacional hay 1.6 programas de Derecho vigentes por cada 100 mil habitantes.**
-- **Ajustando por población, el mapa cambia.** Ciudad de México sigue primero (3.2), pero le siguen **Querétaro (2.8), Guanajuato (2.7) y Aguascalientes (2.6)**: el Bajío tiene más programas por habitante que el Estado de México (2.6), que en números absolutos es el primero.
-- **Jalisco (1.2) y Nuevo León (0.4) quedan muy por debajo del promedio** pese a ser estados grandes; Nuevo León es el penúltimo del país.
+- **A escala nacional hay 1.5 programas de Derecho vigentes por cada 100 mil habitantes**, más de diez veces la tasa de 2000 (0.13).
+- **Ajustando por población, el mapa cambia.** Ciudad de México sigue primero (2.9), pero le siguen **Guanajuato (2.7) y Querétaro (2.6)**, por encima del Estado de México (2.5), que en números absolutos es el primero. Aguascalientes (2.4) va muy cerca.
+- **Jalisco (1.1) y Nuevo León (0.35) quedan muy por debajo del promedio** pese a ser estados grandes; Nuevo León es el penúltimo del país.
 - **Campeche (2.0)** aparece alto por tener poca población: 19 programas.
-- En Chihuahua, Oaxaca, Guerrero, Nayarit, Sinaloa, Durango, Nuevo León y Tlaxcala la tasa está por debajo de la mitad de la nacional (0.8).
-- Como en la gráfica anterior, los niveles de los primeros años están inflados por programas fechados con el acuerdo de su institución y no con su propia fecha (ver *Limitaciones*). La comparación entre estados en 2026 no se ve afectada.
+- En Tamaulipas, Guerrero, Chihuahua, Oaxaca, Nayarit, Sinaloa, Durango, Nuevo León y Tlaxcala la tasa está por debajo de la mitad de la nacional (0.75).
+- Como en las demás series, solo se cuentan programas con RVOE propio (ver *Limitaciones*).
 
 <details>
 <summary>Tabla: programas de Derecho vigentes por cada 100 mil habitantes, por estado</summary>
 
 | Estado | 2000 | 2010 | 2020 | 2026* | Programas 2026 | Población 2026 |
 |---|--:|--:|--:|--:|--:|--:|
-| Ciudad de México | 0.77 | 1.29 | 2.55 | 3.24 | 297 | 9,159,966 |
-| Querétaro | 0.49 | 0.96 | 1.94 | 2.81 | 76 | 2,700,978 |
-| Guanajuato | 0.36 | 1.09 | 2.20 | 2.72 | 179 | 6,590,749 |
-| Estado de México | 0.32 | 0.81 | 1.97 | 2.57 | 458 | 17,822,420 |
-| Aguascalientes | 0.52 | 0.66 | 1.79 | 2.55 | 40 | 1,567,559 |
+| Ciudad de México | 0.41 | 0.95 | 2.22 | 2.90 | 266 | 9,159,966 |
+| Guanajuato | 0.27 | 1.02 | 2.14 | 2.66 | 175 | 6,590,749 |
+| Querétaro | 0.14 | 0.70 | 1.74 | 2.59 | 70 | 2,700,978 |
+| Estado de México | 0.17 | 0.68 | 1.84 | 2.45 | 437 | 17,822,420 |
+| Aguascalientes | 0.21 | 0.41 | 1.58 | 2.36 | 37 | 1,567,559 |
 | Campeche | 0.14 | 0.36 | 1.49 | 1.98 | 19 | 962,014 |
 | Hidalgo | 0.22 | 0.74 | 1.28 | 1.77 | 59 | 3,334,060 |
-| Coahuila | 0.30 | 0.64 | 1.31 | 1.63 | 56 | 3,440,385 |
-| Veracruz | 0.33 | 0.74 | 1.22 | 1.61 | 131 | 8,111,813 |
-| Morelos | 0.32 | 0.66 | 1.20 | 1.55 | 32 | 2,067,472 |
-| Quintana Roo | 0.22 | 0.52 | 1.16 | 1.54 | 33 | 2,141,082 |
-| Yucatán | 0.29 | 0.65 | 1.27 | 1.53 | 39 | 2,542,536 |
-| Sonora | 0.44 | 0.78 | 1.57 | 1.51 | 48 | 3,168,624 |
+| Veracruz | 0.24 | 0.67 | 1.15 | 1.54 | 125 | 8,111,813 |
+| Quintana Roo | 0.11 | 0.45 | 1.11 | 1.49 | 32 | 2,141,082 |
 | Michoacán | 0.15 | 0.49 | 1.10 | 1.49 | 76 | 5,089,383 |
-| Puebla | 0.12 | 0.30 | 0.76 | 1.41 | 101 | 7,149,139 |
+| Morelos | 0.19 | 0.55 | 1.10 | 1.45 | 30 | 2,067,472 |
+| Coahuila | 0.00 | 0.39 | 1.09 | 1.42 | 49 | 3,440,385 |
 | Baja California Sur | 0.23 | 0.62 | 1.35 | 1.41 | 13 | 921,734 |
-| San Luis Potosí | 0.21 | 0.30 | 0.77 | 1.37 | 41 | 3,002,651 |
-| Jalisco | 0.25 | 0.45 | 0.91 | 1.19 | 107 | 8,982,027 |
-| Tabasco | 0.16 | 0.26 | 0.70 | 1.05 | 26 | 2,472,668 |
+| Yucatán | 0.12 | 0.45 | 1.10 | 1.38 | 35 | 2,542,536 |
+| Puebla | 0.04 | 0.24 | 0.70 | 1.36 | 97 | 7,149,139 |
+| Sonora | 0.04 | 0.44 | 1.27 | 1.33 | 42 | 3,168,624 |
+| San Luis Potosí | 0.08 | 0.19 | 0.66 | 1.27 | 38 | 3,002,651 |
+| Jalisco | 0.11 | 0.32 | 0.79 | 1.08 | 97 | 8,982,027 |
 | Colima | 0.18 | 0.91 | 0.81 | 1.04 | 8 | 771,538 |
-| Tamaulipas | 0.36 | 0.57 | 0.78 | 1.01 | 38 | 3,777,472 |
-| Chiapas | 0.10 | 0.36 | 0.63 | 0.99 | 61 | 6,185,469 |
-| Baja California | 0.12 | 0.22 | 0.89 | 0.95 | 40 | 4,189,285 |
+| Tabasco | 0.05 | 0.18 | 0.61 | 0.97 | 24 | 2,472,668 |
+| Chiapas | 0.03 | 0.30 | 0.58 | 0.94 | 58 | 6,185,469 |
+| Baja California | 0.00 | 0.13 | 0.81 | 0.88 | 37 | 4,189,285 |
 | Zacatecas | 0.00 | 0.13 | 0.49 | 0.81 | 14 | 1,726,898 |
-| Chihuahua | 0.16 | 0.40 | 0.66 | 0.78 | 32 | 4,087,306 |
+| Tamaulipas | 0.00 | 0.27 | 0.50 | 0.74 | 28 | 3,777,472 |
 | Guerrero | 0.03 | 0.23 | 0.61 | 0.69 | 25 | 3,606,296 |
-| Oaxaca | 0.09 | 0.31 | 0.57 | 0.66 | 29 | 4,368,997 |
+| Chihuahua | 0.03 | 0.29 | 0.55 | 0.69 | 28 | 4,087,306 |
+| Oaxaca | 0.06 | 0.28 | 0.55 | 0.64 | 28 | 4,368,997 |
 | Nayarit | 0.11 | 0.18 | 0.16 | 0.60 | 8 | 1,338,499 |
 | Sinaloa | 0.00 | 0.21 | 0.52 | 0.56 | 18 | 3,208,039 |
 | Durango | 0.07 | 0.12 | 0.27 | 0.46 | 9 | 1,939,482 |
-| Nuevo León | 0.15 | 0.36 | 0.39 | 0.45 | 29 | 6,516,202 |
+| Nuevo León | 0.00 | 0.23 | 0.29 | 0.35 | 23 | 6,516,202 |
 | Tlaxcala | 0.00 | 0.00 | 0.15 | 0.34 | 5 | 1,464,515 |
-| **Nacional** | **0.27** | **0.60** | **1.22** | **1.60** | **2,147** | **134,407,258** |
+| **Nacional** | **0.13** | **0.48** | **1.12** | **1.50** | **2,010** | **134,407,258** |
 
 \* 2026 parcial, con registros hasta el 27-10-2026. Población: CONAPO, población a mitad de año (`data/poblacion_conapo.csv`, generado con `poblacion_conapo.py`).
 </details>
@@ -394,9 +394,9 @@ Es la misma serie dividida entre la **población a mitad de año de cada estado*
 
 Para cada año se cuentan los programas **vigentes al cierre de ese año**: RVOE otorgados hasta ese año menos los retirados hasta ese año (según `fecha_retiro`). Se toman las 5 licenciaturas con más RVOE vigentes hoy, por nombre exacto del programa.
 
-- **Derecho siempre fue la primera y la brecha se ensancha:** 269 programas en 2000, 2,147 hoy (8 veces más). Le saca casi 1,000 a la segunda.
-- **Pedagogía es la que más creció:** 82 en 2000 y 1,123 hoy (casi 14 veces). Rebasó a Psicología en 2017 y a Mercadotecnia en 2019, y ya está cerca de Administración de Empresas.
-- **Mercadotecnia es la que menos creció:** era la segunda en 2000 (199) y hoy es la cuarta (815).
+- **Derecho siempre fue la primera y la brecha se ensancha:** 132 programas en 2000 y 2,010 hoy (15 veces más). Le saca más de 900 a la segunda.
+- **Pedagogía es la que más creció:** de 37 programas en 2000 a 1,077 hoy (29 veces). Rebasó para siempre a Psicología en 2016 y a Mercadotecnia en 2017, alcanzó a Administración de Empresas en 2024 y hoy están empatadas (1,077 cada una).
+- **Mercadotecnia y Psicología van atrás y casi juntas** (650 y 630). Psicología se aceleró desde 2023: pasó de 404 a 630 programas en cuatro años.
 - **Las curvas nunca bajan:** en ningún año los retiros superaron a los nuevos otorgamientos. Los saltos de 2012 y 2019 coinciden con las oleadas de la gráfica de Derecho.
 
 <details>
@@ -404,33 +404,33 @@ Para cada año se cuentan los programas **vigentes al cierre de ese año**: RVOE
 
 | Año | Derecho | Administración de Empresas | Pedagogía | Mercadotecnia | Psicología |
 |--:|--:|--:|--:|--:|--:|
-| 2000 | 269 | 183 | 82 | 199 | 136 |
-| 2001 | 286 | 194 | 84 | 208 | 138 |
-| 2002 | 301 | 202 | 89 | 214 | 140 |
-| 2003 | 318 | 215 | 92 | 222 | 142 |
-| 2004 | 334 | 220 | 97 | 235 | 147 |
-| 2005 | 370 | 237 | 107 | 253 | 157 |
-| 2006 | 394 | 247 | 118 | 259 | 160 |
-| 2007 | 424 | 264 | 133 | 273 | 166 |
-| 2008 | 523 | 335 | 169 | 325 | 186 |
-| 2009 | 607 | 405 | 188 | 358 | 212 |
-| 2010 | 687 | 457 | 211 | 377 | 236 |
-| 2011 | 750 | 495 | 231 | 396 | 270 |
-| 2012 | 969 | 616 | 329 | 470 | 406 |
-| 2013 | 1,006 | 629 | 346 | 477 | 419 |
-| 2014 | 1,025 | 649 | 351 | 492 | 421 |
-| 2015 | 1,064 | 660 | 359 | 509 | 427 |
-| 2016 | 1,112 | 682 | 387 | 523 | 438 |
-| 2017 | 1,230 | 722 | 463 | 543 | 459 |
-| 2018 | 1,355 | 760 | 536 | 557 | 467 |
-| 2019 | 1,553 | 884 | 715 | 692 | 490 |
-| 2020 | 1,569 | 892 | 736 | 694 | 491 |
-| 2021 | 1,643 | 935 | 786 | 718 | 499 |
-| 2022 | 1,726 | 977 | 847 | 723 | 506 |
-| 2023 | 1,840 | 1,017 | 932 | 752 | 563 |
-| 2024 | 1,917 | 1,055 | 983 | 764 | 615 |
-| 2025 | 2,042 | 1,173 | 1,069 | 808 | 701 |
-| 2026* | 2,147 | 1,197 | 1,123 | 815 | 731 |
+| 2000 | 132 | 65 | 37 | 37 | 38 |
+| 2001 | 149 | 76 | 39 | 46 | 40 |
+| 2002 | 164 | 84 | 44 | 52 | 42 |
+| 2003 | 181 | 97 | 47 | 60 | 44 |
+| 2004 | 196 | 101 | 52 | 72 | 48 |
+| 2005 | 232 | 118 | 62 | 90 | 56 |
+| 2006 | 256 | 128 | 73 | 96 | 59 |
+| 2007 | 286 | 145 | 88 | 110 | 65 |
+| 2008 | 385 | 216 | 124 | 162 | 85 |
+| 2009 | 468 | 285 | 143 | 194 | 110 |
+| 2010 | 548 | 337 | 166 | 213 | 134 |
+| 2011 | 611 | 375 | 186 | 231 | 168 |
+| 2012 | 830 | 496 | 284 | 305 | 304 |
+| 2013 | 867 | 509 | 301 | 312 | 317 |
+| 2014 | 886 | 529 | 306 | 326 | 319 |
+| 2015 | 925 | 540 | 314 | 343 | 325 |
+| 2016 | 973 | 562 | 342 | 357 | 336 |
+| 2017 | 1,091 | 602 | 418 | 377 | 357 |
+| 2018 | 1,216 | 640 | 491 | 390 | 365 |
+| 2019 | 1,414 | 764 | 669 | 526 | 388 |
+| 2020 | 1,430 | 772 | 690 | 528 | 389 |
+| 2021 | 1,504 | 815 | 740 | 552 | 397 |
+| 2022 | 1,587 | 857 | 801 | 557 | 404 |
+| 2023 | 1,700 | 897 | 886 | 586 | 461 |
+| 2024 | 1,777 | 935 | 937 | 598 | 513 |
+| 2025 | 1,905 | 1,053 | 1,023 | 643 | 600 |
+| 2026* | 2,010 | 1,077 | 1,077 | 650 | 630 |
 
 \* 2026 parcial, con registros hasta el 27-10-2026.
 </details>
@@ -439,7 +439,7 @@ Para cada año se cuentan los programas **vigentes al cierre de ese año**: RVOE
 - Es una reconstrucción a partir de lo que hoy publica la SEP: un programa retirado que SIRVOES ya no registra no aparece en ningún año, así que los años antiguos pueden estar subestimados.
 - Se usa el nombre exacto del programa. `ADMINISTRACION` (547 vigentes) va por separado de `ADMINISTRACION DE EMPRESAS`, y quedan fuera variantes como `DERECHO Y CIENCIAS JURIDICAS`.
 - Un RVOE vigente no significa que el programa tenga alumnos inscritos.
-- Los dos programas de Derecho sin fecha de otorgamiento no se cuentan (2,147 contra 2,149 vigentes).
+- Solo se cuentan programas con RVOE propio: quedan fuera 139 programas de Derecho vigentes que dependen de un acuerdo institucional (la serie llega a 2,010 de 2,149).
 
 ---
 
@@ -457,44 +457,44 @@ Es el mismo cálculo que la gráfica anterior (otorgados menos retirados al cier
 | Mercadotecnia | `MERCADOTECNIA`, `MARKETING` | Mercadotecnia Estratégica, Dirección y Mercadotecnia |
 | Psicología | `PSICOLOG` | Psicología, Investigación Psicológica |
 
-- **Educación domina los doctorados:** 434 programas vigentes, y junto con Derecho, Ciencias Jurídicas y Criminología (300) suman más de la mitad de los 1,328 doctorados vigentes.
-- **Crecieron más rápido que las licenciaturas.** Educación pasó de 19 programas en 2000 a 432 (unas 23 veces) y el área jurídica de 11 a 298 (unas 27 veces). Las licenciaturas más frecuentes crecieron entre 4 y 14 veces en el mismo periodo.
-- **Buena parte del crecimiento es reciente.** De 2021 a 2026, Educación se duplicó (de 212 a 432 programas) y el área jurídica casi (de 161 a 298).
-- **Administración iba por delante del área jurídica hasta 2007**; hoy tiene menos de la mitad.
-- **En Mercadotecnia y Psicología casi no hay doctorados** (7 y 8 programas), aunque estén entre las licenciaturas más frecuentes.
+- **Educación domina los doctorados:** 414 programas vigentes con RVOE propio, y junto con Derecho, Ciencias Jurídicas y Criminología (290) suman más de la mitad de los 1,181 doctorados vigentes con RVOE propio.
+- **Casi todos son de los últimos 15 años.** En 2000 había apenas 2 doctorados de Educación y 3 del área jurídica con RVOE propio; el despegue empieza en 2008 y se acelera desde 2012.
+- **Buena parte del crecimiento es reciente.** De 2021 a 2026, Educación se duplicó con creces (de 195 a 414 programas) y el área jurídica casi (de 153 a 290).
+- **Administración iba a la par del área jurídica hasta 2007**; hoy tiene menos de la mitad (123 contra 290).
+- **En Mercadotecnia y Psicología casi no hay doctorados** (5 cada una), aunque estén entre las licenciaturas más frecuentes.
 
 <details>
 <summary>Tabla de la gráfica: doctorados vigentes al cierre de cada año, por área</summary>
 
 | Año | Derecho, C. Jurídicas y Criminología | Administración | Educación y Pedagogía | Mercadotecnia | Psicología |
 |--:|--:|--:|--:|--:|--:|
-| 2000 | 11 | 16 | 19 | 2 | 3 |
-| 2001 | 11 | 16 | 19 | 2 | 3 |
-| 2002 | 11 | 16 | 20 | 2 | 3 |
-| 2003 | 12 | 16 | 21 | 2 | 3 |
-| 2004 | 14 | 17 | 22 | 2 | 3 |
-| 2005 | 14 | 18 | 24 | 2 | 4 |
-| 2006 | 16 | 19 | 27 | 2 | 4 |
-| 2007 | 16 | 20 | 30 | 2 | 4 |
-| 2008 | 27 | 23 | 37 | 2 | 4 |
-| 2009 | 30 | 28 | 41 | 2 | 4 |
-| 2010 | 37 | 29 | 43 | 2 | 4 |
-| 2011 | 43 | 30 | 49 | 2 | 4 |
-| 2012 | 68 | 45 | 83 | 2 | 5 |
-| 2013 | 74 | 47 | 88 | 2 | 5 |
-| 2014 | 74 | 47 | 90 | 2 | 5 |
-| 2015 | 80 | 48 | 92 | 2 | 5 |
-| 2016 | 88 | 53 | 104 | 2 | 5 |
-| 2017 | 104 | 63 | 130 | 2 | 5 |
-| 2018 | 117 | 67 | 149 | 2 | 5 |
-| 2019 | 138 | 76 | 183 | 2 | 6 |
-| 2020 | 144 | 76 | 193 | 2 | 6 |
-| 2021 | 161 | 81 | 212 | 3 | 6 |
-| 2022 | 177 | 87 | 242 | 5 | 6 |
-| 2023 | 209 | 104 | 292 | 5 | 6 |
-| 2024 | 243 | 119 | 325 | 5 | 7 |
-| 2025 | 284 | 130 | 396 | 5 | 8 |
-| 2026* | 298 | 135 | 432 | 7 | 8 |
+| 2000 | 3 | 4 | 2 | 0 | 0 |
+| 2001 | 3 | 4 | 2 | 0 | 0 |
+| 2002 | 3 | 4 | 3 | 0 | 0 |
+| 2003 | 4 | 4 | 4 | 0 | 0 |
+| 2004 | 6 | 5 | 5 | 0 | 0 |
+| 2005 | 6 | 6 | 7 | 0 | 1 |
+| 2006 | 8 | 7 | 10 | 0 | 1 |
+| 2007 | 8 | 8 | 13 | 0 | 1 |
+| 2008 | 19 | 11 | 20 | 0 | 1 |
+| 2009 | 22 | 16 | 24 | 0 | 1 |
+| 2010 | 29 | 17 | 26 | 0 | 1 |
+| 2011 | 35 | 18 | 32 | 0 | 1 |
+| 2012 | 60 | 33 | 66 | 0 | 2 |
+| 2013 | 66 | 35 | 71 | 0 | 2 |
+| 2014 | 66 | 35 | 73 | 0 | 2 |
+| 2015 | 72 | 36 | 75 | 0 | 2 |
+| 2016 | 80 | 41 | 87 | 0 | 2 |
+| 2017 | 96 | 51 | 113 | 0 | 2 |
+| 2018 | 109 | 55 | 132 | 0 | 2 |
+| 2019 | 130 | 64 | 166 | 0 | 3 |
+| 2020 | 136 | 64 | 176 | 0 | 3 |
+| 2021 | 153 | 69 | 195 | 1 | 3 |
+| 2022 | 169 | 75 | 225 | 3 | 3 |
+| 2023 | 201 | 92 | 275 | 3 | 3 |
+| 2024 | 235 | 107 | 308 | 3 | 4 |
+| 2025 | 276 | 118 | 378 | 3 | 5 |
+| 2026* | 290 | 123 | 414 | 5 | 5 |
 
 \* 2026 parcial, con registros hasta el 27-10-2026.
 </details>
@@ -511,60 +511,60 @@ Es el mismo cálculo que la gráfica anterior (otorgados menos retirados al cier
 
 ![Doctorados en Derecho, Ciencias Jurídicas y Criminología, por subárea](img/doctorados_derecho_subareas.png)
 
-Desglose de los 300 doctorados vigentes del área jurídica (Derecho, Ciencias Jurídicas y Criminología) de la gráfica anterior. Usa el mismo cálculo: vigentes al cierre de cada año. La subárea se asigna por palabra clave y gana la primera regla que coincide, así que `DERECHO PROCESAL PENAL` cuenta como Penal y `DERECHO PROCESAL CONSTITUCIONAL` como Constitucional.
+Desglose de los 290 doctorados vigentes con RVOE propio del área jurídica (Derecho, Ciencias Jurídicas y Criminología) de la gráfica anterior. Usa el mismo cálculo: vigentes al cierre de cada año. La subárea se asigna por palabra clave y gana la primera regla que coincide, así que `DERECHO PROCESAL PENAL` cuenta como Penal y `DERECHO PROCESAL CONSTITUCIONAL` como Constitucional.
 
-| Subárea | Palabras clave | Programas más frecuentes (vigentes) | Vigentes 2026 |
+| Subárea | Palabras clave | Programas más frecuentes | Vigentes 2026 (RVOE propio) |
 |---|---|---|--:|
-| Penal y criminología | `PENAL`, `CRIMIN`, `FORENS`, `SEGURIDAD PUBLICA` | Derecho Penal (21), Seguridad Pública (5), Criminología (4), Ciencias Forenses (4), Derecho Procesal Penal (4), Política Criminal (3) | 60 |
-| Constitucional y derechos humanos | `CONSTITU`, `HUMANOS`, `AMPARO`, `PUBLICO`, `ANTICORRUP` | Derechos Humanos (5), Derecho Público (5), Derecho Constitucional (4), Constitucional y Amparo (3) | 33 |
-| Procesal, civil y juicios orales | `PROCESAL`, `CIVIL`, `FAMILIAR`, `JUICIO`, `ORAL`, `LITIG` | Derecho Civil (9), Derecho Procesal (6), Derecho y Procedimientos Orales (2), Civil con Juicio Oral (2) | 26 |
-| Fiscal, laboral y empresarial | `FISCAL`, `TRIBUT`, `LABORAL`, `TRABAJO`, `CORPORAT`, `EMPRESA`, `COMERCI`, `ADUAN`, `MARITIM` | Derecho Fiscal (4), Derecho Laboral (3), Aduanero y Comercio Exterior (2) | 14 |
-| Derecho / Ciencias jurídicas (general) | nombre exacto: `DERECHO`, `CIENCIAS JURIDICAS`, `DERECHO Y CIENCIAS JURIDICAS`, `INVESTIGACION JURIDICA` | Derecho (144), Ciencias Jurídicas (5), Derecho y Ciencias Jurídicas (3) | 153 |
+| Penal y criminología | `PENAL`, `CRIMIN`, `FORENS`, `SEGURIDAD PUBLICA` | Derecho Penal, Seguridad Pública, Criminología, Ciencias Forenses, Derecho Procesal Penal, Política Criminal | 60 |
+| Constitucional y derechos humanos | `CONSTITU`, `HUMANOS`, `AMPARO`, `PUBLICO`, `ANTICORRUP` | Derechos Humanos, Derecho Público, Derecho Constitucional, Constitucional y Amparo | 33 |
+| Procesal, civil y juicios orales | `PROCESAL`, `CIVIL`, `FAMILIAR`, `JUICIO`, `ORAL`, `LITIG` | Derecho Civil, Derecho Procesal, Derecho y Procedimientos Orales, Civil con Juicio Oral | 26 |
+| Fiscal, laboral y empresarial | `FISCAL`, `TRIBUT`, `LABORAL`, `TRABAJO`, `CORPORAT`, `EMPRESA`, `COMERCI`, `ADUAN`, `MARITIM` | Derecho Fiscal, Derecho Laboral, Aduanero y Comercio Exterior | 13 |
+| Derecho / Ciencias jurídicas (general) | nombre exacto: `DERECHO`, `CIENCIAS JURIDICAS`, `DERECHO Y CIENCIAS JURIDICAS`, `INVESTIGACION JURIDICA` | Derecho, Ciencias Jurídicas, Derecho y Ciencias Jurídicas | 146 |
 | Otras especialidades | lo que no entra en las anteriores | Filosofía del Derecho, Marco Jurídico de Gestión de Riesgos, Ciencias Jurídicas, Política y Gobierno, Derecho Sanitario | 12 |
 
-- **La mitad son doctorados genéricos "en Derecho"** (153 de 298). Las especialidades crecen, pero el título general sigue siendo el más común.
+- **La mitad son doctorados genéricos "en Derecho"** (146 de 290). Las especialidades crecen, pero el título general sigue siendo el más común.
 - **Penal y criminología es la especialidad más grande** (60 programas, uno de cada cinco). No existía antes de 2008 y creció de forma sostenida desde entonces.
 - **Constitucional y derechos humanos es lo que más crece en los últimos años:** se triplicó de 2022 (11) a 2026 (33).
-- **Antes de 2008 casi no había doctorados jurídicos especializados:** en 2007, 12 de 16 programas eran genéricos.
+- **Antes de 2008 casi no había doctorados jurídicos especializados:** en 2007, 5 de los 8 programas eran genéricos.
 
 <details>
 <summary>Tabla de la gráfica: doctorados jurídicos vigentes al cierre de cada año, por subárea</summary>
 
 | Año | Penal y criminología | Constitucional y DD. HH. | Procesal, civil y juicios orales | Fiscal, laboral y empresarial | General | Otras |
 |--:|--:|--:|--:|--:|--:|--:|
-| 2000 | 0 | 0 | 0 | 1 | 8 | 2 |
-| 2001 | 0 | 0 | 0 | 1 | 8 | 2 |
-| 2002 | 0 | 0 | 0 | 1 | 8 | 2 |
-| 2003 | 0 | 0 | 0 | 1 | 9 | 2 |
-| 2004 | 0 | 0 | 0 | 2 | 10 | 2 |
-| 2005 | 0 | 0 | 0 | 2 | 10 | 2 |
-| 2006 | 0 | 0 | 0 | 2 | 12 | 2 |
-| 2007 | 0 | 0 | 0 | 2 | 12 | 2 |
-| 2008 | 2 | 1 | 0 | 3 | 19 | 2 |
-| 2009 | 3 | 2 | 0 | 4 | 19 | 2 |
-| 2010 | 5 | 3 | 3 | 4 | 20 | 2 |
-| 2011 | 5 | 3 | 3 | 4 | 25 | 3 |
-| 2012 | 10 | 5 | 6 | 4 | 40 | 3 |
-| 2013 | 13 | 5 | 6 | 4 | 43 | 3 |
-| 2014 | 13 | 5 | 6 | 4 | 43 | 3 |
-| 2015 | 14 | 6 | 7 | 4 | 46 | 3 |
-| 2016 | 16 | 6 | 7 | 5 | 51 | 3 |
-| 2017 | 19 | 7 | 12 | 8 | 55 | 3 |
-| 2018 | 24 | 9 | 12 | 8 | 61 | 3 |
-| 2019 | 30 | 11 | 13 | 9 | 72 | 3 |
-| 2020 | 31 | 11 | 13 | 10 | 76 | 3 |
-| 2021 | 35 | 11 | 14 | 11 | 87 | 3 |
-| 2022 | 39 | 11 | 17 | 11 | 94 | 5 |
-| 2023 | 49 | 16 | 17 | 11 | 111 | 5 |
-| 2024 | 55 | 25 | 22 | 13 | 121 | 7 |
-| 2025 | 60 | 29 | 25 | 13 | 147 | 10 |
-| 2026* | 60 | 33 | 26 | 14 | 153 | 12 |
+| 2000 | 0 | 0 | 0 | 0 | 1 | 2 |
+| 2001 | 0 | 0 | 0 | 0 | 1 | 2 |
+| 2002 | 0 | 0 | 0 | 0 | 1 | 2 |
+| 2003 | 0 | 0 | 0 | 0 | 2 | 2 |
+| 2004 | 0 | 0 | 0 | 1 | 3 | 2 |
+| 2005 | 0 | 0 | 0 | 1 | 3 | 2 |
+| 2006 | 0 | 0 | 0 | 1 | 5 | 2 |
+| 2007 | 0 | 0 | 0 | 1 | 5 | 2 |
+| 2008 | 2 | 1 | 0 | 2 | 12 | 2 |
+| 2009 | 3 | 2 | 0 | 3 | 12 | 2 |
+| 2010 | 5 | 3 | 3 | 3 | 13 | 2 |
+| 2011 | 5 | 3 | 3 | 3 | 18 | 3 |
+| 2012 | 10 | 5 | 6 | 3 | 33 | 3 |
+| 2013 | 13 | 5 | 6 | 3 | 36 | 3 |
+| 2014 | 13 | 5 | 6 | 3 | 36 | 3 |
+| 2015 | 14 | 6 | 7 | 3 | 39 | 3 |
+| 2016 | 16 | 6 | 7 | 4 | 44 | 3 |
+| 2017 | 19 | 7 | 12 | 7 | 48 | 3 |
+| 2018 | 24 | 9 | 12 | 7 | 54 | 3 |
+| 2019 | 30 | 11 | 13 | 8 | 65 | 3 |
+| 2020 | 31 | 11 | 13 | 9 | 69 | 3 |
+| 2021 | 35 | 11 | 14 | 10 | 80 | 3 |
+| 2022 | 39 | 11 | 17 | 10 | 87 | 5 |
+| 2023 | 49 | 16 | 17 | 10 | 104 | 5 |
+| 2024 | 55 | 25 | 22 | 12 | 114 | 7 |
+| 2025 | 60 | 29 | 25 | 12 | 140 | 10 |
+| 2026* | 60 | 33 | 26 | 13 | 146 | 12 |
 
 \* 2026 parcial, con registros hasta el 27-10-2026.
 </details>
 
 **Cómo leer la gráfica:**
-- Aplican las mismas advertencias que en las gráficas anteriores. Las subáreas suman el total del área jurídica (298 en 2026; 2 programas vigentes no tienen fecha).
+- Aplican las mismas advertencias que en las gráficas anteriores. Las subáreas suman el total del área jurídica (290 en 2026).
 - Un programa con nombre mixto cae en la primera regla que coincide: por ejemplo, "Juicio Oral Penal y Derechos Humanos" cuenta como Penal.
 
 ---
@@ -637,7 +637,7 @@ Gana la primera regla que coincide, así que "Industrial y de Sistemas" cuenta c
 - **SIRVOES es informativo.** La propia SEP lo aclara: ante cualquier inconsistencia, la autoridad educativa correspondiente es la que tiene la última palabra.
 - **Un RVOE no es un programa en operación.** Un programa vigente puede no tener matrícula.
 - **El nombre del programa no está normalizado**: SIRVOES le agrega anotaciones entre paréntesis y DGAIR antepone `EN`. Para agrupar por carrera hay que limpiarlo, como en `graficas.py`.
-- **Instituciones con acuerdo secretarial o decreto:** su `fecha_otorgamiento` es la del acuerdo institucional (1952 para el Tec, 1988 para UVM), no la del programa. **Esto infla los primeros años de las series de "vigentes por año"**, porque esos programas aparecen como existentes desde la fecha del acuerdo aunque se hayan abierto después. En Derecho (licenciatura), 137 de los 269 programas "vigentes en 2000" son de este tipo, así que los factores de crecimiento desde 2000 que se reportan arriba ("8 veces", "23 veces"…) parten de un nivel inflado y no son confiables. En doctorados son 137 de 157 en 2000. La gráfica de **ingenierías** ya los excluye (cuenta solo RVOE propios); las de Derecho, top 5 de licenciaturas y doctorados todavía no.
+- **Instituciones con acuerdo secretarial o decreto:** su `fecha_otorgamiento` es la del acuerdo institucional (1952 para el Tec, 1988 para UVM), no la del programa. Por eso **todas las series por año cuentan solo programas con RVOE propio** (número de RVOE numérico): los demás aparecerían como existentes desde la fecha del acuerdo aunque se hayan abierto después. Quedan fuera 7,306 programas vigentes (3,834 licenciaturas, 2,499 maestrías, 713 especialidades, 147 doctorados y 113 de TSU o profesional asociado), concentrados en el Tec, UVM, UNITEC, Anáhuac e ITESO. Las cifras de vigentes *hoy* del panorama general y del caso Derecho sí los incluyen.
 - **Las 3,290 filas que solo vienen de DGAIR** no tienen plantel, municipio, contacto ni área. El nombre de institución en DGAIR a veces incluye el campus (`UNIVERSIDAD DEL VALLE DE MEXICO, CAMPUS COYOACAN`) y en SIRVOES va separado en `institucion` y `plantel`.
 - **Datos de contacto:** se publican tal como los difunde la SEP. Algunos correos son de directores o cuentas personales.
 - **Extracción de PDFs:** 105 filas tienen la fecha mal capturada en el original y algunas filas aparecen repetidas en el propio PDF.

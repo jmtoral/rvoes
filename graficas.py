@@ -104,9 +104,9 @@ def graficar_lineas(t, out, ultima_fecha, nombres=NOMBRES, colores=CARRERAS,
     ax.spines["bottom"].set_color(GRID)
     ax.set_xlim(DESDE - 0.5, HASTA + 0.3)
     ax.set_ylim(0, t.values.max() * (1.15 if ncol >= len(colores) else 1.25))  # leyenda de 2 renglones: más aire
-    fig.text(0.01, 0.01, f"{CREDITO}.\nSolo RVOE federales; {nota}. "
+    fig.text(0.01, 0.01, f"{CREDITO}.\nSolo RVOE federales propios (sin acuerdos/decretos institucionales); {nota}.\n"
              f"Solo se descuentan retiros registrados en SIRVOES.  {HASTA} al {ultima_fecha}.", fontsize=7.5, color=INK2)
-    fig.tight_layout(rect=(0, 0.05, 0.83, 1))
+    fig.tight_layout(rect=(0, 0.07, 0.83, 1))
     fig.savefig(out, facecolor=SURFACE)
 
 # Licenciaturas de ingeniería por tipo. El orden importa: "INDUSTRIAL Y DE SISTEMAS" -> industrial,
@@ -164,9 +164,9 @@ def graficar_facetas(t, out, ultima_fecha, ncols=8, comun=False, referencia=None
     fig.text(0.01, 0.99, titulo, va="top",
              fontsize=15, weight="bold", color=INK)
     fig.text(0.01, 0.955, subtitulo, va="top", fontsize=10, color=INK2)
-    fig.text(0.01, 0.008, f"{CREDITO}{fuente_extra}. Solo RVOE federales; programa con nombre exacto \"Derecho\". "
+    fig.text(0.01, 0.008, f"{CREDITO}{fuente_extra}.\nSolo RVOE federales propios (sin acuerdos/decretos institucionales); programa con nombre exacto \"Derecho\". "
              f"Solo se descuentan retiros registrados en SIRVOES. {HASTA} al {ultima_fecha}.", fontsize=8, color=INK2)
-    fig.tight_layout(rect=(0, 0.02, 1, 0.94), h_pad=1.6, w_pad=1.2)
+    fig.tight_layout(rect=(0, 0.035, 1, 0.94), h_pad=1.6, w_pad=1.2)
     fig.savefig(out, facecolor=SURFACE)
 
 def tabla(der):
@@ -198,19 +198,26 @@ def graficar(t, out, ultima_fecha):
     ax.spines["bottom"].set_color(GRID)
     ax.set_xlim(DESDE - 0.7, HASTA + 0.7)
     ax.set_ylim(0, tot.max() * 1.18)
-    fig.text(0.01, 0.01, f"{CREDITO}. Fecha = otorgamiento del RVOE. "
-             f"Solo RVOE federales.  * {HASTA} parcial: registros al {ultima_fecha}.",
+    fig.text(0.01, 0.01, f"{CREDITO}. Fecha = otorgamiento del RVOE.\n"
+             f"Solo RVOE federales propios (sin acuerdos/decretos institucionales).  * {HASTA} parcial: registros al {ultima_fecha}.",
              fontsize=7.5, color=INK2)
-    fig.tight_layout(rect=(0, 0.03, 1, 1))
+    fig.tight_layout(rect=(0, 0.05, 1, 1))
     out.parent.mkdir(exist_ok=True)
     fig.savefig(out, facecolor=SURFACE)
 
 if __name__ == "__main__":
-    u = pd.read_csv("data/rvoes.csv", dtype=str)
+    todos = pd.read_csv("data/rvoes.csv", dtype=str)
+    ultima = pd.to_datetime(todos["fecha_otorgamiento"], errors="coerce").max().strftime("%d-%m-%Y")
+    # Solo RVOE propios: los programas bajo acuerdo/decreto institucional (Tec, UVM, UNITEC, Anáhuac...) llevan la
+    # fecha del acuerdo (1952, 1988), no la del programa, y aparecerían como existentes desde entonces.
+    propio = todos["rvoe"].str.fullmatch(r"\d+", na=False)
+    u = todos[propio]
+    vig_todos = todos["estatus"] == "VIGENTE"
+    print("vigentes excluidos por acuerdo/decreto, por nivel:",
+          todos[vig_todos & ~propio]["nivel"].value_counts().to_dict(), "de", todos[vig_todos]["nivel"].value_counts().to_dict())
     der = licenciatura_derecho(u)
     t = tabla(der)
     assert t.values.sum() > 0.9 * len(der[pd.to_datetime(der["fecha_otorgamiento"], errors="coerce").dt.year >= DESDE])
-    ultima = pd.to_datetime(u["fecha_otorgamiento"], errors="coerce").max().strftime("%d-%m-%Y")
     graficar(t, Path("img/derecho_por_anio.png"), ultima)
     t["TOTAL"] = t.sum(axis=1)
     print(t.to_markdown())
@@ -264,13 +271,7 @@ if __name__ == "__main__":
     print(tasa.loc[[2000, 2010, 2020, HASTA]].T.sort_values(HASTA, ascending=False).round(2).to_markdown())
     print("nacional:", nacional.loc[[2000, 2010, 2020, HASTA]].round(2).to_dict())
 
-    # Solo RVOE propios: los programas bajo acuerdo/decreto institucional (Tec, UVM, UNITEC, Anáhuac...) llevan la
-    # fecha del acuerdo (1952, 1988), no la del programa, y aparecerían como existentes desde entonces.
-    propio = lic["rvoe"].str.fullmatch(r"\d+", na=False)
-    ing_todas = lic[nombre_limpio(lic["programa"]).str.contains("INGENIER")]
-    ing = ing_todas[propio.loc[ing_todas.index]]
-    print("ingenierías vigentes excluidas por acuerdo/decreto:", ((ing_todas["estatus"] == "VIGENTE") & ~propio.loc[ing_todas.index]).sum(),
-          "de", (ing_todas["estatus"] == "VIGENTE").sum())
+    ing = lic[nombre_limpio(lic["programa"]).str.contains("INGENIER")]
     tipo = clasificar(ing["programa"], TIPOS_ING, OTRAS_ING)
     assert clasificar(pd.Series(["INGENIERIA INDUSTRIAL Y DE SISTEMAS", "INGENIERO QUIMICO Y DE SISTEMAS",
                                  "INGENIERO EN SISTEMAS ELECTRONICOS", "INGENIERIA EN SISTEMAS COMPUTACIONALES (RETIRADO)",
@@ -280,11 +281,23 @@ if __name__ == "__main__":
     vi = vigentes_por_anio(ing, tipo, COLORES_ING)
     graficar_lineas(vi, Path("img/ingenierias_acumulados.png"), ultima, nombres={c: c for c in COLORES_ING},
                     colores=COLORES_ING, titulo="Licenciaturas en ingeniería por tipo: programas vigentes en cada año",
-                    nota="programas con RVOE propio (sin acuerdos/decretos institucionales); tipo por palabra clave", ncol=3)
+                    nota="licenciaturas con \"ingeniería\" en el nombre; tipo por palabra clave", ncol=3)
     print(vi.to_markdown())
-    lic_p = lic[propio]
-    lic_tot = vigentes_por_anio(lic_p, pd.Series("LIC", index=lic_p.index), {"LIC": None})["LIC"]
+    lic_tot = vigentes_por_anio(lic, pd.Series("LIC", index=lic.index), {"LIC": None})["LIC"]
     print("ingenierías / licenciaturas (%):", (vi.sum(axis=1) / lic_tot * 100).loc[[2000, 2010, 2020, HASTA]].round(1).to_dict())
+    # Ingenierías vs. licenciaturas jurídicas (Derecho, Ciencias Jurídicas, Criminología...), solo RVOE propios
+    lic_nom = nombre_limpio(lic["programa"])
+    grupo = pd.Series(None, index=lic.index, dtype=object)
+    grupo[lic_nom.str.contains(JURIDICO) & ~lic_nom.str.contains("INGENIER")] = "JUR"
+    grupo[lic_nom.str.contains("INGENIER")] = "ING"
+    col_vs = {"JUR": "#2a78d6", "ING": "#eb6834"}
+    vv = vigentes_por_anio(lic, grupo, col_vs)
+    graficar_lineas(vv, Path("img/ingenierias_vs_juridicas.png"), ultima,
+                    nombres={"JUR": "Derecho, C. Jurídicas y Criminología", "ING": "Todas las ingenierías"}, colores=col_vs,
+                    titulo="Licenciaturas: ingenierías vs. Derecho, Ciencias Jurídicas y Criminología",
+                    nota="grupos por palabra clave en el nombre del programa", ncol=2)
+    print(vv.rename(columns={"JUR": "Jurídicas", "ING": "Ingenierías"}).to_markdown())
+
     vig = ing["estatus"] == "VIGENTE"
     for t in COLORES_ING:
         print(t, "->", nombre_limpio(ing.loc[vig & (tipo == t), "programa"]).value_counts().head(5).to_dict())
