@@ -39,6 +39,7 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 | `data/rvoes_dgair.csv` / `.xlsx` | Tablas extraídas de los 5 PDFs de federales vigentes de DGAIR | 41,342 |
 | `data/cruce_dgair_sirvoes.csv` | Tabla DGAIR con el estatus que cada RVOE tiene en SIRVOES | 41,342 |
 | `img/derecho_por_anio.png` | Gráfica: Derecho, RVOE otorgados por año y modalidad | — |
+| `img/derecho_por_estado.png` | Gráfica: Derecho, vigentes en cada año, un panel por estado | — |
 | `img/vigentes_acumulados.png` | Gráfica: programas vigentes en cada año, top 5 licenciaturas | — |
 | `img/doctorados_acumulados.png` | Gráfica: doctorados vigentes en cada año, por área | — |
 | `img/doctorados_derecho_subareas.png` | Gráfica: doctorados jurídicos vigentes en cada año, por subárea | — |
@@ -271,6 +272,59 @@ Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre 
 - Cuenta RVOE por **fecha de otorgamiento**, incluyendo los ya retirados. No es el número de programas activos en cada año.
 - Empieza en 2000. Antes de ese año, la fecha de los acuerdos secretariales es la del acuerdo de la institución y no la del programa: por ejemplo, 83 programas de Derecho de UVM aparecen con fecha 25-02-1988 y 17 de UNITEC con 24-10-1988.
 - Solo se ven los retiros que SIRVOES registra. Si hay programas antiguos retirados que no están en el sistema, los años viejos quedan subrepresentados.
+
+### Por estado
+
+![Licenciatura en Derecho por estado: programas vigentes en cada año](img/derecho_por_estado.png)
+
+Una línea por estado con los programas de Derecho **vigentes al cierre de cada año** (otorgados menos retirados), ordenados de mayor a menor. **Cada panel tiene su propia escala vertical** para que se vea la forma de la curva aun en estados con pocos programas; la cifra grande es el número de vigentes hoy y la marca superior del eje es el máximo del estado.
+
+- **Estado de México y CDMX concentran el 35%** de los programas vigentes de Derecho (458 y 297 de 2,147).
+- **Puebla es el que más se aceleró recientemente:** se duplicó de 2020 a 2026 (de 51 a 101).
+- **Chiapas** creció de golpe en 2012, se mantuvo estable casi una década y volvió a crecer desde 2023.
+- **Solo dos estados tienen hoy menos programas que en su máximo:** Sonora (50 → 48) y Sinaloa (19 → 18).
+- **Tlaxcala** no tuvo ningún RVOE federal de Derecho hasta 2017 y hoy tiene 5. Es probable que la mayor parte de la oferta de algunos estados esté en RVOE estatales, que esta base no incluye.
+
+<details>
+<summary>Tabla: programas de Derecho vigentes al cierre de años seleccionados, por estado</summary>
+
+| Estado | 2000 | 2010 | 2020 | 2026* | Máximo |
+|---|--:|--:|--:|--:|--:|
+| Estado de México | 43 | 126 | 339 | 458 | 458 |
+| Ciudad de México | 67 | 117 | 238 | 297 | 297 |
+| Guanajuato | 17 | 61 | 138 | 179 | 179 |
+| Veracruz | 23 | 58 | 100 | 131 | 131 |
+| Jalisco | 16 | 34 | 77 | 107 | 107 |
+| Puebla | 6 | 18 | 51 | 101 | 101 |
+| Querétaro | 7 | 18 | 47 | 76 | 76 |
+| Michoacán | 6 | 22 | 53 | 76 | 76 |
+| Chiapas | 4 | 18 | 36 | 61 | 61 |
+| Hidalgo | 5 | 20 | 40 | 59 | 59 |
+| Coahuila | 7 | 18 | 42 | 56 | 56 |
+| Sonora | 10 | 21 | 47 | 48 | 50 |
+| San Luis Potosí | 5 | 8 | 22 | 41 | 41 |
+| Aguascalientes | 5 | 8 | 26 | 40 | 40 |
+| Baja California | 3 | 7 | 34 | 40 | 40 |
+| Yucatán | 5 | 13 | 30 | 39 | 39 |
+| Tamaulipas | 10 | 19 | 28 | 38 | 38 |
+| Quintana Roo | 2 | 7 | 22 | 33 | 33 |
+| Morelos | 5 | 12 | 24 | 32 | 32 |
+| Chihuahua | 5 | 14 | 25 | 32 | 32 |
+| Oaxaca | 3 | 12 | 24 | 29 | 29 |
+| Nuevo León | 6 | 17 | 23 | 29 | 29 |
+| Tabasco | 3 | 6 | 17 | 26 | 26 |
+| Guerrero | 1 | 8 | 22 | 25 | 25 |
+| Campeche | 1 | 3 | 14 | 19 | 19 |
+| Sinaloa | 0 | 6 | 16 | 18 | 19 |
+| Zacatecas | 0 | 2 | 8 | 14 | 14 |
+| Baja California Sur | 1 | 4 | 11 | 13 | 13 |
+| Durango | 1 | 2 | 5 | 9 | 9 |
+| Colima | 1 | 6 | 6 | 8 | 8 |
+| Nayarit | 1 | 2 | 2 | 8 | 8 |
+| Tlaxcala | 0 | 0 | 2 | 5 | 5 |
+
+\* 2026 parcial, con registros hasta el 27-10-2026. La serie completa año por año la imprime `python graficas.py`.
+</details>
 
 ---
 

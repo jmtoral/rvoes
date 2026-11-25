@@ -1,6 +1,8 @@
 """Gráficas de licenciaturas:
 - img/derecho_por_anio.png: RVOE de Derecho otorgados por año y modalidad.
 - img/vigentes_acumulados.png: programas vigentes en cada año, top 5 licenciaturas.
+- img/derecho_por_estado.png: Derecho vigentes en cada año, un panel por estado.
+- img/doctorados_acumulados.png y doctorados_derecho_subareas.png: doctorados por área y subárea jurídica.
 Uso: python -I graficas.py  (imprime las tablas en markdown)
 """
 from pathlib import Path
@@ -61,7 +63,7 @@ SUBAREAS_DER = [
     ("Constitucional y derechos humanos", r"CONSTITU|HUMANOS|AMPARO|PUBLICO|ANTICORRUP"),
     ("Procesal, civil y juicios orales", r"PROCESAL|CIVIL|FAMILIAR|JUICIO|\bORAL|LITIG"),  # \b: "LABORAL" no es oral
     ("Fiscal, laboral y empresarial", r"FISCAL|TRIBUT|LABORAL|TRABAJO|CORPORAT|EMPRESA|COMERCI|ADUAN|MARITIM"),
-    ("Derecho / Ciencias jurídicas (general)", r"^(DERECHO|CIENCIAS? JURIDICAS?|DERECHO Y CIENCIAS JURIDICAS|INVESTIGACION JURIDICA)$"),
+    ("Derecho / Ciencias jurídicas (general)", r"^(?:DERECHO|CIENCIAS? JURIDICAS?|DERECHO Y CIENCIAS JURIDICAS|INVESTIGACION JURIDICA)$"),
 ]
 OTRAS_DER = "Otras especialidades"
 COLORES_SUB = dict(zip([s for s, _ in SUBAREAS_DER] + [OTRAS_DER],
@@ -105,6 +107,42 @@ def graficar_lineas(t, out, ultima_fecha, nombres=NOMBRES, colores=CARRERAS,
     fig.text(0.01, 0.01, f"{CREDITO}.\nSolo RVOE federales; {nota}. "
              f"Solo se descuentan retiros registrados en SIRVOES.  {HASTA} al {ultima_fecha}.", fontsize=7.5, color=INK2)
     fig.tight_layout(rect=(0, 0.05, 0.83, 1))
+    fig.savefig(out, facecolor=SURFACE)
+
+ESTADO_CORTO = {"MÉXICO": "Estado de México", "CIUDAD DE MÉXICO": "Ciudad de México",
+                "VERACRUZ DE IGNACIO DE LA LLAVE": "Veracruz", "COAHUILA DE ZARAGOZA": "Coahuila",
+                "MICHOACÁN DE OCAMPO": "Michoacán", "SAN LUIS POTOSI": "San Luis Potosí"}
+
+def graficar_facetas(t, out, ultima_fecha, ncols=8):
+    """Small multiples: una línea por estado, ordenados de mayor a menor; escala Y propia por panel."""
+    t = t[t.iloc[-1].sort_values(ascending=False).index]
+    nrows = -(-len(t.columns) // ncols)
+    fig, axes = plt.subplots(nrows, ncols, figsize=(16, 2.2 * nrows + 1.4), dpi=150, facecolor=SURFACE, sharex=True)
+    for ax, e in zip(axes.flat, t.columns):
+        y = t[e]
+        ax.set_facecolor(SURFACE)
+        ax.fill_between(y.index, y, color="#2a78d6", alpha=0.1, linewidth=0, zorder=2)
+        ax.plot(y.index, y, color="#2a78d6", linewidth=2, solid_capstyle="round", zorder=3)
+        ax.scatter([HASTA], [y.iloc[-1]], s=24, color="#2a78d6", edgecolor=SURFACE, linewidth=1.2, zorder=4)
+        ax.set_title(ESTADO_CORTO.get(e, e.title()), loc="left", fontsize=9.5, color=INK, pad=3)
+        ax.text(0.02, 0.97, f"{y.iloc[-1]:,}", transform=ax.transAxes, fontsize=13, weight="bold", color=INK, va="top")
+        ax.set_ylim(0, max(y.max(), 1) * 1.1)
+        ax.set_yticks([0, y.max()])
+        ax.set_xticks([DESDE, HASTA])
+        ax.tick_params(colors=INK2, labelsize=7.5, length=0)
+        ax.grid(axis="y", color=GRID, linewidth=0.8, zorder=0)
+        for s in ("top", "right", "left"):
+            ax.spines[s].set_visible(False)
+        ax.spines["bottom"].set_color(GRID)
+    for ax in list(axes.flat)[len(t.columns):]:
+        ax.set_visible(False)
+    fig.text(0.01, 0.99, "Licenciatura en Derecho por estado: programas vigentes en cada año", va="top",
+             fontsize=15, weight="bold", color=INK)
+    fig.text(0.01, 0.955, f"Acumulado de RVOE federales otorgados menos los retirados, al cierre de cada año, {DESDE}–{HASTA}. "
+             "Cifra grande = vigentes hoy. Cada panel tiene su propia escala vertical.", va="top", fontsize=10, color=INK2)
+    fig.text(0.01, 0.008, f"{CREDITO}. Solo RVOE federales; programa con nombre exacto \"Derecho\". "
+             f"Solo se descuentan retiros registrados en SIRVOES. {HASTA} al {ultima_fecha}.", fontsize=8, color=INK2)
+    fig.tight_layout(rect=(0, 0.02, 1, 0.94), h_pad=1.6, w_pad=1.2)
     fig.savefig(out, facecolor=SURFACE)
 
 def tabla(der):
@@ -185,6 +223,12 @@ if __name__ == "__main__":
                     colores=COLORES_SUB, titulo="Doctorados en Derecho, Ciencias Jurídicas y Criminología, por subárea",
                     nota="subárea asignada por palabra clave en el nombre del programa", ncol=3)
     print(vs.to_markdown())
+    estados = sorted(der["estado"].dropna().unique())
+    ve = vigentes_por_anio(der, der["estado"], dict.fromkeys(estados))
+    assert len(estados) == 32 and ve.iloc[-1].sum() == v["DERECHO"].iloc[-1]  # los estados suman el total nacional
+    graficar_facetas(ve, Path("img/derecho_por_estado.png"), ultima)
+    print(ve.rename(columns=lambda e: ESTADO_CORTO.get(e, e.title())).T.to_markdown())
+
     vig = djur["estatus"] == "VIGENTE"
     for s in COLORES_SUB:
         print(s, "->", nombre_limpio(djur.loc[vig & (sub == s), "programa"]).value_counts().head(6).to_dict())
