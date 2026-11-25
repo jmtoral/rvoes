@@ -20,8 +20,9 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 6. [Hallazgos del cruce](#hallazgos-del-cruce)
 7. [Panorama general](#panorama-general)
 8. [Caso: Licenciatura en Derecho](#caso-licenciatura-en-derecho)
-9. [Limitaciones y advertencias](#limitaciones-y-advertencias)
-10. [Reproducir](#reproducir)
+9. [Licenciaturas más frecuentes: vigentes por año](#licenciaturas-más-frecuentes-vigentes-por-año)
+10. [Limitaciones y advertencias](#limitaciones-y-advertencias)
+11. [Reproducir](#reproducir)
 
 ---
 
@@ -33,11 +34,12 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 | `data/rvoes_sirvoes.csv` / `.xlsx` | Todos los programas de SIRVOES, vigentes y retirados, con datos del plantel | 43,156 |
 | `data/rvoes_dgair.csv` / `.xlsx` | Tablas extraídas de los 5 PDFs de federales vigentes de DGAIR | 41,342 |
 | `data/cruce_dgair_sirvoes.csv` | Tabla DGAIR con el estatus que cada RVOE tiene en SIRVOES | 41,342 |
-| `img/derecho_por_anio.png` | Gráfica de la Licenciatura en Derecho | — |
+| `img/derecho_por_anio.png` | Gráfica: Derecho, RVOE otorgados por año y modalidad | — |
+| `img/vigentes_acumulados.png` | Gráfica: programas vigentes en cada año, top 5 licenciaturas | — |
 | `parse_dgair.py` | Extrae las tablas de los PDFs (pdfplumber) | |
 | `scrape_sirvoes.py` | Descarga SIRVOES desde su API JSON | |
 | `cruce.py` | Cruza ambas fuentes y genera la tabla unificada | |
-| `grafica_derecho.py` | Genera la gráfica y su tabla | |
+| `graficas.py` | Genera las gráficas y sus tablas | |
 
 Los CSV están en UTF-8 con BOM, así que Excel los abre con acentos correctos. Las fechas están en formato `AAAA-MM-DD`.
 
@@ -266,12 +268,67 @@ Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre 
 
 ---
 
+## Licenciaturas más frecuentes: vigentes por año
+
+![Licenciaturas con más RVOE: programas vigentes en cada año](img/vigentes_acumulados.png)
+
+Para cada año se cuentan los programas **vigentes al cierre de ese año**: RVOE otorgados hasta ese año menos los retirados hasta ese año (según `fecha_retiro`). Se toman las 5 licenciaturas con más RVOE vigentes hoy, por nombre exacto del programa.
+
+- **Derecho siempre fue la primera y la brecha se ensancha:** 269 programas en 2000, 2,147 hoy (8 veces más). Le saca casi 1,000 a la segunda.
+- **Pedagogía es la que más creció:** 82 en 2000 y 1,123 hoy (casi 14 veces). Rebasó a Psicología en 2017 y a Mercadotecnia en 2019, y ya está cerca de Administración de Empresas.
+- **Mercadotecnia es la que menos creció:** era la segunda en 2000 (199) y hoy es la cuarta (815).
+- **Las curvas nunca bajan:** en ningún año los retiros superaron a los nuevos otorgamientos. Los saltos de 2012 y 2019 coinciden con las oleadas de la gráfica de Derecho.
+
+<details>
+<summary>Tabla de la gráfica: programas vigentes al cierre de cada año</summary>
+
+| Año | Derecho | Administración de Empresas | Pedagogía | Mercadotecnia | Psicología |
+|--:|--:|--:|--:|--:|--:|
+| 2000 | 269 | 183 | 82 | 199 | 136 |
+| 2001 | 286 | 194 | 84 | 208 | 138 |
+| 2002 | 301 | 202 | 89 | 214 | 140 |
+| 2003 | 318 | 215 | 92 | 222 | 142 |
+| 2004 | 334 | 220 | 97 | 235 | 147 |
+| 2005 | 370 | 237 | 107 | 253 | 157 |
+| 2006 | 394 | 247 | 118 | 259 | 160 |
+| 2007 | 424 | 264 | 133 | 273 | 166 |
+| 2008 | 523 | 335 | 169 | 325 | 186 |
+| 2009 | 607 | 405 | 188 | 358 | 212 |
+| 2010 | 687 | 457 | 211 | 377 | 236 |
+| 2011 | 750 | 495 | 231 | 396 | 270 |
+| 2012 | 969 | 616 | 329 | 470 | 406 |
+| 2013 | 1,006 | 629 | 346 | 477 | 419 |
+| 2014 | 1,025 | 649 | 351 | 492 | 421 |
+| 2015 | 1,064 | 660 | 359 | 509 | 427 |
+| 2016 | 1,112 | 682 | 387 | 523 | 438 |
+| 2017 | 1,230 | 722 | 463 | 543 | 459 |
+| 2018 | 1,355 | 760 | 536 | 557 | 467 |
+| 2019 | 1,553 | 884 | 715 | 692 | 490 |
+| 2020 | 1,569 | 892 | 736 | 694 | 491 |
+| 2021 | 1,643 | 935 | 786 | 718 | 499 |
+| 2022 | 1,726 | 977 | 847 | 723 | 506 |
+| 2023 | 1,840 | 1,017 | 932 | 752 | 563 |
+| 2024 | 1,917 | 1,055 | 983 | 764 | 615 |
+| 2025 | 2,042 | 1,173 | 1,069 | 808 | 701 |
+| 2026* | 2,147 | 1,197 | 1,123 | 815 | 731 |
+
+\* 2026 parcial, con registros hasta el 27-10-2026.
+</details>
+
+**Cómo leer la gráfica:**
+- Es una reconstrucción a partir de lo que hoy publica la SEP: un programa retirado que SIRVOES ya no registra no aparece en ningún año, así que los años antiguos pueden estar subestimados.
+- Se usa el nombre exacto del programa. `ADMINISTRACION` (547 vigentes) va por separado de `ADMINISTRACION DE EMPRESAS`, y quedan fuera variantes como `DERECHO Y CIENCIAS JURIDICAS`.
+- Un RVOE vigente no significa que el programa tenga alumnos inscritos.
+- Los dos programas de Derecho sin fecha de otorgamiento no se cuentan (2,147 contra 2,149 vigentes).
+
+---
+
 ## Limitaciones y advertencias
 
 - **Solo RVOE federales (SEP).** No incluye los RVOE otorgados por las autoridades educativas estatales ni los estudios incorporados a universidades públicas autónomas. SIRVOES dice incluirlos, pero en la práctica solo devuelve 8 registros estatales.
 - **SIRVOES es informativo.** La propia SEP lo aclara: ante cualquier inconsistencia, la autoridad educativa correspondiente es la que tiene la última palabra.
 - **Un RVOE no es un programa en operación.** Un programa vigente puede no tener matrícula.
-- **El nombre del programa no está normalizado**: SIRVOES le agrega anotaciones entre paréntesis y DGAIR antepone `EN`. Para agrupar por carrera hay que limpiarlo, como en `grafica_derecho.py`.
+- **El nombre del programa no está normalizado**: SIRVOES le agrega anotaciones entre paréntesis y DGAIR antepone `EN`. Para agrupar por carrera hay que limpiarlo, como en `graficas.py`.
 - **Instituciones con acuerdo secretarial:** su `fecha_otorgamiento` es la del acuerdo institucional (1988 para UVM, por ejemplo), no la del programa.
 - **Las 3,290 filas que solo vienen de DGAIR** no tienen plantel, municipio, contacto ni área. El nombre de institución en DGAIR a veces incluye el campus (`UNIVERSIDAD DEL VALLE DE MEXICO, CAMPUS COYOACAN`) y en SIRVOES va separado en `institucion` y `plantel`.
 - **Datos de contacto:** se publican tal como los difunde la SEP. Algunos correos son de directores o cuentas personales.
@@ -307,10 +364,10 @@ python scrape_sirvoes.py
 python cruce.py
 ```
 
-**4. Gráfica de Derecho** (imprime también la tabla en markdown):
+**4. Gráficas** (imprimen también sus tablas en markdown):
 
 ```powershell
-python grafica_derecho.py
+python graficas.py
 ```
 
 Los PDFs y el JSON crudo no se versionan (`.gitignore`).
