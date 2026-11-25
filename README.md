@@ -6,8 +6,8 @@
 
 Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (RVOE) federales del tipo superior**. Se construye a partir de las dos fuentes públicas de la SEP y se cruzan entre sí.
 
-- **46,446 programas** en la tabla unificada: 39,907 vigentes y 6,539 retirados.
-- **2,470 nombres de institución** distintos con programas vigentes y **3,432 planteles** en SIRVOES.
+- **49,514 programas** en la tabla unificada: 42,975 vigentes y 6,539 retirados.
+- **2,534 nombres de institución** distintos con programas vigentes y **3,432 planteles** en SIRVOES.
 - Corte: registros con fecha de otorgamiento hasta el **27-10-2026** (descarga del 25-11-2026).
 
 ![Licenciatura en Derecho: RVOE federales otorgados por año](img/derecho_por_anio.png)
@@ -37,10 +37,10 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 
 | Archivo | Qué es | Filas |
 |---|---|---|
-| **`data/rvoes.csv`** / **`.xlsx`** | **Tabla unificada (usar esta).** Todo SIRVOES más los RVOE vigentes que solo aparecen en DGAIR | 46,446 |
+| **`data/rvoes.csv`** / **`.xlsx`** | **Tabla unificada (usar esta).** Todo SIRVOES más los RVOE vigentes que solo aparecen en DGAIR | 49,514 |
 | `data/rvoes_sirvoes.csv` / `.xlsx` | Todos los programas de SIRVOES, vigentes y retirados, con datos del plantel | 43,156 |
 | `data/rvoes_dgair.csv` / `.xlsx` | Tablas extraídas de los 5 PDFs de federales vigentes de DGAIR | 41,342 |
-| `data/cruce_dgair_sirvoes.csv` | Tabla DGAIR con el estatus que cada RVOE tiene en SIRVOES | 41,342 |
+| `data/cruce_dgair_sirvoes.csv` | Tabla DGAIR con el estatus que cada programa tiene en SIRVOES | 41,342 |
 | `img/derecho_por_anio.png` | Gráfica: Derecho, RVOE otorgados por año y modalidad | — |
 | `img/derecho_por_estado.png` | Gráfica: Derecho, vigentes en cada año, un panel por estado | — |
 | `img/derecho_por_estado_tasa.png` | Gráfica: Derecho por cada 100 mil habitantes, un panel por estado | — |
@@ -105,8 +105,8 @@ La interfaz web obliga a elegir un estado y pagina de 10 en 10, pero detrás hay
 
 1. **Base:** todas las filas de SIRVOES (`fuente = SIRVOES`).
 2. **Cruce por RVOE.** El RVOE de DGAIR se separa de su fecha (la fecha es lo último en la celda; lo anterior es el identificador) y se compara contra SIRVOES.
-3. **Acuerdos secretariales.** Instituciones como UVM (`ACUERDO 131`), UNITEC (`ACUERDO 142`), Tec de Monterrey, Anáhuac o ITESO tienen en DGAIR una sola clave institucional y en SIRVOES una por programa (`ACUERDO 131/3067`). Se consideran cubiertas cuando coincide la *base* del acuerdo (lo anterior a la última `/`). Una clave numérica corta (`142`) se interpreta como `ACUERDO 142`: un RVOE real tiene 6 a 8 dígitos.
-4. **Se agregan las filas de DGAIR no cubiertas** (`fuente = DGAIR`, 3,290 filas). Antes se eliminan las filas repetidas idénticas del PDF y se homologan al catálogo de SIRVOES:
+3. **Acuerdos y decretos institucionales.** UVM (`ACUERDO 131`), UNITEC (`ACUERDO 142`), Tec de Monterrey, Anáhuac, ITESO o La Salle (`DECRETO` de 1987) tienen en DGAIR solo una clave genérica, sin número de programa. Esas filas se cruzan **por programa**: institución sin el campus + estado + nivel + nombre del programa + modalidad. Si DGAIR escribe la institución distinto ("Escuela Bancaria y Comercial, Plantel CDMX Sur"), se usa la institución de SIRVOES que sea su prefijo. Una clave numérica corta (`142`) se trata como acuerdo: un RVOE real tiene 6 a 8 dígitos.
+4. **Se agregan las filas de DGAIR que no aparecen en SIRVOES** (`fuente = DGAIR`, 6,358 filas: 2,979 con RVOE propio y 3,379 de acuerdos o decretos). Antes se eliminan las filas repetidas idénticas del PDF y se homologan al catálogo de SIRVOES:
    - estado: `ESTADO DE MEXICO` → `MÉXICO`, `VERACRUZ` → `VERACRUZ DE IGNACIO DE LA LLAVE`, acentos, etc.
    - nivel: `MAESTRIA` → `MAESTRÍA`, …
    - modalidad: `ESCOLAR` → `ESCOLARIZADA`
@@ -152,15 +152,16 @@ Las columnas marcadas con † solo vienen de SIRVOES y están vacías en las fil
 | `fecha_retiro` † | Fecha de retiro (solo retirados) | 14 |
 | `motivo_retiro` † | `A PETICIÓN DEL PARTICULAR` (6,358) o `SANCIÓN IMPUESTA POR LA AUTORIDAD EDUCATIVA` (181) | 14 |
 | `en_dgair` | `True` si el RVOE (o la base de su acuerdo) aparece en los PDFs de DGAIR | 100 |
-| `nota` | Advertencias, ver abajo | 0.9 |
+| `nota` | Advertencias, ver abajo | 7 |
 | `archivo`, `pagina` | PDF y página de origen (solo filas DGAIR), para verificar contra la fuente | 7 |
 
 **Valores de `nota`:**
 
 | Valor | Filas | Significado |
 |---|--:|---|
-| `acuerdo/decreto con clave irregular: posible duplicado de un registro SIRVOES` | 311 | Fila DGAIR con clave mal escrita (`ACUERDO-131`, `DECRETO PRESIDENCIAL`, `OF.`…) que no se pudo cruzar. Lo más probable es que ya esté en SIRVOES; no se revisó a mano |
-| `retirado en SIRVOES pero DGAIR lo lista como vigente` | 100 | Discrepancia entre fuentes |
+| `acuerdo institucional: SIRVOES tiene este programa en otro campus o modalidad, pero no en éste` | 1,937 | Programa de acuerdo o decreto que DGAIR lista en un campus, estado o modalidad que SIRVOES no tiene. Cada campus y modalidad lleva su propio RVOE, así que se incluye |
+| `acuerdo institucional: no aparece en SIRVOES (programa nuevo o variante del nombre)` | 1,442 | El programa no está en SIRVOES con ese nombre en ninguna sede de la institución. Puede ser nuevo (como el Doctorado en Derecho y Cumplimiento Normativo de La Salle) o el mismo programa escrito distinto |
+| `retirado en SIRVOES pero DGAIR lo lista como vigente` | 99 | Discrepancia entre fuentes |
 
 ### `data/rvoes_dgair.csv`
 
@@ -172,61 +173,61 @@ Mismas columnas que la tabla unificada, salvo `fuente`, `en_dgair`, `nota`, `arc
 
 ### `data/cruce_dgair_sirvoes.csv`
 
-`rvoes_dgair.csv` más `estatus_sirvoes`: `VIGENTE`, `RETIRADO`, `NO ENCONTRADO` o `NO CRUZABLE (ACUERDO/DECRETO)`.
+`rvoes_dgair.csv` más `estatus_sirvoes`: `VIGENTE`, `RETIRADO` o `NO ENCONTRADO`. Los RVOE con número se cruzan por número; los acuerdos y decretos, por programa.
 
 ---
 
 ## Hallazgos del cruce
 
-Por RVOE único de DGAIR (30,573):
+Filas de DGAIR (41,342) según su estatus en SIRVOES:
 
-| Estatus en SIRVOES | RVOE |
-|---|--:|
-| Vigente | 27,407 |
-| No encontrado (numérico) | 2,957 |
-| Retirado | 100 |
-| No cruzable por clave (acuerdo/decreto) | 109 |
+| Estatus en SIRVOES | Con RVOE propio (cruce por número) | Acuerdo o decreto (cruce por programa) |
+|---|--:|--:|
+| Vigente | 27,411 | 7,250 |
+| Retirado | 99 | 5 |
+| Vigente y retirado (varias sedes) | — | 91 |
+| No encontrado | 2,990 | 3,496 |
 
 - **SIRVOES va rezagado en lo reciente.** De los RVOE numéricos de DGAIR que no aparecen en SIRVOES, 2,051 son de 2025 y 835 de 2026.
 - **DGAIR tampoco está completo.** SIRVOES tiene 2,226 RVOE numéricos vigentes que no están en los PDFs. No son solo recientes (hay de 2021 a 2024) y se concentran en el Estado de México y CDMX.
-- **100 RVOE retirados en SIRVOES siguen apareciendo como vigentes en DGAIR.**
-- **Los acuerdos secretariales** (UVM, Tec, UNITEC, Anáhuac, ITESO…) suman miles de programas que DGAIR agrupa bajo una sola clave institucional.
+- **99 RVOE retirados en SIRVOES siguen apareciendo como vigentes en DGAIR.**
+- **Los acuerdos y decretos institucionales** (UVM, Tec, UNITEC, Anáhuac, ITESO, La Salle…) suman más de 10 mil programas que DGAIR lista con una clave genérica. 3,496 no tienen el mismo programa en SIRVOES en esa sede y modalidad; por ejemplo, el Doctorado en Derecho y Cumplimiento Normativo de la Universidad La Salle (decreto del 29 de mayo de 1987) solo aparece en DGAIR.
 
 ---
 
 ## Panorama general
 
-Programas **vigentes** en la tabla unificada (39,907):
+Programas **vigentes** en la tabla unificada (42,975):
 
 | Nivel | Programas |
 |---|--:|
-| Licenciatura | 24,518 |
-| Maestría | 10,480 |
-| Especialidad | 3,167 |
-| Doctorado | 1,328 |
-| Técnico Superior Universitario | 266 |
+| Licenciatura | 26,950 |
+| Maestría | 10,920 |
+| Especialidad | 3,299 |
+| Doctorado | 1,356 |
+| Técnico Superior Universitario | 302 |
 | Profesional Asociado | 148 |
 
 | Modalidad | Programas |
 |---|--:|
-| Escolarizada | 20,316 |
-| Mixta | 12,880 |
-| No escolarizada | 6,711 |
+| Escolarizada | 20,992 |
+| Mixta | 15,083 |
+| No escolarizada | 6,900 |
 
-Estados con más programas vigentes: Ciudad de México (7,550), Estado de México (6,935), Puebla (2,544), Guanajuato (2,462), Jalisco (2,321), Veracruz (2,001).
+Estados con más programas vigentes: Ciudad de México (8,125), Estado de México (7,469), Puebla (2,715), Jalisco (2,618), Guanajuato (2,571), Veracruz (2,068).
 
 Licenciaturas vigentes más frecuentes (agrupadas por nombre, sin anotaciones):
 
 | Programa | Programas vigentes |
 |---|--:|
-| Derecho | 2,149 |
-| Administración de Empresas | 1,199 |
-| Pedagogía | 1,125 |
-| Mercadotecnia | 816 |
-| Psicología | 733 |
-| Contaduría Pública | 632 |
-| Arquitectura | 570 |
-| Administración | 547 |
+| Derecho | 2,189 |
+| Administración de Empresas | 1,221 |
+| Pedagogía | 1,149 |
+| Mercadotecnia | 840 |
+| Psicología | 731 |
+| Contaduría Pública | 634 |
+| Arquitectura | 624 |
+| Administración | 548 |
 
 Retiros: 6,539 programas retirados, 97% a petición del particular y 181 por sanción de la autoridad educativa.
 
@@ -236,7 +237,7 @@ Retiros: 6,539 programas retirados, 97% a petición del particular y 181 por san
 
 Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre paréntesis, es exactamente `DERECHO`. Quedan fuera variantes como `DERECHO Y CIENCIAS JURIDICAS` o `DERECHO CORPORATIVO`.
 
-- **Es la licenciatura con más RVOE federales: 2,149 vigentes**, casi el doble que la segunda (Administración de Empresas) y el 8.8% de todas las licenciaturas vigentes. Otros 457 programas de Derecho ya fueron retirados.
+- **Es la licenciatura con más RVOE federales: 2,189 vigentes**, casi el doble que la segunda (Administración de Empresas) y el 8.1% de todas las licenciaturas vigentes. Otros 457 programas de Derecho ya fueron retirados.
 - **Los otorgamientos llegan en oleadas:** picos en 2012 (219), 2018 (208) y sobre todo 2019 (303), seguidos de caídas abruptas (37 en 2013, 34 en 2020).
 - **La modalidad cambió.** Entre 2008 y 2011, el 64% de los nuevos RVOE eran escolarizados; entre 2023 y 2026 solo el 26%. Hoy predominan las modalidades mixta y no escolarizada.
 - Estados con más programas vigentes de Derecho (todos, incluidos los de acuerdo institucional): Estado de México (458), CDMX (297), Guanajuato (179), Veracruz (132), Jalisco (107), Puebla (101).
@@ -263,7 +264,7 @@ Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre 
 | 2014 | 6 | 12 | 1 | 19 |
 | 2015 | 17 | 33 | 5 | 55 |
 | 2016 | 30 | 19 | 2 | 51 |
-| 2017 | 76 | 58 | 12 | 146 |
+| 2017 | 76 | 59 | 12 | 147 |
 | 2018 | 88 | 106 | 14 | 208 |
 | 2019 | 125 | 161 | 17 | 303 |
 | 2020 | 19 | 12 | 3 | 34 |
@@ -279,7 +280,7 @@ Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre 
 
 **Cómo leer la gráfica:**
 - Cuenta RVOE por **fecha de otorgamiento**, incluyendo los ya retirados. No es el número de programas activos en cada año.
-- **Solo se cuentan programas con RVOE propio**, en esta y en todas las series por año. Los que dependen de un acuerdo o decreto institucional (139 de los 2,149 programas de Derecho vigentes: UVM, UNITEC, Tec…) llevan la fecha del acuerdo (1988, 1952) y no la del programa, así que se excluyen.
+- **Solo se cuentan programas con RVOE propio**, en esta y en todas las series por año. Los que dependen de un acuerdo o decreto institucional (181 de los 2,189 programas de Derecho vigentes: UVM, UNITEC, Tec…) llevan la fecha del acuerdo (1988, 1952) y no la del programa, así que se excluyen.
 - Solo se ven los retiros que SIRVOES registra. Si hay programas antiguos retirados que no están en el sistema, los años viejos quedan subrepresentados.
 
 ### Por estado
@@ -288,8 +289,8 @@ Se toman los programas de nivel licenciatura cuyo nombre, sin anotaciones entre 
 
 Una línea por estado con los programas de Derecho **vigentes al cierre de cada año** (otorgados menos retirados), ordenados de mayor a menor. **Cada panel tiene su propia escala vertical** para que se vea la forma de la curva aun en estados con pocos programas; la cifra grande es el número de vigentes hoy y la marca superior del eje es el máximo del estado.
 
-- **Estado de México y CDMX concentran el 35%** de los programas vigentes de Derecho con RVOE propio (437 y 266 de 2,010).
-- **Puebla es el que más se aceleró recientemente:** se duplicó de 2020 a 2026 (de 47 a 97).
+- **Estado de México y CDMX concentran el 35%** de los programas vigentes de Derecho con RVOE propio (437 y 265 de 2,008).
+- **Puebla es el que más se aceleró recientemente:** se duplicó de 2020 a 2026 (de 46 a 97).
 - **Chiapas** creció de golpe en 2012, se mantuvo estable casi una década y volvió a crecer desde 2023.
 - **Solo Sinaloa tiene hoy menos programas que en su máximo** (19 → 18).
 - **Tlaxcala** no tuvo ningún RVOE federal de Derecho hasta 2017 y hoy tiene 5. Es probable que la mayor parte de la oferta de algunos estados esté en RVOE estatales, que esta base no incluye.
@@ -300,11 +301,11 @@ Una línea por estado con los programas de Derecho **vigentes al cierre de cada 
 | Estado | 2000 | 2010 | 2020 | 2026* | Máximo |
 |---|--:|--:|--:|--:|--:|
 | Estado de México | 22 | 105 | 318 | 437 | 437 |
-| Ciudad de México | 36 | 86 | 207 | 266 | 266 |
+| Ciudad de México | 34 | 84 | 206 | 265 | 265 |
 | Guanajuato | 13 | 57 | 134 | 175 | 175 |
 | Veracruz | 17 | 52 | 94 | 125 | 125 |
-| Jalisco | 7 | 24 | 67 | 97 | 97 |
-| Puebla | 2 | 14 | 47 | 97 | 97 |
+| Puebla | 1 | 13 | 46 | 97 | 97 |
+| Jalisco | 6 | 23 | 66 | 96 | 96 |
 | Michoacán | 6 | 22 | 53 | 76 | 76 |
 | Querétaro | 2 | 13 | 42 | 70 | 70 |
 | Hidalgo | 5 | 20 | 40 | 59 | 59 |
@@ -353,7 +354,7 @@ Es la misma serie dividida entre la **población a mitad de año de cada estado*
 
 | Estado | 2000 | 2010 | 2020 | 2026* | Programas 2026 | Población 2026 |
 |---|--:|--:|--:|--:|--:|--:|
-| Ciudad de México | 0.41 | 0.95 | 2.22 | 2.90 | 266 | 9,159,966 |
+| Ciudad de México | 0.39 | 0.93 | 2.21 | 2.89 | 265 | 9,159,966 |
 | Guanajuato | 0.27 | 1.02 | 2.14 | 2.66 | 175 | 6,590,749 |
 | Querétaro | 0.14 | 0.70 | 1.74 | 2.59 | 70 | 2,700,978 |
 | Estado de México | 0.17 | 0.68 | 1.84 | 2.45 | 437 | 17,822,420 |
@@ -367,10 +368,10 @@ Es la misma serie dividida entre la **población a mitad de año de cada estado*
 | Coahuila | 0.00 | 0.39 | 1.09 | 1.42 | 49 | 3,440,385 |
 | Baja California Sur | 0.23 | 0.62 | 1.35 | 1.41 | 13 | 921,734 |
 | Yucatán | 0.12 | 0.45 | 1.10 | 1.38 | 35 | 2,542,536 |
-| Puebla | 0.04 | 0.24 | 0.70 | 1.36 | 97 | 7,149,139 |
+| Puebla | 0.02 | 0.22 | 0.69 | 1.36 | 97 | 7,149,139 |
 | Sonora | 0.04 | 0.44 | 1.27 | 1.33 | 42 | 3,168,624 |
 | San Luis Potosí | 0.08 | 0.19 | 0.66 | 1.27 | 38 | 3,002,651 |
-| Jalisco | 0.11 | 0.32 | 0.79 | 1.08 | 97 | 8,982,027 |
+| Jalisco | 0.09 | 0.31 | 0.78 | 1.07 | 96 | 8,982,027 |
 | Colima | 0.18 | 0.91 | 0.81 | 1.04 | 8 | 771,538 |
 | Tabasco | 0.05 | 0.18 | 0.61 | 0.97 | 24 | 2,472,668 |
 | Chiapas | 0.03 | 0.30 | 0.58 | 0.94 | 58 | 6,185,469 |
@@ -385,7 +386,7 @@ Es la misma serie dividida entre la **población a mitad de año de cada estado*
 | Durango | 0.07 | 0.12 | 0.27 | 0.46 | 9 | 1,939,482 |
 | Nuevo León | 0.00 | 0.23 | 0.29 | 0.35 | 23 | 6,516,202 |
 | Tlaxcala | 0.00 | 0.00 | 0.15 | 0.34 | 5 | 1,464,515 |
-| **Nacional** | **0.13** | **0.48** | **1.12** | **1.50** | **2,010** | **134,407,258** |
+| **Nacional** | **0.13** | **0.47** | **1.11** | **1.49** | **2,008** | **134,407,258** |
 
 \* 2026 parcial, con registros hasta el 27-10-2026. Población: CONAPO, población a mitad de año (`data/poblacion_conapo.csv`, generado con `poblacion_conapo.py`).
 </details>
@@ -398,9 +399,9 @@ Es la misma serie dividida entre la **población a mitad de año de cada estado*
 
 Para cada año se cuentan los programas **vigentes al cierre de ese año**: RVOE otorgados hasta ese año menos los retirados hasta ese año (según `fecha_retiro`). Se toman las 5 licenciaturas con más RVOE vigentes hoy, por nombre exacto del programa.
 
-- **Derecho siempre fue la primera y la brecha se ensancha:** 132 programas en 2000 y 2,010 hoy (15 veces más). Le saca más de 900 a la segunda.
-- **Pedagogía es la que más creció:** de 37 programas en 2000 a 1,077 hoy (29 veces). Rebasó para siempre a Psicología en 2016 y a Mercadotecnia en 2017, alcanzó a Administración de Empresas en 2024 y hoy están empatadas (1,077 cada una).
-- **Mercadotecnia y Psicología van atrás y casi juntas** (650 y 630). Psicología se aceleró desde 2023: pasó de 404 a 630 programas en cuatro años.
+- **Derecho siempre fue la primera y la brecha se ensancha:** 128 programas en 2000 y 2,008 hoy (16 veces más). Le saca más de 900 a la segunda.
+- **Pedagogía es la que más creció:** de 34 programas en 2000 a 1,076 hoy (32 veces). Rebasó para siempre a Psicología en 2016 y a Mercadotecnia en 2017, alcanzó a Administración de Empresas en 2024 y hoy la supera por apenas tres programas (1,076 contra 1,073).
+- **Mercadotecnia y Psicología van atrás y casi juntas** (649 y 630). Psicología se aceleró desde 2023: pasó de 404 a 630 programas en cuatro años.
 - **Las curvas nunca bajan:** en ningún año los retiros superaron a los nuevos otorgamientos. Los saltos de 2012 y 2019 coinciden con las oleadas de la gráfica de Derecho.
 
 <details>
@@ -408,42 +409,42 @@ Para cada año se cuentan los programas **vigentes al cierre de ese año**: RVOE
 
 | Año | Derecho | Administración de Empresas | Pedagogía | Mercadotecnia | Psicología |
 |--:|--:|--:|--:|--:|--:|
-| 2000 | 132 | 65 | 37 | 37 | 38 |
-| 2001 | 149 | 76 | 39 | 46 | 40 |
-| 2002 | 164 | 84 | 44 | 52 | 42 |
-| 2003 | 181 | 97 | 47 | 60 | 44 |
-| 2004 | 196 | 101 | 52 | 72 | 48 |
-| 2005 | 232 | 118 | 62 | 90 | 56 |
-| 2006 | 256 | 128 | 73 | 96 | 59 |
-| 2007 | 286 | 145 | 88 | 110 | 65 |
-| 2008 | 385 | 216 | 124 | 162 | 85 |
-| 2009 | 468 | 285 | 143 | 194 | 110 |
-| 2010 | 548 | 337 | 166 | 213 | 134 |
-| 2011 | 611 | 375 | 186 | 231 | 168 |
-| 2012 | 830 | 496 | 284 | 305 | 304 |
-| 2013 | 867 | 509 | 301 | 312 | 317 |
-| 2014 | 886 | 529 | 306 | 326 | 319 |
-| 2015 | 925 | 540 | 314 | 343 | 325 |
-| 2016 | 973 | 562 | 342 | 357 | 336 |
-| 2017 | 1,091 | 602 | 418 | 377 | 357 |
-| 2018 | 1,216 | 640 | 491 | 390 | 365 |
-| 2019 | 1,414 | 764 | 669 | 526 | 388 |
-| 2020 | 1,430 | 772 | 690 | 528 | 389 |
-| 2021 | 1,504 | 815 | 740 | 552 | 397 |
-| 2022 | 1,587 | 857 | 801 | 557 | 404 |
-| 2023 | 1,700 | 897 | 886 | 586 | 461 |
-| 2024 | 1,777 | 935 | 937 | 598 | 513 |
-| 2025 | 1,905 | 1,053 | 1,023 | 643 | 600 |
-| 2026* | 2,010 | 1,077 | 1,077 | 650 | 630 |
+| 2000 | 128 | 59 | 34 | 36 | 38 |
+| 2001 | 145 | 70 | 36 | 45 | 40 |
+| 2002 | 160 | 78 | 41 | 51 | 42 |
+| 2003 | 177 | 91 | 44 | 59 | 44 |
+| 2004 | 192 | 95 | 49 | 71 | 48 |
+| 2005 | 228 | 112 | 59 | 89 | 56 |
+| 2006 | 252 | 122 | 70 | 95 | 59 |
+| 2007 | 282 | 139 | 85 | 109 | 65 |
+| 2008 | 381 | 210 | 121 | 161 | 85 |
+| 2009 | 464 | 279 | 140 | 193 | 110 |
+| 2010 | 544 | 331 | 163 | 212 | 134 |
+| 2011 | 607 | 369 | 183 | 230 | 168 |
+| 2012 | 826 | 490 | 281 | 304 | 304 |
+| 2013 | 863 | 503 | 298 | 311 | 317 |
+| 2014 | 882 | 523 | 303 | 325 | 319 |
+| 2015 | 921 | 534 | 311 | 342 | 325 |
+| 2016 | 969 | 556 | 339 | 356 | 336 |
+| 2017 | 1,088 | 597 | 415 | 376 | 357 |
+| 2018 | 1,213 | 635 | 488 | 389 | 365 |
+| 2019 | 1,411 | 760 | 666 | 525 | 388 |
+| 2020 | 1,427 | 768 | 687 | 527 | 389 |
+| 2021 | 1,501 | 811 | 737 | 551 | 397 |
+| 2022 | 1,584 | 853 | 798 | 556 | 404 |
+| 2023 | 1,697 | 893 | 883 | 585 | 461 |
+| 2024 | 1,774 | 931 | 936 | 597 | 513 |
+| 2025 | 1,903 | 1,049 | 1,022 | 642 | 600 |
+| 2026* | 2,008 | 1,073 | 1,076 | 649 | 630 |
 
 \* 2026 parcial, con registros hasta el 27-10-2026.
 </details>
 
 **Cómo leer la gráfica:**
 - Es una reconstrucción a partir de lo que hoy publica la SEP: un programa retirado que SIRVOES ya no registra no aparece en ningún año, así que los años antiguos pueden estar subestimados.
-- Se usa el nombre exacto del programa. `ADMINISTRACION` (547 vigentes) va por separado de `ADMINISTRACION DE EMPRESAS`, y quedan fuera variantes como `DERECHO Y CIENCIAS JURIDICAS`.
+- Se usa el nombre exacto del programa. `ADMINISTRACION` (548 vigentes) va por separado de `ADMINISTRACION DE EMPRESAS`, y quedan fuera variantes como `DERECHO Y CIENCIAS JURIDICAS`.
 - Un RVOE vigente no significa que el programa tenga alumnos inscritos.
-- Solo se cuentan programas con RVOE propio: quedan fuera 139 programas de Derecho vigentes que dependen de un acuerdo institucional (la serie llega a 2,010 de 2,149).
+- Solo se cuentan programas con RVOE propio: quedan fuera 181 programas de Derecho vigentes que dependen de un acuerdo institucional (la serie llega a 2,008 de 2,189).
 
 ---
 
@@ -461,9 +462,9 @@ Es el mismo cálculo que la gráfica anterior (otorgados menos retirados al cier
 | Mercadotecnia | `MERCADOTECNIA`, `MARKETING` | Mercadotecnia Estratégica, Dirección y Mercadotecnia |
 | Psicología | `PSICOLOG` | Psicología, Investigación Psicológica |
 
-- **Educación domina los doctorados:** 414 programas vigentes con RVOE propio, y junto con Derecho, Ciencias Jurídicas y Criminología (290) suman más de la mitad de los 1,181 doctorados vigentes con RVOE propio.
+- **Educación domina los doctorados:** 413 programas vigentes con RVOE propio, y junto con Derecho, Ciencias Jurídicas y Criminología (290) suman más de la mitad de los 1,180 doctorados vigentes con RVOE propio.
 - **Casi todos son de los últimos 15 años.** En 2000 había apenas 2 doctorados de Educación y 3 del área jurídica con RVOE propio; el despegue empieza en 2008 y se acelera desde 2012.
-- **Buena parte del crecimiento es reciente.** De 2021 a 2026, Educación se duplicó con creces (de 195 a 414 programas) y el área jurídica casi (de 153 a 290).
+- **Buena parte del crecimiento es reciente.** De 2021 a 2026, Educación se duplicó con creces (de 195 a 413 programas) y el área jurídica casi (de 153 a 290).
 - **Administración iba a la par del área jurídica hasta 2007**; hoy tiene menos de la mitad (123 contra 290).
 - **En Mercadotecnia y Psicología casi no hay doctorados** (5 cada una), aunque estén entre las licenciaturas más frecuentes.
 
@@ -495,10 +496,10 @@ Es el mismo cálculo que la gráfica anterior (otorgados menos retirados al cier
 | 2020 | 136 | 64 | 176 | 0 | 3 |
 | 2021 | 153 | 69 | 195 | 1 | 3 |
 | 2022 | 169 | 75 | 225 | 3 | 3 |
-| 2023 | 201 | 92 | 275 | 3 | 3 |
-| 2024 | 235 | 107 | 308 | 3 | 4 |
-| 2025 | 276 | 118 | 378 | 3 | 5 |
-| 2026* | 290 | 123 | 414 | 5 | 5 |
+| 2023 | 201 | 92 | 274 | 3 | 3 |
+| 2024 | 235 | 107 | 307 | 3 | 4 |
+| 2025 | 276 | 118 | 377 | 3 | 5 |
+| 2026* | 290 | 123 | 413 | 5 | 5 |
 
 \* 2026 parcial, con registros hasta el 27-10-2026.
 </details>
@@ -577,9 +578,9 @@ Desglose de los 290 doctorados vigentes con RVOE propio del área jurídica (Der
 
 ![Licenciaturas en ingeniería por tipo: programas vigentes en cada año](img/ingenierias_acumulados.png)
 
-Licenciaturas con "ingeniería" o "ingeniero" en el nombre (3,814 vigentes), agrupadas en seis tipos por palabra clave. Mismo cálculo que las demás series: vigentes al cierre de cada año, otorgados menos retirados.
+Licenciaturas con "ingeniería" o "ingeniero" en el nombre (4,744 vigentes), agrupadas en seis tipos por palabra clave. Mismo cálculo que las demás series: vigentes al cierre de cada año, otorgados menos retirados.
 
-**Solo se cuentan programas con RVOE propio.** 1,018 de las 3,814 ingenierías vigentes (27%) pertenecen a instituciones con acuerdo o decreto institucional: Tec de Monterrey (decreto de 1952), UVM (acuerdo 131 de 1988), UNITEC, Anáhuac, ITESO… Esos programas llevan la fecha del acuerdo y no la de su creación, así que, si se incluyeran, aparecerían como existentes desde 1952 o 1988. Sin el filtro, el 86% de las ingenierías "vigentes en 2000" serían de este tipo.
+**Solo se cuentan programas con RVOE propio.** 1,939 de las 4,744 ingenierías vigentes (41%) pertenecen a instituciones con acuerdo o decreto institucional: Tec de Monterrey (decreto de 1952), UVM (acuerdo 131 de 1988), UNITEC, Anáhuac, ITESO… Esos programas llevan la fecha del acuerdo y no la de su creación, así que, si se incluyeran, aparecerían como existentes desde 1952 o 1988. Sin el filtro, el 86% de las ingenierías "vigentes en 2000" serían de este tipo.
 
 | Tipo | Palabras clave | Programas más frecuentes (vigentes) |
 |---|---|---|
@@ -592,43 +593,43 @@ Licenciaturas con "ingeniería" o "ingeniero" en el nombre (3,814 vigentes), agr
 
 Gana la primera regla que coincide, así que "Industrial y de Sistemas" cuenta como Industrial, "Químico y de Sistemas" como Química y "Sistemas Electrónicos" como Electrónica.
 
-- **Software y sistemas e Industrial van empatados y dominan:** 989 y 978 programas con RVOE propio en 2026. Software fue el primero casi todo el periodo; Industrial lo rebasó entre 2019 y 2022 y Software recuperó el primer lugar en 2023.
-- **Mecatrónica, mecánica y electrónica es la tercera (450)**, con un salto en 2019 (de 155 a 261).
+- **Software y sistemas e Industrial van casi empatados y dominan:** 988 y 969 programas con RVOE propio en 2026. Software fue el primero casi todo el periodo; Industrial lo alcanzó en 2019, fue adelante de 2020 a 2022 y Software recuperó el primer lugar en 2023.
+- **Mecatrónica, mecánica y electrónica es la tercera (450)**, con un salto en 2019 (de 153 a 261).
 - **Química, ambiental y bio es la que más se aceleró recientemente:** se duplicó de 2022 (67) a 2026 (141). Civil y arquitectura también se duplicó (de 92 a 183).
-- **Las ingenierías mantienen su peso:** entre los programas con RVOE propio, son entre el 12% y el 13.5% de todas las licenciaturas vigentes a lo largo del periodo (12.9% en 2000, 13.5% en 2026).
+- **Las ingenierías mantienen su peso:** entre los programas con RVOE propio, son entre el 10% y el 13.5% de todas las licenciaturas vigentes a lo largo del periodo (12.5% en 2000, 13.5% en 2026).
 
 <details>
 <summary>Tabla de la gráfica: ingenierías con RVOE propio vigentes al cierre de cada año, por tipo</summary>
 
 | Año | Industrial y logística | Software, sistemas y datos | Mecatrónica, mecánica y electrónica | Civil y arquitectura | Química, ambiental y bio | Otras |
 |--:|--:|--:|--:|--:|--:|--:|
-| 2000 | 55 | 44 | 28 | 19 | 15 | 3 |
-| 2001 | 58 | 50 | 31 | 22 | 15 | 3 |
-| 2002 | 59 | 55 | 32 | 22 | 15 | 3 |
-| 2003 | 61 | 62 | 32 | 22 | 15 | 3 |
-| 2004 | 66 | 65 | 34 | 25 | 15 | 3 |
-| 2005 | 69 | 76 | 40 | 28 | 15 | 4 |
-| 2006 | 72 | 96 | 43 | 28 | 15 | 5 |
-| 2007 | 81 | 115 | 65 | 33 | 16 | 7 |
-| 2008 | 135 | 187 | 85 | 36 | 16 | 11 |
-| 2009 | 169 | 217 | 94 | 38 | 17 | 11 |
-| 2010 | 193 | 255 | 103 | 42 | 18 | 11 |
-| 2011 | 212 | 273 | 113 | 45 | 27 | 16 |
-| 2012 | 252 | 328 | 132 | 50 | 29 | 17 |
-| 2013 | 258 | 335 | 133 | 51 | 29 | 18 |
-| 2014 | 261 | 337 | 135 | 53 | 31 | 18 |
-| 2015 | 282 | 341 | 136 | 56 | 31 | 18 |
-| 2016 | 305 | 351 | 137 | 57 | 36 | 18 |
-| 2017 | 359 | 384 | 153 | 65 | 42 | 18 |
-| 2018 | 381 | 400 | 155 | 67 | 45 | 21 |
-| 2019 | 529 | 521 | 261 | 77 | 48 | 26 |
-| 2020 | 553 | 534 | 265 | 77 | 51 | 26 |
-| 2021 | 591 | 571 | 296 | 83 | 58 | 31 |
-| 2022 | 645 | 615 | 312 | 92 | 67 | 32 |
-| 2023 | 710 | 727 | 341 | 112 | 87 | 40 |
-| 2024 | 785 | 806 | 364 | 129 | 107 | 44 |
-| 2025 | 916 | 897 | 415 | 166 | 130 | 54 |
-| 2026* | 978 | 989 | 450 | 183 | 141 | 55 |
+| 2000 | 43 | 42 | 26 | 19 | 15 | 2 |
+| 2001 | 46 | 48 | 29 | 22 | 15 | 2 |
+| 2002 | 47 | 53 | 30 | 22 | 15 | 2 |
+| 2003 | 49 | 60 | 30 | 22 | 15 | 2 |
+| 2004 | 54 | 63 | 32 | 25 | 15 | 2 |
+| 2005 | 57 | 74 | 38 | 28 | 15 | 3 |
+| 2006 | 60 | 94 | 41 | 28 | 15 | 4 |
+| 2007 | 69 | 113 | 63 | 33 | 16 | 6 |
+| 2008 | 123 | 185 | 83 | 36 | 16 | 10 |
+| 2009 | 157 | 215 | 92 | 38 | 17 | 10 |
+| 2010 | 181 | 253 | 101 | 42 | 18 | 10 |
+| 2011 | 200 | 271 | 111 | 45 | 27 | 15 |
+| 2012 | 240 | 326 | 130 | 50 | 29 | 16 |
+| 2013 | 246 | 333 | 131 | 51 | 29 | 17 |
+| 2014 | 249 | 335 | 133 | 53 | 31 | 17 |
+| 2015 | 270 | 339 | 134 | 56 | 31 | 17 |
+| 2016 | 293 | 349 | 135 | 57 | 36 | 17 |
+| 2017 | 348 | 382 | 151 | 65 | 42 | 17 |
+| 2018 | 370 | 398 | 153 | 67 | 45 | 20 |
+| 2019 | 520 | 520 | 261 | 77 | 48 | 26 |
+| 2020 | 544 | 533 | 265 | 77 | 51 | 26 |
+| 2021 | 582 | 570 | 296 | 83 | 58 | 31 |
+| 2022 | 636 | 614 | 312 | 92 | 67 | 32 |
+| 2023 | 701 | 726 | 341 | 112 | 87 | 40 |
+| 2024 | 776 | 805 | 364 | 129 | 107 | 44 |
+| 2025 | 907 | 896 | 415 | 166 | 130 | 54 |
+| 2026* | 969 | 988 | 450 | 183 | 141 | 55 |
 
 \* 2026 parcial, con registros hasta el 27-10-2026.
 </details>
@@ -641,9 +642,11 @@ Gana la primera regla que coincide, así que "Industrial y de Sistemas" cuenta c
 - **SIRVOES es informativo.** La propia SEP lo aclara: ante cualquier inconsistencia, la autoridad educativa correspondiente es la que tiene la última palabra.
 - **Un RVOE no es un programa en operación.** Un programa vigente puede no tener matrícula.
 - **El nombre del programa no está normalizado**: SIRVOES le agrega anotaciones entre paréntesis y DGAIR antepone `EN`. Para agrupar por carrera hay que limpiarlo, como en `graficas.py`.
-- **Instituciones con acuerdo secretarial o decreto:** su `fecha_otorgamiento` es la del acuerdo institucional (1952 para el Tec, 1988 para UVM), no la del programa. Por eso **todas las series por año cuentan solo programas con RVOE propio** (número de RVOE numérico): los demás aparecerían como existentes desde la fecha del acuerdo aunque se hayan abierto después. Quedan fuera 7,306 programas vigentes (3,834 licenciaturas, 2,499 maestrías, 713 especialidades, 147 doctorados y 113 de TSU o profesional asociado), concentrados en el Tec, UVM, UNITEC, Anáhuac e ITESO. Las cifras de vigentes *hoy* del panorama general y del caso Derecho sí los incluyen.
+- **Instituciones con acuerdo secretarial o decreto:** su `fecha_otorgamiento` es la del acuerdo institucional (1952 para el Tec, 1988 para UVM), no la del programa. Por eso **todas las series por año cuentan solo programas con RVOE propio** (número de RVOE numérico): los demás aparecerían como existentes desde la fecha del acuerdo aunque se hayan abierto después. Quedan fuera 10,306 programas vigentes (6,210 licenciaturas, 2,938 maestrías, 834 especialidades, 175 doctorados y 149 de TSU o profesional asociado), concentrados en UVM, el Tec, UNITEC, Anáhuac y la Escuela Bancaria y Comercial. Las cifras de vigentes *hoy* del panorama general y del caso Derecho sí los incluyen.
 - **Las 3,290 filas que solo vienen de DGAIR** no tienen plantel, municipio, contacto ni área. El nombre de institución en DGAIR a veces incluye el campus (`UNIVERSIDAD DEL VALLE DE MEXICO, CAMPUS COYOACAN`) y en SIRVOES va separado en `institucion` y `plantel`.
 - **Datos de contacto:** se publican tal como los difunde la SEP. Algunos correos son de directores o cuentas personales.
+- **Fechas mal capturadas en SIRVOES:** 13 programas traían el año como `0041` o `0205`; se corrigió con el año que trae el propio número de RVOE (`20200542` → 2020). Queda un marcador de "sin fecha" (1899-12-31) en un registro de DGAIR.
+- **Imagen del sitio:** fotografía del Auditorio Alfonso Caso de Mario Yaír TS, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), vía [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Auditorio_Alfonso_Caso_en_C.U..jpg); recortada y redimensionada. Las versiones en `docs/img/` se comparten con la misma licencia.
 - **Extracción de PDFs:** 105 filas tienen la fecha mal capturada en el original y algunas filas aparecen repetidas en el propio PDF.
 
 ---

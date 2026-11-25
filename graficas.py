@@ -210,7 +210,7 @@ if __name__ == "__main__":
     ultima = pd.to_datetime(todos["fecha_otorgamiento"], errors="coerce").max().strftime("%d-%m-%Y")
     # Solo RVOE propios: los programas bajo acuerdo/decreto institucional (Tec, UVM, UNITEC, Anáhuac...) llevan la
     # fecha del acuerdo (1952, 1988), no la del programa, y aparecerían como existentes desde entonces.
-    propio = todos["rvoe"].str.fullmatch(r"\d+", na=False)
+    propio = todos["rvoe"].str.fullmatch(r"\d{6,}", na=False)  # "142" a secas es el ACUERDO 142 (UNITEC)
     u = todos[propio]
     vig_todos = todos["estatus"] == "VIGENTE"
     print("vigentes excluidos por acuerdo/decreto, por nivel:",
