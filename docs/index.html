@@ -346,26 +346,17 @@ dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
       <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:85% 50%">
         <div class="rotulo"><span class="num">Sala II</span><h2 id="t-tray">Trayectorias comparadas</h2></div></div>
       <div class="intro">
-        <p>Cómo creció cada área del conocimiento y cada disciplina: programas vigentes al cierre de cada año. Toca las etiquetas para elegir hasta seis líneas por gráfica.</p>
-        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
-          <div class="segmentos" role="group" aria-label="Nivel de estudios" id="seg-tray"></div>
-          <div class="segmentos" role="group" aria-label="Medida" id="seg-tray-m">
-            <button type="button" data-m="abs" aria-pressed="true">Programas</button>
-            <button type="button" data-m="pct" aria-pressed="false">% del nivel</button>
-          </div>
-        </div>
+        <p>Cómo creció cada disciplina: programas vigentes al cierre de cada año. Elige el nivel educativo y toca las etiquetas para comparar hasta seis disciplinas.</p>
       </div>
       <div class="obras">
         <article class="obra">
-          <div class="ficha-obra"><div><span class="lote">Obra 01 · Las áreas</span><h3>Áreas del conocimiento</h3>
-            <p class="desc">Las diez áreas unificadas de SIRVOES.</p></div></div>
-          <div class="atajos sel" id="chips-areas" role="group" aria-label="Áreas a comparar"></div>
-          <div class="grafica" id="g-tray-areas"></div>
-          <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="t-tray-areas"></div></details>
-        </article>
-        <article class="obra">
-          <div class="ficha-obra"><div><span class="lote">Obra 02 · Las disciplinas</span><h3>Disciplinas</h3>
-            <p class="desc">Grupos por palabras clave en el nombre del programa, los mismos de El duelo. Un programa puede caer en dos disciplinas (Criminología también cuenta en Derecho).</p></div></div>
+          <div class="ficha-obra"><div><span class="lote">Obra 01 · Las disciplinas</span><h3>Disciplinas</h3>
+            <p class="desc">Grupos por palabras clave en el nombre del programa, los mismos de El duelo. Un programa puede caer en dos disciplinas (Criminología también cuenta en Derecho).</p></div>
+            <div class="segmentos" role="group" aria-label="Medida" id="seg-tray-m">
+              <button type="button" data-m="abs" aria-pressed="true">Programas</button>
+              <button type="button" data-m="pct" aria-pressed="false">% del nivel</button>
+            </div></div>
+          <div class="segmentos" role="group" aria-label="Nivel educativo" id="seg-tray" style="margin:0 0 14px"></div>
           <div class="atajos sel" id="chips-disc" role="group" aria-label="Disciplinas a comparar"></div>
           <div class="grafica" id="g-tray-disc"></div>
           <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="t-tray-disc"></div></details>
@@ -819,11 +810,10 @@ function salaDerecho() {
 /* ---------- Sala II: trayectorias comparadas ---------- */
 const PALETA = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"];  // categórica validada, en orden fijo; tope de 6 líneas
 function salaTrayectorias() {
-  const C = D.cat, NIV = NIVELES_DUELO.filter(n => !["esp", "tsu"].includes(n[0]));
+  const C = D.cat, NIV = NIVELES_DUELO;
   let nivel = "lic", medida = "abs", total;
   $("seg-tray").innerHTML = NIV.map(([k, t]) => `<button type="button" data-v="${k}" aria-pressed="${k === nivel}">${t}</button>`).join("");
   const obras = [
-    {chips: $("chips-areas"), graf: $("g-tray-areas"), tabla: $("t-tray-areas"), items: MACROS.map((n, i) => ({k: String(i), n, f: p => p.macro === i}))},
     {chips: $("chips-disc"), graf: $("g-tray-disc"), tabla: $("t-tray-disc"), items: DISCIPLINAS.map(([k, n, f]) => ({k, n, f: p => f(p.nn)}))}];
   const calcula = () => {
     const nv = NIV.find(n => n[0] === nivel)[2], set = nv && new Set(nv.map(n => C.nivel.indexOf(n)));
