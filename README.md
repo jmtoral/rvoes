@@ -23,8 +23,9 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 7. [Panorama general](#panorama-general)
 8. [Caso: Licenciatura en Derecho](#caso-licenciatura-en-derecho)
 9. [Licenciaturas más frecuentes: vigentes por año](#licenciaturas-más-frecuentes-vigentes-por-año)
-10. [Limitaciones y advertencias](#limitaciones-y-advertencias)
-11. [Reproducir](#reproducir)
+10. [Doctorados por área: vigentes por año](#doctorados-por-área-vigentes-por-año)
+11. [Limitaciones y advertencias](#limitaciones-y-advertencias)
+12. [Reproducir](#reproducir)
 
 ---
 
@@ -38,6 +39,7 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 | `data/cruce_dgair_sirvoes.csv` | Tabla DGAIR con el estatus que cada RVOE tiene en SIRVOES | 41,342 |
 | `img/derecho_por_anio.png` | Gráfica: Derecho, RVOE otorgados por año y modalidad | — |
 | `img/vigentes_acumulados.png` | Gráfica: programas vigentes en cada año, top 5 licenciaturas | — |
+| `img/doctorados_acumulados.png` | Gráfica: doctorados vigentes en cada año, por área | — |
 | `parse_dgair.py` | Extrae las tablas de los PDFs (pdfplumber) | |
 | `scrape_sirvoes.py` | Descarga SIRVOES desde su API JSON | |
 | `cruce.py` | Cruza ambas fuentes y genera la tabla unificada | |
@@ -322,6 +324,69 @@ Para cada año se cuentan los programas **vigentes al cierre de ese año**: RVOE
 - Se usa el nombre exacto del programa. `ADMINISTRACION` (547 vigentes) va por separado de `ADMINISTRACION DE EMPRESAS`, y quedan fuera variantes como `DERECHO Y CIENCIAS JURIDICAS`.
 - Un RVOE vigente no significa que el programa tenga alumnos inscritos.
 - Los dos programas de Derecho sin fecha de otorgamiento no se cuentan (2,147 contra 2,149 vigentes).
+
+---
+
+## Doctorados por área: vigentes por año
+
+![Doctorados por área: programas vigentes en cada año](img/doctorados_acumulados.png)
+
+Es el mismo cálculo que la gráfica anterior (otorgados menos retirados al cierre de cada año), pero para programas de **doctorado** en las mismas áreas. En doctorado los nombres varían mucho (`DERECHO PENAL`, `CIENCIAS DE LA EDUCACION`, `ADMINISTRACION PUBLICA`), así que el área se asigna **por palabra clave en el nombre del programa**. Gana la primera regla que coincide:
+
+| Área | Palabras clave | Ejemplos |
+|---|---|---|
+| Derecho y C. Jurídicas | `DERECHO`, `JURIDIC` | Derecho, Derecho Penal, Derechos Humanos, Ciencias Jurídicas |
+| Educación y Pedagogía | `EDUCACI`, `PEDAGOG`, `EDUCATIV` | Educación, Ciencias de la Educación, Innovación Educativa, Innovación y Administración Educativa |
+| Administración | `ADMINISTRACI` | Administración, Administración Pública, Ciencias de la Administración |
+| Mercadotecnia | `MERCADOTECNIA`, `MARKETING` | Mercadotecnia Estratégica, Dirección y Mercadotecnia |
+| Psicología | `PSICOLOG` | Psicología, Investigación Psicológica |
+
+- **Educación domina los doctorados:** 434 programas vigentes, y junto con Derecho (268) suman más de la mitad de los 1,328 doctorados vigentes.
+- **Crecieron más rápido que las licenciaturas.** Educación pasó de 19 programas en 2000 a 432 (unas 23 veces) y Derecho de 11 a 266 (unas 24 veces). Las licenciaturas de esas mismas áreas crecieron entre 8 y 14 veces.
+- **La mitad del crecimiento es reciente.** Educación tenía 212 programas en 2021 y Derecho 144; en cinco años ambas casi se duplicaron.
+- **Administración iba por delante de Derecho hasta 2007** y ahora tiene la mitad.
+- **En Mercadotecnia y Psicología casi no hay doctorados** (7 y 8 programas), aunque estén entre las licenciaturas más frecuentes.
+
+<details>
+<summary>Tabla de la gráfica: doctorados vigentes al cierre de cada año, por área</summary>
+
+| Año | Derecho y C. Jurídicas | Administración | Educación y Pedagogía | Mercadotecnia | Psicología |
+|--:|--:|--:|--:|--:|--:|
+| 2000 | 11 | 16 | 19 | 2 | 3 |
+| 2001 | 11 | 16 | 19 | 2 | 3 |
+| 2002 | 11 | 16 | 20 | 2 | 3 |
+| 2003 | 12 | 16 | 21 | 2 | 3 |
+| 2004 | 14 | 17 | 22 | 2 | 3 |
+| 2005 | 14 | 18 | 24 | 2 | 4 |
+| 2006 | 16 | 19 | 27 | 2 | 4 |
+| 2007 | 16 | 20 | 30 | 2 | 4 |
+| 2008 | 27 | 23 | 37 | 2 | 4 |
+| 2009 | 30 | 28 | 41 | 2 | 4 |
+| 2010 | 37 | 29 | 43 | 2 | 4 |
+| 2011 | 43 | 30 | 49 | 2 | 4 |
+| 2012 | 66 | 45 | 83 | 2 | 5 |
+| 2013 | 72 | 47 | 88 | 2 | 5 |
+| 2014 | 72 | 47 | 90 | 2 | 5 |
+| 2015 | 77 | 48 | 92 | 2 | 5 |
+| 2016 | 85 | 53 | 104 | 2 | 5 |
+| 2017 | 98 | 63 | 130 | 2 | 5 |
+| 2018 | 106 | 67 | 149 | 2 | 5 |
+| 2019 | 125 | 76 | 183 | 2 | 6 |
+| 2020 | 131 | 76 | 193 | 2 | 6 |
+| 2021 | 144 | 81 | 212 | 3 | 6 |
+| 2022 | 157 | 87 | 242 | 5 | 6 |
+| 2023 | 182 | 104 | 292 | 5 | 6 |
+| 2024 | 213 | 119 | 325 | 5 | 7 |
+| 2025 | 252 | 130 | 396 | 5 | 8 |
+| 2026* | 266 | 135 | 432 | 7 | 8 |
+
+\* 2026 parcial, con registros hasta el 27-10-2026.
+</details>
+
+**Cómo leer la gráfica:**
+- Aplican las mismas advertencias que en la gráfica de licenciaturas.
+- La clasificación por palabra clave es aproximada: un doctorado en "Gestión de Instituciones" que no use ninguna de las palabras clave no cuenta, aunque sea del área educativa.
+- Las áreas de doctorado no equivalen a las carreras de licenciatura: aquí "Administración" incluye la pública y "Educación" incluye todo lo educativo, no solo Pedagogía.
 
 ---
 

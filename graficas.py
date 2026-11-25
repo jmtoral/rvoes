@@ -26,14 +26,28 @@ def nombre_limpio(programa):
 def licenciatura_derecho(u):
     return u[(u["nivel"] == "LICENCIATURA") & (nombre_limpio(u["programa"]) == "DERECHO")]
 
-def vigentes_por_anio(u):
-    """Programas vigentes al cierre de cada año = otorgados hasta ese año - retirados hasta ese año."""
-    lic = u[u["nivel"] == "LICENCIATURA"].assign(carrera=lambda x: nombre_limpio(x["programa"]))
-    lic = lic[lic["carrera"].isin(CARRERAS)]
-    ao = pd.to_datetime(lic["fecha_otorgamiento"], errors="coerce").dt.year
-    ar = pd.to_datetime(lic["fecha_retiro"], errors="coerce").dt.year
-    return pd.DataFrame({c: [((lic["carrera"] == c) & (ao <= y) & ~(ar <= y)).sum() for y in range(DESDE, HASTA + 1)]
+def vigentes_por_anio(df, cat):
+    """Programas vigentes al cierre de cada año = otorgados hasta ese año - retirados hasta ese año.
+    `cat`: Serie alineada con df con la categoría (clave de CARRERAS) de cada programa."""
+    ao = pd.to_datetime(df["fecha_otorgamiento"], errors="coerce").dt.year
+    ar = pd.to_datetime(df["fecha_retiro"], errors="coerce").dt.year
+    return pd.DataFrame({c: [((cat == c) & (ao <= y) & ~(ar <= y)).sum() for y in range(DESDE, HASTA + 1)]
                          for c in CARRERAS}, index=range(DESDE, HASTA + 1))
+
+# Doctorados: los nombres varían ("DERECHO PENAL", "CIENCIAS DE LA EDUCACION"), se agrupan por palabra
+# clave; gana la primera regla ("INNOVACION Y ADMINISTRACION EDUCATIVA" -> educación).
+AREAS_DOC = [("DERECHO", r"DERECHO|JURIDIC"), ("PEDAGOGIA", r"EDUCACI|PEDAGOG|EDUCATIV"),
+             ("ADMINISTRACION DE EMPRESAS", r"ADMINISTRACI"), ("MERCADOTECNIA", r"MERCADOTECNIA|MARKETING"),
+             ("PSICOLOGIA", r"PSICOLOG")]
+NOMBRES_DOC = {"DERECHO": "Derecho y C. Jurídicas", "PEDAGOGIA": "Educación y Pedagogía",
+               "ADMINISTRACION DE EMPRESAS": "Administración", "MERCADOTECNIA": "Mercadotecnia", "PSICOLOGIA": "Psicología"}
+
+def area_doctorado(programa):
+    p = nombre_limpio(programa)
+    cat = pd.Series(None, index=p.index, dtype=object)
+    for clave, rx in reversed(AREAS_DOC):  # al revés para que la primera regla sobrescriba
+        cat[p.str.contains(rx, na=False)] = clave
+    return cat
 
 def separar(valores, minimo):
     """Empuja hacia arriba las etiquetas finales que quedarían encimadas."""
@@ -44,7 +58,9 @@ def separar(valores, minimo):
         prev = pos[k]
     return pos
 
-def graficar_lineas(t, out, ultima_fecha):
+def graficar_lineas(t, out, ultima_fecha, nombres=NOMBRES,
+                    titulo="Licenciaturas con más RVOE: programas vigentes en cada año",
+                    nota="nombre exacto del programa (sin variantes)"):
     fig, ax = plt.subplots(figsize=(11, 5.6), dpi=150, facecolor=SURFACE)
     ax.set_facecolor(SURFACE)
     for c, color in CARRERAS.items():
@@ -52,12 +68,12 @@ def graficar_lineas(t, out, ultima_fecha):
         ax.scatter([HASTA], [t[c].iloc[-1]], s=40, color=color, edgecolor=SURFACE, linewidth=1.5, zorder=4)
     pos = separar({c: t[c].iloc[-1] for c in CARRERAS}, minimo=t.values.max() * 0.045)
     for c, y in pos.items():
-        ax.annotate(f"{NOMBRES[c]}  {t[c].iloc[-1]:,}", (HASTA, t[c].iloc[-1]), xytext=(HASTA + 0.5, y),
+        ax.annotate(f"{nombres[c]}  {t[c].iloc[-1]:,}", (HASTA, t[c].iloc[-1]), xytext=(HASTA + 0.5, y),
                     textcoords="data", va="center", fontsize=9, color=INK, annotation_clip=False)
-    ax.set_title("Licenciaturas con más RVOE: programas vigentes en cada año", loc="left", fontsize=14, color=INK, pad=28, weight="bold")
+    ax.set_title(titulo, loc="left", fontsize=14, color=INK, pad=28, weight="bold")
     ax.text(0, 1.04, "Acumulado de RVOE federales otorgados menos los retirados, al cierre de cada año",
             transform=ax.transAxes, fontsize=10, color=INK2)
-    ax.legend([plt.Line2D([], [], color=col, linewidth=2) for col in CARRERAS.values()], NOMBRES.values(),
+    ax.legend([plt.Line2D([], [], color=col, linewidth=2) for col in CARRERAS.values()], [nombres[c] for c in CARRERAS],
               loc="upper left", frameon=False, fontsize=9, labelcolor=INK2, ncol=5, bbox_to_anchor=(0, 1.0))
     ax.set_xticks(range(DESDE, HASTA + 1, 2))
     ax.tick_params(colors=INK2, labelsize=9, length=0)
@@ -68,7 +84,7 @@ def graficar_lineas(t, out, ultima_fecha):
     ax.spines["bottom"].set_color(GRID)
     ax.set_xlim(DESDE - 0.5, HASTA + 0.3)
     ax.set_ylim(0, t.values.max() * 1.15)
-    fig.text(0.01, 0.01, f"{CREDITO}.\nSolo RVOE federales; nombre exacto del programa (sin variantes). "
+    fig.text(0.01, 0.01, f"{CREDITO}.\nSolo RVOE federales; {nota}. "
              f"Solo se descuentan retiros registrados en SIRVOES.  {HASTA} al {ultima_fecha}.", fontsize=7.5, color=INK2)
     fig.tight_layout(rect=(0, 0.05, 0.83, 1))
     fig.savefig(out, facecolor=SURFACE)
@@ -119,7 +135,19 @@ if __name__ == "__main__":
     t["TOTAL"] = t.sum(axis=1)
     print(t.to_markdown())
 
-    v = vigentes_por_anio(u)
+    lic = u[u["nivel"] == "LICENCIATURA"]
+    v = vigentes_por_anio(lic, nombre_limpio(lic["programa"]))
     assert v["DERECHO"].iloc[-1] <= (der["estatus"] == "VIGENTE").sum()  # no puede haber más vigentes que hoy
     graficar_lineas(v, Path("img/vigentes_acumulados.png"), ultima)
     print(v.rename(columns=NOMBRES).to_markdown())
+
+    doc = u[u["nivel"] == "DOCTORADO"]
+    area = area_doctorado(doc["programa"])
+    assert area_doctorado(pd.Series(["INNOVACION Y ADMINISTRACION EDUCATIVA", "DERECHO PENAL (RETIRADO)", "FILOSOFIA"])) \
+        .fillna("-").tolist() == ["PEDAGOGIA", "DERECHO", "-"]
+    vd = vigentes_por_anio(doc, area)
+    graficar_lineas(vd, Path("img/doctorados_acumulados.png"), ultima, nombres=NOMBRES_DOC,
+                    titulo="Doctorados por área: programas vigentes en cada año",
+                    nota="área asignada por palabra clave en el nombre del programa")
+    print(vd.rename(columns=NOMBRES_DOC).to_markdown())
+    print("doctorados vigentes por área hoy:", area[doc["estatus"] == "VIGENTE"].value_counts(dropna=False).to_dict())
