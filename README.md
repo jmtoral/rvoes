@@ -2,6 +2,8 @@
 
 *Elaborado por Manuel Toral con información de la SEP (SIRVOES y DGAIR).*
 
+**Explora los datos en el sitio: [jmtoral.github.io/rvoes](https://jmtoral.github.io/rvoes/)** (áreas del conocimiento, sala de Derecho y buscador de todos los programas).
+
 Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (RVOE) federales del tipo superior**. Se construye a partir de las dos fuentes públicas de la SEP y se cruzan entre sí.
 
 - **46,446 programas** en la tabla unificada: 39,907 vigentes y 6,539 retirados.
@@ -45,6 +47,8 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 | `img/ingenierias_acumulados.png` | Gráfica: ingenierías vigentes en cada año, por tipo | — |
 | `data/poblacion_conapo.csv` | Población a mitad de año por estado, 2000–2030 (CONAPO) | 992 |
 | `poblacion_conapo.py` | Descarga y resume la población de CONAPO | |
+| `docs/` | Sitio web (GitHub Pages): `index.html`, `data/rvoes.json` e imágenes | |
+| `sitio_datos.py` | Genera `docs/data/rvoes.json`, versión compacta de la tabla para el sitio | |
 | `img/vigentes_acumulados.png` | Gráfica: programas vigentes en cada año, top 5 licenciaturas | — |
 | `img/doctorados_acumulados.png` | Gráfica: doctorados vigentes en cada año, por área | — |
 | `img/doctorados_derecho_subareas.png` | Gráfica: doctorados jurídicos vigentes en cada año, por subárea | — |

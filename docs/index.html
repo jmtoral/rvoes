@@ -1,0 +1,811 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atlas de los RVOE</title>
+<meta name="description" content="Galería interactiva de los Reconocimientos de Validez Oficial de Estudios (RVOE) federales de educación superior en México: áreas del conocimiento, la sala de Derecho y el registro completo, con datos de la SEP (SIRVOES y DGAIR).">
+<meta name="theme-color" content="#f7f4ee">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/auditorio-1100.webp" imagesrcset="img/auditorio-1100.webp 1100w, img/auditorio-2000.webp 2000w" imagesizes="100vw">
+<style>
+:root{
+  color-scheme:light;
+  --fondo:#f7f4ee; --fondo-2:#ffffff; --panel:rgba(255,255,255,.82); --panel-solido:#ffffff;
+  --borde:rgba(43,33,24,.10); --borde-2:rgba(43,33,24,.20); --sombra:0 1px 2px rgba(43,33,24,.05),0 12px 32px -18px rgba(43,33,24,.25);
+  --texto:#231c16; --texto-2:#54493f; --texto-3:#6f6458;
+  --fuego:#b4471f; --ocre:#8f5a12; --azul:#2a78d6; --naranja:#eb6834; --aqua:#1baf7a; --verde:#1f6b41; --rojo:#9c2f2a;
+  --holo:conic-gradient(from 180deg at 50% 50%,#f0883e,#e7b65c,#4fb3a9,#3987e5,#b04a3a,#f0883e);
+  --display:"Fraunces",Georgia,serif; --texto-f:"DM Sans",system-ui,sans-serif;
+  --r:14px; --r-s:8px; --ancho:1240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--fondo);color:var(--texto);font:400 16px/1.6 var(--texto-f);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:var(--fuego)}a:hover{color:var(--ocre)}
+:focus-visible{outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px}
+img{max-width:100%;display:block}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.saltar{position:absolute;left:-999px;top:8px;background:var(--ocre);color:#1a120d;padding:10px 16px;z-index:50;border-radius:var(--r-s)}
+.saltar:focus{left:8px}
+.envoltura{max-width:var(--ancho);margin:0 auto;padding:0 28px}
+@media (max-width:600px){.envoltura{padding:0 16px}}
+
+/* Barra superior */
+.barra-sup{position:fixed;inset:0 0 auto 0;z-index:20;transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
+.barra-sup:not(.solida){--texto:#fff8ef;--texto-2:#f1e6d8;--borde-2:rgba(255,255,255,.35)}
+.barra-sup.solida{background:rgba(247,244,238,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--borde)}
+.barra-sup .envoltura{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:16px}
+.logo{font:600 17px/1 var(--display);letter-spacing:.04em;color:var(--texto);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:22px;height:22px;border-radius:50%;background:var(--holo);display:inline-block;box-shadow:0 0 18px rgba(240,136,62,.45)}
+.menu{display:flex;gap:2px}
+.menu a{color:var(--texto-2);text-decoration:none;font:500 14px/1 var(--texto-f);padding:12px 14px;border-radius:999px;min-height:44px;display:inline-flex;align-items:center}
+.menu a:hover{color:var(--texto);background:rgba(127,110,95,.14)}
+@media (max-width:760px){.menu a:not(.menu-cta){display:none}}
+.menu-cta{border:1px solid var(--borde-2)}
+
+/* Portada */
+.portada{--texto:#fff8ef;--texto-2:#f1e6d8;--texto-3:#ddd0c0;--ocre:#f2c36b;--fuego:#f0883e;--borde-2:rgba(255,236,214,.28);color:var(--texto);position:relative;min-height:100svh;display:grid;align-items:end;overflow:hidden;isolation:isolate}
+.portada picture,.portada picture img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;z-index:-2}
+.portada::before{content:"";position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(180deg,rgba(13,11,10,.35) 0%,rgba(13,11,10,.15) 30%,rgba(13,11,10,.72) 62%,rgba(13,11,10,.82) 100%),
+  radial-gradient(ellipse at 0% 100%,rgba(13,11,10,.85),rgba(13,11,10,0) 60%)}
+.portada::after{content:"";position:absolute;inset:auto 0 0 0;height:56px;background:linear-gradient(180deg,rgba(247,244,238,0),#f7f4ee);z-index:-1}
+.portada .envoltura{width:100%;padding-bottom:88px;padding-top:120px}
+.etiqueta{display:inline-flex;align-items:center;gap:8px;font:600 12px/1 var(--texto-f);letter-spacing:.18em;text-transform:uppercase;color:var(--ocre);padding:8px 12px;border:1px solid rgba(231,182,92,.4);border-radius:999px;background:rgba(13,11,10,.45);backdrop-filter:blur(8px)}
+.etiqueta::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--fuego);box-shadow:0 0 10px var(--fuego)}
+h1{font:500 clamp(46px,8vw,104px)/.98 var(--display);letter-spacing:-.025em;font-variation-settings:"opsz" 144;margin:18px 0 18px;max-width:11ch;text-shadow:0 2px 30px rgba(0,0,0,.45)}
+h1 span{background:linear-gradient(90deg,#ffd2a1,#f0883e 45%,#e7b65c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(17px,1.6vw,20px);color:var(--texto);max-width:54ch;margin:0 0 28px;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.chips{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0 0 28px;max-width:900px}
+.chip{background:rgba(20,16,13,.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--borde-2);border-radius:var(--r);padding:14px 16px}
+.chip b{display:block;font:500 clamp(22px,2.4vw,30px)/1.1 var(--display)}
+.chip small{color:var(--texto-2);font-size:13px}
+@media (max-width:760px){.chips{grid-template-columns:repeat(2,1fr)}.chip:last-child{grid-column:span 2}}
+.acciones{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 24px;border-radius:999px;font:700 15px/1 var(--texto-f);text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .2s,background .2s,box-shadow .2s}
+.btn-prim{background:linear-gradient(90deg,#f0883e,#e7b65c);color:#1a120d;box-shadow:0 10px 30px -10px rgba(240,136,62,.7)}
+.btn-prim:hover{transform:translateY(-2px);color:#1a120d;box-shadow:0 14px 34px -10px rgba(240,136,62,.85)}
+.btn-sec{background:rgba(255,255,255,.55);color:var(--texto);border-color:var(--borde-2);backdrop-filter:blur(8px)}
+.btn-sec:hover{background:#fff;color:var(--texto)}
+.portada .btn-sec{background:rgba(255,255,255,.08)}.portada .btn-sec:hover{background:rgba(255,255,255,.16)}
+.pie-foto{position:absolute;right:28px;bottom:64px;font-size:12px;color:var(--texto-3);max-width:46ch;text-align:right}
+@media (max-width:900px){.pie-foto{position:static;text-align:left;margin-top:24px}}
+
+/* Salas */
+.sala{padding:88px 0 40px}
+.friso{position:relative;height:clamp(110px,14vw,170px);border-radius:var(--r);overflow:hidden;margin-bottom:36px;border:1px solid var(--borde)}
+.friso img{width:100%;height:100%;object-fit:cover}
+.friso::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(247,244,238,.97) 0%,rgba(247,244,238,.82) 34%,rgba(247,244,238,0) 72%)}
+.friso .rotulo{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:center;padding:0 32px}
+.friso .num{font:600 12px/1 var(--texto-f);letter-spacing:.22em;text-transform:uppercase;color:var(--ocre);margin-bottom:10px}
+.friso h2{font:500 clamp(30px,4.4vw,54px)/1 var(--display);letter-spacing:-.02em;margin:0}
+.intro{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:end;margin-bottom:28px}
+.intro p{margin:0;color:var(--texto-2);font-size:17px;max-width:62ch}
+@media (max-width:900px){.intro{grid-template-columns:1fr}}
+
+/* Segmentado */
+.segmentos{display:inline-flex;padding:4px;border-radius:999px;background:var(--fondo-2);border:1px solid var(--borde);flex-wrap:wrap;gap:2px}
+.segmentos button{min-height:40px;padding:8px 16px;border-radius:999px;border:0;background:none;color:var(--texto-2);font:500 14px/1 var(--texto-f);cursor:pointer}
+.segmentos button[aria-pressed="true"]{background:var(--texto);color:#fff;font-weight:700}
+.segmentos button:hover:not([aria-pressed="true"]){color:var(--texto);background:rgba(43,33,24,.06)}
+
+/* Tarjetas de colección */
+.coleccion{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.pieza{position:relative;border-radius:var(--r);padding:1px;background:var(--borde);box-shadow:var(--sombra);transition:transform .25s,box-shadow .25s;cursor:pointer;text-align:left;border:0;color:inherit;font:inherit;width:100%}
+.pieza::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:var(--holo);opacity:0;transition:opacity .25s;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.pieza:hover{transform:translateY(-4px);box-shadow:0 22px 40px -22px rgba(180,71,31,.45)}
+.pieza:hover::before,.pieza:focus-visible::before{opacity:1}
+.pieza-int{background:#fff;border-radius:calc(var(--r) - 1px);padding:18px 18px 14px;height:100%;display:flex;flex-direction:column;gap:6px}
+.pieza .cab{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--texto-3);letter-spacing:.08em}
+.pieza .rango{font:600 12px/1 var(--texto-f);letter-spacing:.06em;color:var(--ocre)}
+.pieza h3{font:500 19px/1.2 var(--display);margin:4px 0 0;min-height:2.4em}
+.pieza .grande{font:500 38px/1 var(--display);letter-spacing:-.02em}
+.pieza .delta{font-size:13px;color:var(--verde)}
+.pieza .delta.neg{color:var(--rojo)}
+.pieza svg{width:100%;height:56px;margin:6px 0 4px;display:block}
+.pieza .top{font-size:13px;color:var(--texto-2);margin:0;padding:0;list-style:none}
+.pieza .top li{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--borde);padding:5px 0}
+.pieza .top li span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pieza .top li span:last-child{color:var(--texto-3)}
+.nota{font-size:14px;color:var(--texto-3);margin:14px 0 0}
+
+/* Obras (paneles de gráfica) */
+.obras{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.obra{grid-column:span 12;background:#fff;box-shadow:var(--sombra);border:1px solid var(--borde);border-radius:var(--r);padding:22px 22px 16px;min-width:0;position:relative}
+.obra.media{grid-column:span 6}
+@media (max-width:980px){.obra.media{grid-column:span 12}}
+.obra .ficha-obra{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px}
+.obra .lote{font:600 11px/1 var(--texto-f);letter-spacing:.2em;text-transform:uppercase;color:var(--ocre)}
+.obra h3{font:500 clamp(21px,2.2vw,27px)/1.2 var(--display);letter-spacing:-.01em;margin:8px 0 4px}
+.obra .desc{margin:0;color:var(--texto-2);font-size:15px;max-width:70ch}
+.obra .dato-clave{font:500 clamp(32px,3.6vw,46px)/1 var(--display);text-align:right}
+.obra .dato-clave small{display:block;font:500 13px/1.3 var(--texto-f);color:var(--texto-3);margin-top:6px;max-width:22ch;margin-left:auto}
+.leyenda{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--texto-2);margin:4px 0 8px}
+.leyenda span{display:inline-flex;align-items:center;gap:8px}
+.leyenda i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.grafica{position:relative}
+.grafica svg{display:block;overflow:visible}
+.eje text{font:400 12px var(--texto-f);fill:var(--texto-3)}
+.rejilla line{stroke:rgba(43,33,24,.09)}
+.tip{position:absolute;pointer-events:none;background:rgba(35,28,22,.95);border:1px solid rgba(255,255,255,.1);color:#fff8ef;font-size:13px;line-height:1.45;padding:9px 11px;border-radius:var(--r-s);white-space:nowrap;transform:translate(-50%,calc(-100% - 14px));opacity:0;transition:opacity .12s;z-index:5}
+.tip.on{opacity:1}
+.tip i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+details.datos{margin-top:10px;font-size:14px}
+details.datos summary{cursor:pointer;color:var(--fuego);min-height:44px;display:inline-flex;align-items:center}
+details.datos .tabla-datos{max-height:280px;overflow:auto}
+details.datos table{border-collapse:collapse;width:100%}
+details.datos td,details.datos th{padding:5px 8px;border-bottom:1px solid var(--borde);text-align:right;white-space:nowrap}
+details.datos th:first-child,details.datos td:first-child{text-align:left}
+details.datos th{color:var(--texto-2);font-weight:500}
+
+/* Mapa de mosaicos */
+.mapa-ctrl{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:6px 0 16px}
+.deslizador{display:flex;align-items:center;gap:12px;flex:1;min-width:240px}
+.deslizador input{flex:1;accent-color:#c4522a;min-height:44px}
+.deslizador output{font:500 32px/1 var(--display);min-width:3.2ch}
+.play{width:44px;height:44px;border-radius:50%;border:1px solid var(--borde-2);background:#fff;color:var(--texto);cursor:pointer;display:grid;place-items:center}
+.play:hover{background:var(--fondo)}
+.mosaico{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;max-width:820px;margin:0 auto}
+.tesela{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;justify-content:space-between;padding:6px 8px;font-size:12px;line-height:1.1;border:1px solid rgba(43,33,24,.08);transition:background-color .35s,color .35s;position:relative}
+.tesela b{font:600 clamp(10px,1.3vw,13px)/1 var(--texto-f);letter-spacing:.02em}
+.tesela span{font-size:clamp(10px,1.2vw,13px);opacity:.9}
+@media (max-width:560px){.mosaico{gap:3px}.tesela{border-radius:6px;padding:2px;align-items:center;justify-content:center}
+  .tesela b{font:700 8.5px/1 var(--texto-f);letter-spacing:-.04em}.tesela span{display:none}}
+.escala{display:flex;align-items:center;gap:10px;justify-content:center;font-size:13px;color:var(--texto-3);margin-top:14px}
+.escala .grad{width:220px;height:10px;border-radius:5px}
+
+/* Explorador */
+.filtros{display:grid;grid-template-columns:2fr repeat(5,1fr);gap:12px;align-items:end;background:var(--panel);backdrop-filter:blur(12px);border:1px solid var(--borde);border-radius:var(--r);padding:18px}
+@media (max-width:1080px){.filtros{grid-template-columns:repeat(3,1fr)}.filtros .campo-busqueda{grid-column:1/-1}}
+@media (max-width:600px){.filtros{grid-template-columns:1fr 1fr;padding:14px}}
+.campo label{display:block;font:500 13px/1.2 var(--texto-f);color:var(--texto-2);margin-bottom:6px}
+.campo input,.campo select{width:100%;min-height:44px;padding:8px 12px;font:400 16px/1.3 var(--texto-f);color:var(--texto);background:#fff;border:1px solid var(--borde-2);border-radius:10px}
+.campo select{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2354493f' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 12px center;padding-right:32px}
+.campo input:focus,.campo select:focus{border-color:var(--fuego);outline:none;box-shadow:0 0 0 3px rgba(180,71,31,.18)}
+.barra-acc{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0}
+.resumen{margin:0;color:var(--texto-2)}
+.resumen b{color:var(--texto)}
+.lnk{background:none;border:0;color:var(--fuego);font:500 14px/1 var(--texto-f);cursor:pointer;padding:12px 4px;min-height:44px;text-decoration:underline;text-underline-offset:4px}
+.cifras{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.cifras div{background:var(--fondo-2);box-shadow:var(--sombra);border:1px solid var(--borde);border-radius:var(--r);padding:14px 16px}
+.cifras b{display:block;font:500 28px/1.1 var(--display)}
+.cifras small{color:var(--texto-3);font-size:13px}
+@media (max-width:760px){.cifras{grid-template-columns:repeat(2,1fr)}.cifras div:last-child{grid-column:span 2}}
+.barras{max-height:400px;overflow:auto;padding-right:4px}
+.barra{display:grid;grid-template-columns:minmax(120px,42%) 1fr auto;align-items:center;gap:10px;width:100%;min-height:34px;padding:3px 6px;background:none;border:0;font:inherit;font-size:14px;color:var(--texto);text-align:left;cursor:pointer;border-radius:8px}
+button.barra:hover{background:rgba(43,33,24,.05)}
+.barra .nom{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.barra .pista{height:10px;position:relative;background:rgba(43,33,24,.06);border-radius:5px}
+.barra .relleno{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#c4522a,#eb8a4e);border-radius:5px}
+.barra .val{color:var(--texto-2);min-width:4ch;text-align:right}
+.registro{margin-top:18px;box-shadow:var(--sombra);background:var(--fondo-2);border:1px solid var(--borde);border-radius:var(--r);overflow:hidden}
+.registro-cab{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid var(--borde)}
+.registro-cab h3{font:500 21px/1.2 var(--display);margin:0}
+.orden{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--texto-2)}
+.orden select{min-height:40px;padding:6px 10px;font:inherit;border:1px solid var(--borde-2);border-radius:10px;background:#fff;color:var(--texto)}
+table.res{width:100%;border-collapse:collapse;font-size:15px}
+table.res th{font:500 12px/1.2 var(--texto-f);letter-spacing:.06em;text-transform:uppercase;text-align:left;color:var(--texto-3);padding:12px;border-bottom:1px solid var(--borde)}
+table.res td{padding:12px;border-bottom:1px solid rgba(43,33,24,.07);vertical-align:top}
+table.res tbody tr{cursor:pointer;transition:background .15s}
+table.res tbody tr:hover{background:#fbf8f3}
+table.res .inst{font-weight:700}
+table.res .pl{display:block;font-size:13px;color:var(--texto-3)}
+.ver{background:none;border:0;padding:0;font:inherit;font-weight:500;color:var(--texto);text-align:left;cursor:pointer}
+.ver:hover{color:var(--fuego);text-decoration:underline}
+.sello{justify-self:start;display:inline-flex;align-items:center;gap:6px;font:700 11px/1 var(--texto-f);letter-spacing:.06em;padding:6px 9px;border-radius:999px;white-space:nowrap}
+.sello::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.sello.vig{color:#1f6b41;background:#e3f2e8}
+.sello.ret{color:#9c2f2a;background:#f8e3e1}
+@media (max-width:760px){
+  table.res thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  table.res,table.res tbody,table.res tr,table.res td{display:block;width:100%}
+  table.res tr{padding:12px 16px;border-bottom:1px solid var(--borde)}
+  table.res td{border:0;padding:3px 0;display:grid;grid-template-columns:96px 1fr;gap:8px}
+  table.res td::before{content:attr(data-et);font:500 11px/1.9 var(--texto-f);letter-spacing:.06em;text-transform:uppercase;color:var(--texto-3)}
+}
+.paginacion{display:flex;justify-content:center;align-items:center;gap:12px;padding:16px;flex-wrap:wrap}
+.paginacion button{min-height:44px;padding:8px 18px;background:#fff;border:1px solid var(--borde-2);border-radius:999px;font:500 14px/1 var(--texto-f);color:var(--texto);cursor:pointer}
+.paginacion button:hover:not(:disabled){border-color:var(--fuego)}
+.paginacion button:disabled{opacity:.35;cursor:default}
+.paginacion span{color:var(--texto-2)}
+.vacio{padding:40px 20px;text-align:center;color:var(--texto-2)}
+.vacio p{margin:0 0 12px}
+.cargando{padding:48px;text-align:center;color:var(--texto-3)}
+
+dialog.ficha{border:1px solid var(--borde-2);border-radius:18px;padding:0;max-width:640px;width:calc(100% - 32px);background:var(--panel-solido);color:var(--texto);box-shadow:0 30px 80px -20px rgba(43,33,24,.45)}
+dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
+.ficha-cab{padding:24px 26px 16px;border-bottom:1px solid var(--borde);background:linear-gradient(180deg,rgba(180,71,31,.07),transparent)}
+.ficha-cab .lote{font:600 11px/1 var(--texto-f);letter-spacing:.2em;text-transform:uppercase;color:var(--ocre)}
+.ficha-cab h3{font:500 27px/1.15 var(--display);margin:10px 0 6px}
+.ficha-cab p{margin:0;color:var(--texto-2)}
+.ficha-cuerpo{padding:18px 26px;max-height:58vh;overflow:auto}
+.ficha dl{display:grid;grid-template-columns:140px 1fr;gap:8px 16px;margin:0}
+.ficha dt{font-size:13px;color:var(--texto-3)}
+.ficha dd{margin:0;overflow-wrap:anywhere}
+@media (max-width:520px){.ficha dl{grid-template-columns:1fr;gap:0}.ficha dd{margin-bottom:10px}}
+.ficha-pie{display:flex;justify-content:flex-end;gap:10px;padding:14px 26px 20px;flex-wrap:wrap}
+
+.metodo{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:900px){.metodo{grid-template-columns:1fr}}
+.metodo article{background:var(--fondo-2);box-shadow:var(--sombra);border:1px solid var(--borde);border-radius:var(--r);padding:22px}
+.metodo h3{font:500 21px/1.25 var(--display);margin:0 0 8px}
+.metodo p,.metodo li{color:var(--texto-2);font-size:15px}
+.metodo ul{padding-left:18px;margin:0}
+.fuentes{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.pie{border-top:1px solid var(--borde);margin-top:64px;padding:32px 0 48px;color:var(--texto-3);font-size:14px}
+.pie p{margin:4px 0}
+.pie b{color:var(--texto)}
+</style>
+</head>
+<body>
+<a class="saltar" href="#registro">Saltar al registro</a>
+
+<header class="barra-sup" id="barra">
+  <div class="envoltura">
+    <a class="logo" href="#inicio"><i aria-hidden="true"></i>ATLAS RVOE</a>
+    <nav class="menu" aria-label="Salas">
+      <a href="#areas">Áreas</a>
+      <a href="#derecho">Derecho</a>
+      <a href="#metodo">Método</a>
+      <a class="menu-cta" href="#registro">El registro</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="portada" aria-labelledby="titulo">
+    <picture>
+      <source type="image/webp" srcset="img/auditorio-1100.webp 1100w, img/auditorio-2000.webp 2000w" sizes="100vw">
+      <img src="img/auditorio-1100.webp" alt="Auditorio Alfonso Caso en Ciudad Universitaria, con su gran mural de mosaico sobre la fachada y estudiantes recostados en el pasto" width="2000" height="1333" fetchpriority="high">
+    </picture>
+    <div class="envoltura">
+      <span class="etiqueta">Colección · Educación superior en México</span>
+      <h1 id="titulo">Atlas de los <span>RVOE</span></h1>
+      <p class="lede">Cada programa particular con Reconocimiento de Validez Oficial de Estudios federal, catalogado como una pieza: qué se enseña, dónde, desde cuándo y cuáles salieron de la colección.</p>
+      <div class="chips" id="chips" aria-live="polite">
+        <div class="chip"><b>—</b><small>programas</small></div>
+        <div class="chip"><b>—</b><small>vigentes</small></div>
+        <div class="chip"><b>—</b><small>retirados</small></div>
+        <div class="chip"><b>—</b><small>instituciones</small></div>
+        <div class="chip"><b>—</b><small>planteles</small></div>
+      </div>
+      <div class="acciones">
+        <a class="btn btn-prim" href="#areas">Recorrer la colección</a>
+        <a class="btn btn-sec" href="#derecho">Sala de Derecho</a>
+      </div>
+      <p class="pie-foto">Auditorio Alfonso Caso, Ciudad Universitaria (UNAM). Mural de mosaico <i>La conquista de la energía</i>, de José Chávez Morado.</p>
+    </div>
+  </section>
+
+  <!-- SALA I -->
+  <section class="sala" id="areas" aria-labelledby="t-areas">
+    <div class="envoltura">
+      <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255">
+        <div class="rotulo"><span class="num">Sala I</span><h2 id="t-areas">Áreas del conocimiento</h2></div></div>
+      <div class="intro">
+        <p id="areas-intro">Cada tarjeta es un área del conocimiento: cuántos programas tiene vigentes hoy y cómo creció su colección año con año. Toca una para abrirla en el registro.</p>
+        <div class="segmentos" role="group" aria-label="Nivel de estudios" id="seg-nivel"></div>
+      </div>
+      <div class="coleccion" id="coleccion"></div>
+      <p class="nota">Trayectoria 2000–2026 de programas vigentes con RVOE propio (sin los acuerdos o decretos institucionales, fechados en 1952 o 1988). SIRVOES usa dos catálogos de áreas; aquí se unifican, y el catálogo antiguo agrupa administración dentro de ciencias sociales.</p>
+    </div>
+  </section>
+
+  <!-- SALA II -->
+  <section class="sala" id="derecho" aria-labelledby="t-derecho">
+    <div class="envoltura">
+      <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:70% 50%">
+        <div class="rotulo"><span class="num">Sala II · Exposición</span><h2 id="t-derecho">Derecho</h2></div></div>
+      <div class="intro"><p id="derecho-intro">La licenciatura con más RVOE federales del país.</p></div>
+
+      <div class="obras">
+        <article class="obra">
+          <div class="ficha-obra"><div><span class="lote">Obra 01 · Oleadas</span><h3>RVOE de Derecho otorgados cada año</h3>
+            <p class="desc">Licenciaturas en Derecho por año de otorgamiento y modalidad, incluidas las que después se retiraron.</p></div>
+            <div class="dato-clave" id="ola-clave"></div></div>
+          <div class="leyenda" id="ola-leyenda"></div>
+          <div class="grafica" id="g-olas"></div>
+          <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="g-olas-tabla"></div></details>
+        </article>
+
+        <article class="obra">
+          <div class="ficha-obra"><div><span class="lote">Obra 02 · El territorio</span><h3>Dónde están los programas de Derecho</h3>
+            <p class="desc">Programas de Derecho vigentes por estado al cierre de cada año. Mueve el año o reprodúcelo para ver cómo se fue poblando el mapa.</p></div>
+            <div class="segmentos" role="group" aria-label="Medida del mapa" id="seg-mapa">
+              <button type="button" data-m="abs" aria-pressed="false">Programas</button>
+              <button type="button" data-m="tasa" aria-pressed="true">Por 100 mil hab.</button>
+            </div></div>
+          <div class="mapa-ctrl">
+            <button class="play" type="button" id="play" aria-label="Reproducir la evolución">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path id="play-ico" d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></button>
+            <div class="deslizador"><label class="sr" for="anio">Año</label><input type="range" id="anio" min="2000" max="2026" value="2026" step="1"><output id="anio-out" for="anio">2026</output></div>
+            <div class="dato-clave" id="mapa-clave" style="text-align:left"></div>
+          </div>
+          <div class="mosaico" id="mosaico" role="img"></div>
+          <div class="escala" aria-hidden="true"><span id="esc-min">0</span><span class="grad" id="esc-grad"></span><span id="esc-max"></span></div>
+          <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="mapa-tabla"></div></details>
+        </article>
+
+        <article class="obra media">
+          <div class="ficha-obra"><div><span class="lote">Obra 03 · El duelo</span><h3>Jurídicas contra ingenierías</h3>
+            <p class="desc">Licenciaturas vigentes en Derecho, Ciencias Jurídicas y Criminología frente a todas las ingenierías, con RVOE propio.</p></div></div>
+          <div class="leyenda" id="duelo-leyenda"></div>
+          <div class="grafica" id="g-duelo"></div>
+          <p class="nota" id="duelo-nota"></p>
+        </article>
+
+        <article class="obra media">
+          <div class="ficha-obra"><div><span class="lote">Obra 04 · El posgrado</span><h3>Doctorados jurídicos por subárea</h3>
+            <p class="desc">Doctorados vigentes en Derecho, Ciencias Jurídicas y Criminología con RVOE propio, por subárea asignada según el nombre del programa.</p></div></div>
+          <div class="coleccion" id="subareas" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px"></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SALA III -->
+  <section class="sala" id="registro" aria-labelledby="t-registro">
+    <div class="envoltura">
+      <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:20% 50%">
+        <div class="rotulo"><span class="num">Sala III</span><h2 id="t-registro">El registro</h2></div></div>
+      <div class="intro"><p>Busca por institución, programa, municipio o número de RVOE y acota por estado, nivel, modalidad, estatus o área. Toca un programa para ver su ficha con domicilio y contacto.</p></div>
+
+      <form class="filtros" role="search" onsubmit="return false">
+        <div class="campo campo-busqueda"><label for="f-q">Buscar</label>
+          <input id="f-q" type="search" placeholder="p. ej. derecho, UVM, Tlalpan, 20240279" autocomplete="off"></div>
+        <div class="campo"><label for="f-estado">Estado</label><select id="f-estado"></select></div>
+        <div class="campo"><label for="f-nivel">Nivel</label><select id="f-nivel"></select></div>
+        <div class="campo"><label for="f-modalidad">Modalidad</label><select id="f-modalidad"></select></div>
+        <div class="campo"><label for="f-estatus">Estatus</label><select id="f-estatus"></select></div>
+        <div class="campo"><label for="f-area">Área</label><select id="f-area"></select></div>
+      </form>
+      <div class="barra-acc"><p class="resumen" id="resumen" aria-live="polite">Cargando el registro…</p>
+        <button class="lnk" type="button" id="limpiar">Limpiar filtros</button></div>
+      <div class="cifras" id="cifras">
+        <div><b>—</b><small>programas</small></div><div><b>—</b><small>vigentes</small></div><div><b>—</b><small>retirados</small></div>
+        <div><b>—</b><small>instituciones</small></div><div><b>—</b><small>planteles</small></div></div>
+
+      <div class="obras">
+        <article class="obra media"><span class="lote">Trayectoria</span><h3>Vigentes en cada año</h3>
+          <p class="desc">Con los filtros actuales. Solo RVOE propios.</p>
+          <div class="grafica" id="g-anios" style="margin-top:12px"></div>
+          <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="g-anios-tabla"></div></details></article>
+        <article class="obra media"><span class="lote" id="l-barras">Territorio</span><h3 id="t-barras">Vigentes hoy por estado</h3>
+          <p class="desc" id="n-barras">Toca un estado para filtrar.</p>
+          <div class="barras" id="g-barras" style="margin-top:12px"></div></article>
+      </div>
+
+      <div class="registro">
+        <div class="registro-cab"><h3>Programas</h3>
+          <label class="orden">Ordenar
+            <select id="f-orden"><option value="inst">Institución (A–Z)</option><option value="reciente">Más recientes</option>
+              <option value="antiguo">Más antiguos</option><option value="prog">Programa (A–Z)</option></select></label></div>
+        <div id="tabla"><p class="cargando">Cargando el registro…</p></div>
+        <nav class="paginacion" id="paginacion" aria-label="Páginas de resultados"></nav>
+      </div>
+    </div>
+  </section>
+
+  <section class="sala" id="metodo" aria-labelledby="t-metodo">
+    <div class="envoltura">
+      <div class="intro"><div><span class="lote" style="font:600 12px/1 var(--texto-f);letter-spacing:.2em;text-transform:uppercase;color:var(--ocre)">Cédula</span>
+        <h2 id="t-metodo" style="font:500 clamp(30px,3.8vw,44px)/1.05 var(--display);letter-spacing:-.02em;margin:10px 0 0">Método y advertencias</h2></div></div>
+      <div class="metodo">
+        <article><h3>Dos fuentes, una tabla</h3><p>La base es SIRVOES, que publica programas vigentes y retirados con plantel, domicilio y contacto. Se suman los RVOE vigentes que solo aparecen en los PDF de la DGAIR, casi todos de 2025 y 2026: SIRVOES va rezagado en lo reciente.</p></article>
+        <article><h3>Acuerdos institucionales</h3><p>El Tec de Monterrey (decreto de 1952), la UVM y UNITEC (acuerdos de 1988), la Anáhuac o el ITESO amparan todos sus programas en un solo acuerdo y la SEP les asigna la fecha de ese acuerdo. Por eso las trayectorias por año cuentan solo RVOE con número propio; las cifras de hoy y el registro sí los incluyen.</p></article>
+        <article><h3>Lo que no dicen los datos</h3><ul>
+          <li>Solo RVOE federales: no incluye los estatales ni los estudios incorporados a universidades públicas.</li>
+          <li>Un RVOE vigente no significa que el programa tenga alumnos.</li>
+          <li>SIRVOES es informativo; ante una inconsistencia manda la autoridad educativa.</li>
+          <li>Áreas, subáreas y grupos de carreras se asignan por palabras clave en el nombre del programa.</li></ul></article>
+      </div>
+      <div class="fuentes">
+        <a class="btn btn-prim" href="https://github.com/jmtoral/rvoes/raw/main/data/rvoes.xlsx">Descargar la tabla (Excel)</a>
+        <a class="btn btn-sec" href="https://github.com/jmtoral/rvoes">Repositorio y metodología</a>
+        <a class="btn btn-sec" href="https://sirvoes.sep.gob.mx/sirvoes/mvc/consultas">SIRVOES</a>
+        <a class="btn btn-sec" href="https://dgair.sep.gob.mx/federales_vigentes">DGAIR</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pie"><div class="envoltura">
+  <p><b>Atlas de los RVOE.</b> Elaborado por Manuel Toral con información de la SEP (SIRVOES y DGAIR) y de CONAPO (población).</p>
+  <p id="corte"></p>
+  <p>Imagen: Auditorio Alfonso Caso, Ciudad Universitaria, UNAM; mural <i>La conquista de la energía</i>, de José Chávez Morado.</p>
+</div></footer>
+
+<dialog class="ficha" id="ficha" aria-labelledby="ficha-titulo">
+  <div class="ficha-cab"><span class="lote" id="ficha-nivel"></span><h3 id="ficha-titulo"></h3><p id="ficha-inst"></p></div>
+  <div class="ficha-cuerpo"><dl id="ficha-dl"></dl></div>
+  <div class="ficha-pie"><a class="btn btn-sec" id="ficha-sirvoes" target="_blank" rel="noopener">Ficha técnica en SIRVOES</a>
+    <button class="btn btn-prim" type="button" id="ficha-cerrar">Cerrar</button></div>
+</dialog>
+
+<script>
+"use strict";
+const DESDE = 2000, HASTA = 2026, N = HASTA - DESDE + 1, POR_PAGINA = 40;
+const ANIOS = Array.from({length: N}, (_, k) => DESDE + k);
+const $ = id => document.getElementById(id);
+const fmt = n => n.toLocaleString("es-MX");
+const fmt1 = n => n.toLocaleString("es-MX", {minimumFractionDigits: 1, maximumFractionDigits: 1});
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const sinAcentos = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const titulo = s => s ? s.toLowerCase().replace(/(^|[\s(/-])(\p{L})/gu, (m, a, b) => a + b.toUpperCase())
+  .replace(/\b(De|Del|La|Las|Los|Y|E|En|Para|Con|A|O|U|Al)\b/g, w => w.toLowerCase()).replace(/^./, c => c.toUpperCase()) : "";
+const CORTO = {"MÉXICO": "Estado de México", "VERACRUZ DE IGNACIO DE LA LLAVE": "Veracruz", "COAHUILA DE ZARAGOZA": "Coahuila",
+  "MICHOACÁN DE OCAMPO": "Michoacán", "SAN LUIS POTOSI": "San Luis Potosí", "CIUDAD DE MÉXICO": "Ciudad de México"};
+const nomEstado = e => CORTO[e] || titulo(e);
+const MURAL = {azul: "#2a78d6", naranja: "#eb6834", aqua: "#1baf7a", ocre: "#c4522a", fuego: "#c4522a"};  // paleta validada para fondo claro
+
+/* Áreas unificadas (SIRVOES tiene dos catálogos) */
+const AREA_MACRO = {"ADMINISTRACIÓN Y NEGOCIOS": "Administración y negocios", "CIENCIAS SOCIALES Y DERECHO": "Ciencias sociales y derecho",
+  "CIENCIAS SOCIALES, ADMINISTRACIÓN Y DERECHO": "Ciencias sociales y derecho", "EDUCACIÓN": "Educación",
+  "INGENIERÍA, MANUFACTURA Y CONSTRUCCIÓN": "Ingeniería, manufactura y construcción", "SALUD": "Salud", "ARTES Y HUMANIDADES": "Artes y humanidades",
+  "TECNOLOGÍAS DE LA INFORMACIÓN Y LA COMUNICACIÓN": "Tecnologías de la información", "CIENCIAS NATURALES, EXACTAS Y DE LA COMPUTACIÓN": "Ciencias naturales y exactas",
+  "CIENCIAS NATURALES, MATEMÁTICAS Y ESTADÍSTICA": "Ciencias naturales y exactas", "SERVICIOS": "Servicios", "AGRONOMÍA Y VETERINARIA": "Agronomía y veterinaria"};
+const MACROS = [...new Set(Object.values(AREA_MACRO))].sort((a, b) => a.localeCompare(b, "es"));
+
+/* Grupos por palabra clave (mismas reglas que graficas.py) */
+const JURIDICO = /DERECHO|JURIDIC|CRIMIN|PENAL|JUICIO|FORENS|SEGURIDAD PUBLICA|JUSTICIA/;
+const SUBAREAS = [["Penal y criminología", /PENAL|CRIMIN|FORENS|SEGURIDAD PUBLICA/], ["Constitucional y derechos humanos", /CONSTITU|HUMANOS|AMPARO|PUBLICO|ANTICORRUP/],
+  ["Procesal, civil y juicios orales", /PROCESAL|CIVIL|FAMILIAR|JUICIO|\bORAL|LITIG/], ["Fiscal, laboral y empresarial", /FISCAL|TRIBUT|LABORAL|TRABAJO|CORPORAT|EMPRESA|COMERCI|ADUAN|MARITIM/],
+  ["Derecho y ciencias jurídicas (general)", /^(?:DERECHO|CIENCIAS? JURIDICAS?|DERECHO Y CIENCIAS JURIDICAS|INVESTIGACION JURIDICA)$/]];
+const subarea = nom => (SUBAREAS.find(([, rx]) => rx.test(nom)) || ["Otras especialidades"])[0];
+
+/* Mapa de mosaicos de México: [abreviatura, columna, fila] */
+const TESELAS = {"BAJA CALIFORNIA": ["BC", 0, 0], "SONORA": ["SON", 1, 0], "CHIHUAHUA": ["CHIH", 2, 0], "COAHUILA DE ZARAGOZA": ["COAH", 3, 0], "NUEVO LEÓN": ["NL", 4, 0],
+  "BAJA CALIFORNIA SUR": ["BCS", 0, 1], "SINALOA": ["SIN", 1, 1], "DURANGO": ["DGO", 2, 1], "ZACATECAS": ["ZAC", 3, 1], "SAN LUIS POTOSI": ["SLP", 4, 1], "TAMAULIPAS": ["TAMS", 5, 1],
+  "NAYARIT": ["NAY", 1, 2], "AGUASCALIENTES": ["AGS", 2, 2], "GUANAJUATO": ["GTO", 3, 2], "QUERÉTARO": ["QRO", 4, 2], "HIDALGO": ["HGO", 5, 2], "VERACRUZ DE IGNACIO DE LA LLAVE": ["VER", 6, 2], "YUCATÁN": ["YUC", 9, 2],
+  "JALISCO": ["JAL", 1, 3], "MICHOACÁN DE OCAMPO": ["MICH", 2, 3], "MÉXICO": ["MEX", 3, 3], "CIUDAD DE MÉXICO": ["CDMX", 4, 3], "TLAXCALA": ["TLAX", 5, 3], "PUEBLA": ["PUE", 6, 3],
+  "TABASCO": ["TAB", 7, 3], "CAMPECHE": ["CAM", 8, 3], "QUINTANA ROO": ["QROO", 9, 3],
+  "COLIMA": ["COL", 1, 4], "GUERRERO": ["GRO", 3, 4], "MORELOS": ["MOR", 4, 4], "OAXACA": ["OAX", 5, 4], "CHIAPAS": ["CHIS", 6, 4]};
+/* Rampa secuencial de un solo tono (terracota del mural) */
+const RAMPA = ["#fbeee2", "#f6d3b4", "#f0b083", "#e48a55", "#cf6532", "#a84822", "#7a3216"];  // crema (poco) a terracota (mucho)
+
+let D, P = [], filtrados = [];
+let est = {q: "", estado: "", nivel: "", modalidad: "", estatus: "", area: "", orden: "inst", pag: 1};
+const redibujar = [];  // gráficas que dependen del ancho
+
+/* ---------- utilidades de gráfica ---------- */
+function niceStep(max, partes = 4) {
+  const raw = Math.max(max, 1) / partes, mag = 10 ** Math.floor(Math.log10(raw)), r = raw / mag;
+  return (r <= 1 ? 1 : r <= 2 ? 2 : r <= 2.5 ? 2.5 : r <= 5 ? 5 : 10) * mag;
+}
+/* Trayectoria (vigentes al cierre de cada año) de filas con RVOE propio, agrupada por clave */
+function trayectorias(filas, clave) {
+  const m = new Map();
+  for (const p of filas) {
+    if (!p.propio || !p.ao) continue;
+    const k = clave(p); if (k == null) continue;
+    let a = m.get(k); if (!a) m.set(k, a = new Int32Array(N + 1));
+    a[Math.max(0, Math.min(N, p.ao - DESDE))] += p.ao > HASTA ? 0 : 1;
+    if (p.ar && p.ar <= HASTA) a[Math.max(0, p.ar - DESDE)] -= 1;
+  }
+  const out = new Map();
+  for (const [k, a] of m) { const s = []; let acc = 0; for (let i = 0; i < N; i++) { acc += a[i]; s.push(acc); } out.set(k, s); }
+  return out;
+}
+function sparkline(vals, color) {
+  const max = Math.max(1, ...vals), w = 100, h = 40;
+  const pts = vals.map((v, i) => `${(i / (vals.length - 1) * w).toFixed(2)},${(h - v / max * (h - 3) - 1.5).toFixed(2)}`);
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,${h} L${pts.join(" L")} L${w},${h} Z" fill="${color}" opacity=".14"/>
+    <polyline points="${pts.join(" ")}" fill="none" stroke="${color}" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>`;
+}
+/* Gráfica de líneas con cruz y tooltip. series: [{nombre,color,valores}] */
+function lineas(el, series, {alto = 280, fmtY = fmt, aria = ""} = {}) {
+  const pinta = () => {
+    const W = Math.max(280, el.clientWidth), H = alto, m = {t: 16, r: 70, b: 28, l: 52}, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const max = Math.max(1, ...series.flatMap(s => s.valores)), paso = niceStep(max), top = Math.ceil(max / paso) * paso;
+    const x = k => m.l + k / (N - 1) * iw, y = v => m.t + ih - v / top * ih;
+    let rej = "", ejes = "";
+    for (let v = 0; v <= top + 1e-9; v += paso) { rej += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(v)}" y2="${y(v)}"/>`; ejes += `<text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end">${fmtY(v)}</text>`; }
+    for (let a = DESDE; a <= HASTA; a += (W < 520 ? 10 : 5)) ejes += `<text x="${x(a - DESDE)}" y="${H - 6}" text-anchor="middle">${a}</text>`;
+    // etiquetas finales sin encimarse
+    const fin = series.map((s, i) => ({i, y: y(s.valores[N - 1])})).sort((a, b) => a.y - b.y);
+    for (let j = 1; j < fin.length; j++) fin[j].y = Math.max(fin[j].y, fin[j - 1].y + 16);
+    const etq = Object.fromEntries(fin.map(f => [f.i, f.y]));
+    const cuerpo = series.map((s, i) => {
+      const pts = s.valores.map((v, k) => `${x(k)},${y(v)}`).join(" ");
+      return `${series.length === 1 ? `<path d="M${x(0)},${y(0)} L${pts.replace(/ /g, " L")} L${x(N - 1)},${y(0)} Z" fill="${s.color}" opacity=".12"/>` : ""}
+        <polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.25" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="${x(N - 1)}" cy="${y(s.valores[N - 1])}" r="4.5" fill="${s.color}" stroke="#ffffff" stroke-width="2"/>
+        <text x="${x(N - 1) + 9}" y="${etq[i] + 4}" style="font:700 13px var(--texto-f);fill:var(--texto)">${fmtY(s.valores[N - 1])}</text>`;
+    }).join("");
+    el.innerHTML = `<svg width="${W}" height="${H}" role="img" aria-label="${esc(aria)}"><g class="rejilla">${rej}</g><g class="eje">${ejes}</g>${cuerpo}
+      <line class="cruz" y1="${m.t}" y2="${m.t + ih}" stroke="rgba(43,33,24,.35)" opacity="0"/>
+      ${series.map(s => `<circle class="pt" r="5" fill="${s.color}" stroke="#ffffff" stroke-width="2" opacity="0"/>`).join("")}
+      <rect x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent" class="zona"/></svg><div class="tip"></div>`;
+    const tip = el.querySelector(".tip"), cruz = el.querySelector(".cruz"), pts = el.querySelectorAll(".pt"), zona = el.querySelector(".zona");
+    zona.addEventListener("pointermove", ev => {
+      const r = el.querySelector("svg").getBoundingClientRect(), k = Math.max(0, Math.min(N - 1, Math.round((ev.clientX - r.left - m.l) / iw * (N - 1))));
+      cruz.setAttribute("x1", x(k)); cruz.setAttribute("x2", x(k)); cruz.setAttribute("opacity", "1");
+      pts.forEach((c, i) => { c.setAttribute("cx", x(k)); c.setAttribute("cy", y(series[i].valores[k])); c.setAttribute("opacity", "1"); });
+      tip.innerHTML = `<b>${DESDE + k}</b>` + series.map(s => `<br><i style="background:${s.color}"></i>${esc(s.nombre)}: <b>${fmtY(s.valores[k])}</b>`).join("");
+      tip.style.left = Math.min(Math.max(x(k), 90), W - 90) + "px"; tip.style.top = y(Math.max(...series.map(s => s.valores[k]))) + "px"; tip.classList.add("on");
+    });
+    zona.addEventListener("pointerleave", () => { tip.classList.remove("on"); cruz.setAttribute("opacity", "0"); pts.forEach(c => c.setAttribute("opacity", "0")); });
+  };
+  pinta(); return pinta;
+}
+function tablaDatos(el, cols, filas) {
+  el.innerHTML = `<table><thead><tr>${cols.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${filas.map(f => `<tr>${f.map(v => `<td>${typeof v === "number" ? fmt(v) : esc(v)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+}
+
+/* ---------- carga ---------- */
+fetch("data/rvoes.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(iniciar).catch(e => {
+  $("tabla").innerHTML = `<div class="vacio"><p>No se pudo cargar el registro (${esc(e.message)}).</p><p>Si abriste el archivo directamente, sírvelo con un servidor web, por ejemplo <code>python -m http.server</code> dentro de <code>docs/</code>.</p></div>`;
+  $("resumen").textContent = "Error al cargar.";
+});
+
+function iniciar(datos) {
+  D = datos;
+  const C = D.cat, VIG = C.estatus.indexOf("VIGENTE");
+  const macroDe = C.area.map(a => AREA_MACRO[a] ? MACROS.indexOf(AREA_MACRO[a]) : -1);
+  P = D.pr.map((r, i) => {
+    const pl = D.pl[r[0]], nom = D.nombres[r[1]];
+    return {i, pl: r[0], nom, niv: r[2], mod: r[3], area: r[4], macro: macroDe[r[4]], rvoe: r[5], est: r[6], otor: r[7], ret: r[8], mot: r[9], fte: r[10],
+      dgair: r[11], idp: r[12], edo: pl[2], ao: +r[7].slice(0, 4) || null, ar: +r[8].slice(0, 4) || null, vig: r[6] === VIG,
+      propio: /^\d+$/.test(r[5]), busca: sinAcentos([pl[0], pl[1], pl[3], nom, r[5]].join(" "))};
+  });
+  pintarCifras($("chips"), P);
+  $("corte").textContent = `Registros con fecha de otorgamiento hasta el ${fechaLarga(D.meta.corte)}.`;
+  salaAreas(); salaDerecho(); iniciarRegistro();
+  addEventListener("resize", (() => { let t; return () => { clearTimeout(t); t = setTimeout(() => redibujar.forEach(f => f()), 150); }; })());
+  const barra = $("barra"); const solida = () => barra.classList.toggle("solida", scrollY > 40); addEventListener("scroll", solida, {passive: true}); solida();
+}
+function fechaLarga(iso) {
+  if (!iso) return "—"; const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("es-MX", {day: "numeric", month: "long", year: "numeric"});
+}
+function pintarCifras(el, arr) {
+  let vig = 0; const inst = new Set(), pls = new Set(), dgair = D.cat.fuente.indexOf("DGAIR");
+  for (const p of arr) { if (p.vig) vig++; inst.add(D.pl[p.pl][0]); if (p.fte !== dgair) pls.add(p.pl); }  // DGAIR no trae plantel
+  const v = [arr.length, vig, arr.length - vig, inst.size, pls.size];
+  el.querySelectorAll("b").forEach((b, i) => b.textContent = fmt(v[i]));
+}
+
+/* ---------- Sala I: áreas ---------- */
+function salaAreas() {
+  const C = D.cat, NIVELES = [["", "Todos"], ["LICENCIATURA", "Licenciatura"], ["MAESTRÍA", "Maestría"], ["ESPECIALIDAD", "Especialidad"], ["DOCTORADO", "Doctorado"]];
+  let nivel = "LICENCIATURA";
+  $("seg-nivel").innerHTML = NIVELES.map(([v, t]) => `<button type="button" data-v="${v}" aria-pressed="${v === nivel}">${t}</button>`).join("");
+  const pinta = () => {
+    const ni = nivel ? C.nivel.indexOf(nivel) : -1, filas = P.filter(p => p.macro >= 0 && (ni < 0 || p.niv === ni));
+    const tray = trayectorias(filas, p => p.macro), vigHoy = new Map(), top = new Map();
+    for (const p of filas) if (p.vig) {
+      vigHoy.set(p.macro, (vigHoy.get(p.macro) || 0) + 1);
+      let t = top.get(p.macro); if (!t) top.set(p.macro, t = new Map()); t.set(p.nom, (t.get(p.nom) || 0) + 1);
+    }
+    const orden = [...vigHoy.keys()].sort((a, b) => vigHoy.get(b) - vigHoy.get(a));
+    $("coleccion").innerHTML = orden.map((k, i) => {
+      const s = tray.get(k) || new Array(N).fill(0), a20 = s[2020 - DESDE], hoy = s[N - 1];
+      const delta = a20 > 0 ? Math.round((hoy / a20 - 1) * 100) : null;
+      const tops = [...top.get(k)].sort((a, b) => b[1] - a[1]).slice(0, 3);
+      return `<button class="pieza" type="button" data-macro="${k}" aria-label="${esc(MACROS[k])}: ${fmt(vigHoy.get(k))} programas vigentes. Abrir en el registro">
+        <div class="pieza-int"><div class="cab"><span class="rango">#${String(i + 1).padStart(2, "0")}</span><span>vigentes hoy</span></div>
+        <h3>${esc(MACROS[k])}</h3><div class="grande">${fmt(vigHoy.get(k))}</div>
+        ${delta === null ? `<span class="delta">nueva desde 2020</span>` : `<span class="delta ${delta < 0 ? "neg" : ""}">${delta >= 0 ? "▲" : "▼"} ${fmt(Math.abs(delta))}% desde 2020 <span style="color:var(--texto-3)">(RVOE propio)</span></span>`}
+        ${sparkline(s, MURAL.fuego)}
+        <ul class="top">${tops.map(([n, c]) => `<li><span>${esc(titulo(n))}</span><span>${fmt(c)}</span></li>`).join("")}</ul></div></button>`;
+    }).join("");
+    $("coleccion").querySelectorAll(".pieza").forEach(b => b.addEventListener("click", () => {
+      est = {...est, q: "", estado: "", modalidad: "", estatus: "", area: b.dataset.macro, nivel: ni >= 0 ? String(ni) : "", pag: 1};
+      sincronizar(); aplicar(); $("registro").scrollIntoView();
+    }));
+  };
+  $("seg-nivel").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return; nivel = b.dataset.v;
+    $("seg-nivel").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); pinta();
+  });
+  pinta();
+}
+
+/* ---------- Sala II: Derecho ---------- */
+function salaDerecho() {
+  const C = D.cat, LIC = C.nivel.indexOf("LICENCIATURA"), DOC = C.nivel.indexOf("DOCTORADO");
+  const lic = P.filter(p => p.niv === LIC), der = lic.filter(p => p.nom === "DERECHO");
+  const vigDer = der.filter(p => p.vig).length, vigLic = lic.filter(p => p.vig).length;
+  const porNombre = new Map(); for (const p of lic) if (p.vig) porNombre.set(p.nom, (porNombre.get(p.nom) || 0) + 1);
+  const rank = [...porNombre].sort((a, b) => b[1] - a[1]), segunda = rank[1];
+  $("derecho-intro").innerHTML = `<b style="color:var(--texto)">${fmt(vigDer)}</b> licenciaturas en Derecho vigentes: la carrera con más RVOE federales del país, casi el doble que la segunda (${esc(titulo(segunda[0]))}, ${fmt(segunda[1])}) y el ${fmt1(vigDer / vigLic * 100)}% de todas las licenciaturas vigentes. Otras ${fmt(der.length - vigDer)} ya fueron retiradas.`;
+
+  /* Obra 01: oleadas por modalidad */
+  const MODS = [["ESCOLARIZADA", "Escolarizada", MURAL.azul], ["MIXTA", "Mixta", MURAL.naranja], ["NO ESCOLARIZADA", "No escolarizada", MURAL.aqua]];
+  const olas = MODS.map(() => new Array(N).fill(0));
+  for (const p of der) if (p.propio && p.ao >= DESDE && p.ao <= HASTA) { const j = MODS.findIndex(([m]) => C.modalidad[p.mod] === m); if (j >= 0) olas[j][p.ao - DESDE]++; }
+  const tot = ANIOS.map((_, k) => olas.reduce((s, o) => s + o[k], 0)), pico = tot.indexOf(Math.max(...tot));
+  const esc0 = (a, b) => { let e = 0, t = 0; for (let y = a; y <= b; y++) { e += olas[0][y - DESDE]; t += tot[y - DESDE]; } return Math.round(e / t * 100); };
+  $("ola-clave").innerHTML = `${fmt(tot[pico])}<small>en ${DESDE + pico}, el año récord. Escolarizada: ${esc0(2008, 2011)}% en 2008–11 y ${esc0(2023, 2026)}% en 2023–26.</small>`;
+  $("ola-leyenda").innerHTML = MODS.map(([, n, c]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
+  const el = $("g-olas");
+  const pintaOlas = () => {
+    const W = Math.max(280, el.clientWidth), H = 300, m = {t: 18, r: 12, b: 28, l: 40}, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const max = Math.max(...tot), paso = niceStep(max), top = Math.ceil(max / paso) * paso, bw = iw / N, y = v => m.t + ih - v / top * ih;
+    let rej = "", ejes = "", barras = "";
+    for (let v = 0; v <= top; v += paso) { rej += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(v)}" y2="${y(v)}"/>`; ejes += `<text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end">${fmt(v)}</text>`; }
+    ANIOS.forEach((a, k) => {
+      if ((a - DESDE) % (W < 600 ? 5 : 2) === 0) ejes += `<text x="${m.l + k * bw + bw / 2}" y="${H - 6}" text-anchor="middle">${a}</text>`;
+      let base = 0;
+      MODS.forEach((md, j) => { const v = olas[j][k]; if (!v) return; const h = v / top * ih;
+        barras += `<rect x="${m.l + k * bw + bw * .14}" y="${y(base + v)}" width="${bw * .72}" height="${Math.max(0, h - 2)}" rx="2" fill="${md[2]}"/>`; base += v; });
+      barras += `<rect class="hit" data-k="${k}" x="${m.l + k * bw}" y="${m.t}" width="${bw}" height="${ih}" fill="transparent"/>`;
+    });
+    el.innerHTML = `<svg width="${W}" height="${H}" role="img" aria-label="RVOE de Derecho otorgados por año: máximo de ${fmt(tot[pico])} en ${DESDE + pico}"><g class="rejilla">${rej}</g><g class="eje">${ejes}</g>${barras}</svg><div class="tip"></div>`;
+    const tip = el.querySelector(".tip");
+    el.querySelectorAll(".hit").forEach(r => {
+      r.addEventListener("pointerenter", () => { const k = +r.dataset.k;
+        tip.innerHTML = `<b>${DESDE + k}</b> · ${fmt(tot[k])} RVOE` + MODS.map(([, n, c], j) => `<br><i style="background:${c}"></i>${n}: <b>${fmt(olas[j][k])}</b>`).join("");
+        tip.style.left = Math.min(Math.max(m.l + k * bw + bw / 2, 90), W - 90) + "px"; tip.style.top = y(tot[k]) + "px"; tip.classList.add("on"); r.setAttribute("fill", "rgba(43,33,24,.05)"); });
+      r.addEventListener("pointerleave", () => { tip.classList.remove("on"); r.setAttribute("fill", "transparent"); });
+    });
+  };
+  pintaOlas(); redibujar.push(pintaOlas);
+  tablaDatos($("g-olas-tabla"), ["Año", ...MODS.map(m => m[1]), "Total"], ANIOS.map((a, k) => [String(a), ...olas.map(o => o[k]), tot[k]]));
+
+  /* Obra 02: mapa de mosaicos con año */
+  const trEdo = trayectorias(der, p => p.edo);
+  let medida = "tasa", anio = HASTA, timer = null;
+  const valor = (e, k) => { const s = trEdo.get(e), v = s ? s[k] : 0; return medida === "abs" ? v : (D.pob[e] ? v / D.pob[e][k] * 1e5 : 0); };
+  const estados = C.estado.map((n, i) => i).filter(i => TESELAS[C.estado[i]]);
+  const maxGlobal = () => Math.max(...estados.flatMap(e => ANIOS.map((_, k) => valor(e, k))));
+  const color = t => { const x = Math.max(0, Math.min(1, t)) * (RAMPA.length - 1), i = Math.floor(x); return i >= RAMPA.length - 1 ? RAMPA.at(-1) : mezcla(RAMPA[i], RAMPA[i + 1], x - i); };
+  function mezcla(a, b, t) { const pa = [1, 3, 5].map(i => parseInt(a.slice(i, i + 2), 16)), pb = [1, 3, 5].map(i => parseInt(b.slice(i, i + 2), 16));
+    return "#" + pa.map((v, i) => Math.round(v + (pb[i] - v) * t).toString(16).padStart(2, "0")).join(""); }
+  const lum = hex => { const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4); return .2126 * r + .7152 * g + .0722 * b; };
+  $("esc-grad").style.background = `linear-gradient(90deg,${RAMPA.join(",")})`;
+  const mos = $("mosaico");
+  mos.innerHTML = estados.map(e => { const [ab, c, f] = TESELAS[C.estado[e]];
+    return `<div class="tesela" data-e="${e}" style="grid-column:${c + 1};grid-row:${f + 1}" title="${esc(nomEstado(C.estado[e]))}"><b>${ab}</b><span></span></div>`; }).join("");
+  const pintaMapa = () => {
+    const k = anio - DESDE, max = maxGlobal(), f = medida === "abs" ? v => fmt(Math.round(v)) : fmt1;
+    let suma = 0, pobT = 0;
+    mos.querySelectorAll(".tesela").forEach(t => {
+      const e = +t.dataset.e, v = valor(e, k), col = color(v / max);
+      t.style.backgroundColor = col; t.style.color = lum(col) > .28 ? "#231c16" : "#fff8ef";
+      t.querySelector("span").textContent = f(v); t.title = `${nomEstado(C.estado[e])}: ${f(v)}${medida === "abs" ? " programas" : " por 100 mil hab."} en ${anio}`;
+      const s = trEdo.get(e); suma += s ? s[k] : 0; pobT += D.pob[e] ? D.pob[e][k] : 0;
+    });
+    $("anio-out").textContent = anio; $("esc-min").textContent = "0"; $("esc-max").textContent = f(max);
+    $("mapa-clave").innerHTML = medida === "abs" ? `${fmt(suma)}<small>programas vigentes en ${anio} (RVOE propio)</small>` : `${fmt1(suma / pobT * 1e5)}<small>por 100 mil habitantes en el país, ${anio}</small>`;
+    const orden = [...estados].sort((a, b) => valor(b, k) - valor(a, k));
+    mos.setAttribute("aria-label", `Mapa de México por estado, ${anio}. Más alto: ${orden.slice(0, 3).map(e => `${nomEstado(C.estado[e])} (${f(valor(e, k))})`).join(", ")}. Más bajo: ${nomEstado(C.estado[orden.at(-1)])} (${f(valor(orden.at(-1), k))}).`);
+    tablaDatos($("mapa-tabla"), ["Estado", `Programas ${anio}`, `Por 100 mil hab. ${anio}`],
+      orden.map(e => { const s = trEdo.get(e), v = s ? s[k] : 0; return [nomEstado(C.estado[e]), v, fmt1(D.pob[e] ? v / D.pob[e][k] * 1e5 : 0)]; }));
+  };
+  $("anio").addEventListener("input", e => { anio = +e.target.value; pintaMapa(); });
+  $("seg-mapa").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; medida = b.dataset.m;
+    $("seg-mapa").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); pintaMapa(); });
+  const icono = jugando => $("play-ico").setAttribute("d", jugando ? "M4 2.5h3v11H4zM9 2.5h3v11H9z" : "M4 2.5v11l9-5.5z");
+  $("play").addEventListener("click", () => {
+    if (timer) { clearInterval(timer); timer = null; icono(false); $("play").setAttribute("aria-label", "Reproducir la evolución"); return; }
+    if (anio >= HASTA) anio = DESDE - 1;
+    icono(true); $("play").setAttribute("aria-label", "Pausar");
+    timer = setInterval(() => { anio++; $("anio").value = anio; pintaMapa(); if (anio >= HASTA) { clearInterval(timer); timer = null; icono(false); $("play").setAttribute("aria-label", "Reproducir la evolución"); } }, 380);
+  });
+  pintaMapa();
+
+  /* Obra 03: duelo */
+  const grupo = p => p.nom.includes("INGENIER") ? "ING" : JURIDICO.test(p.nom) ? "JUR" : null;
+  const td = trayectorias(lic, grupo), jur = td.get("JUR"), ing = td.get("ING");
+  const series = [{nombre: "Derecho, C. Jurídicas y Criminología", color: MURAL.azul, valores: jur}, {nombre: "Ingenierías", color: MURAL.naranja, valores: ing}];
+  $("duelo-leyenda").innerHTML = series.map(s => `<span><i style="background:${s.color}"></i>${s.nombre}</span>`).join("");
+  const brecha = ANIOS.map((_, k) => jur[k] - ing[k]), kmax = brecha.indexOf(Math.max(...brecha));
+  redibujar.push(lineas($("g-duelo"), series, {alto: 300, aria: `En ${HASTA}: ${fmt(jur[N - 1])} jurídicas y ${fmt(ing[N - 1])} ingenierías`}));
+  $("duelo-nota").textContent = `La brecha más amplia a favor de las jurídicas fue en ${DESDE + kmax} (${fmt(brecha[kmax])} programas). En ${HASTA} van ${fmt(jur[N - 1])} contra ${fmt(ing[N - 1])}.`;
+
+  /* Obra 04: subáreas de doctorados jurídicos */
+  const docJ = P.filter(p => p.niv === DOC && JURIDICO.test(p.nom));
+  const ts = trayectorias(docJ, p => subarea(p.nom)), total = [...ts.values()].reduce((s, v) => s + v[N - 1], 0);
+  const orden = [...ts].sort((a, b) => b[1][N - 1] - a[1][N - 1]);
+  $("subareas").innerHTML = orden.map(([n, s], i) => `<div class="pieza" style="cursor:default"><div class="pieza-int">
+    <div class="cab"><span class="rango">${fmt1(s[N - 1] / total * 100)}%</span><span>${fmt(s[N - 1])}</span></div>
+    <h3 style="font-size:15px;min-height:2.6em">${esc(n)}</h3>${sparkline(s, MURAL.fuego)}</div></div>`).join("");
+}
+
+/* ---------- Sala III: registro ---------- */
+function iniciarRegistro() {
+  const C = D.cat;
+  const llenar = (id, vals, todos, f) => $(id).innerHTML = `<option value="">${todos}</option>` + vals.map((v, i) => v ? `<option value="${i}">${esc(f(v))}</option>` : "").join("");
+  llenar("f-estado", C.estado, "Todos", nomEstado); llenar("f-nivel", C.nivel, "Todos", titulo); llenar("f-modalidad", C.modalidad, "Todas", titulo);
+  llenar("f-estatus", C.estatus, "Todos", titulo); llenar("f-area", MACROS, "Todas", s => s);
+  const deb = (f, ms) => { let t; return () => { clearTimeout(t); t = setTimeout(f, ms); }; };
+  $("f-q").addEventListener("input", deb(() => { est.q = $("f-q").value; est.pag = 1; aplicar(); }, 180));
+  for (const k of ["estado", "nivel", "modalidad", "estatus", "area"]) $("f-" + k).addEventListener("change", e => { est[k] = e.target.value; est.pag = 1; aplicar(); });
+  $("f-orden").addEventListener("change", e => { est.orden = e.target.value; est.pag = 1; aplicar(); });
+  $("limpiar").addEventListener("click", () => { est = {...est, q: "", estado: "", nivel: "", modalidad: "", estatus: "", area: "", pag: 1}; sincronizar(); aplicar(); });
+  $("ficha-cerrar").addEventListener("click", () => $("ficha").close());
+  $("ficha").addEventListener("click", e => { if (e.target === $("ficha")) $("ficha").close(); });
+  addEventListener("hashchange", () => { if (leerHash()) { sincronizar(); aplicar(false); } });
+  leerHash(); sincronizar(); aplicar(false);
+  redibujar.push(() => pintarAnios());
+}
+const CLAVES = ["q", "estado", "nivel", "modalidad", "estatus", "area", "orden"];
+function leerHash() {
+  const h = new URLSearchParams(location.hash.slice(1)); if (![...h.keys()].some(k => CLAVES.includes(k) || k === "pag")) return false;
+  for (const k of CLAVES) est[k] = h.get(k) ?? (k === "orden" ? "inst" : ""); est.pag = +h.get("pag") || 1; return true;
+}
+function escribirHash() {
+  const h = new URLSearchParams();
+  for (const k of CLAVES.slice(0, 6)) if (est[k]) h.set(k, est[k]);
+  if (est.orden !== "inst") h.set("orden", est.orden); if (est.pag > 1) h.set("pag", est.pag);
+  history.replaceState(null, "", h.toString() ? "#" + h : location.pathname + location.search);
+}
+function sincronizar() { $("f-q").value = est.q; for (const k of ["estado", "nivel", "modalidad", "estatus", "area", "orden"]) $("f-" + k).value = est[k]; }
+function aplicar(hash = true) {
+  const t = sinAcentos(est.q.trim()).split(/\s+/).filter(Boolean), n = k => est[k] === "" ? -1 : +est[k];
+  const f = {edo: n("estado"), niv: n("nivel"), mod: n("modalidad"), est: n("estatus"), macro: n("area")};
+  filtrados = P.filter(p => (f.edo < 0 || p.edo === f.edo) && (f.niv < 0 || p.niv === f.niv) && (f.mod < 0 || p.mod === f.mod) &&
+    (f.est < 0 || p.est === f.est) && (f.macro < 0 || p.macro === f.macro) && t.every(w => p.busca.includes(w)));
+  const inst = p => D.pl[p.pl][0], o = est.orden;
+  filtrados.sort(o === "reciente" ? (a, b) => (b.otor || "").localeCompare(a.otor || "") : o === "antiguo" ? (a, b) => (a.otor || "9999").localeCompare(b.otor || "9999")
+    : o === "prog" ? (a, b) => a.nom.localeCompare(b.nom, "es") || inst(a).localeCompare(inst(b), "es") : (a, b) => inst(a).localeCompare(inst(b), "es") || a.nom.localeCompare(b.nom, "es"));
+  const hay = t.length || Object.values(f).some(v => v >= 0);
+  $("resumen").innerHTML = hay ? `<b>${fmt(filtrados.length)}</b> programas coinciden con la búsqueda.` : `<b>${fmt(filtrados.length)}</b> programas en el registro.`;
+  $("limpiar").hidden = !hay;
+  pintarCifras($("cifras"), filtrados); pintarAnios(); pintarBarras(); pintarTabla();
+  if (hash) escribirHash();
+}
+function pintarAnios() {
+  const s = trayectorias(filtrados, () => 0).get(0) || new Array(N).fill(0);
+  lineas($("g-anios"), [{nombre: "Vigentes", color: MURAL.fuego, valores: s}], {alto: 260, aria: `Programas vigentes con RVOE propio: ${fmt(s[0])} en ${DESDE} y ${fmt(s[N - 1])} en ${HASTA}`});
+  tablaDatos($("g-anios-tabla"), ["Año", "Vigentes"], s.map((v, k) => [String(DESDE + k), v]));
+}
+function pintarBarras() {
+  const porMun = est.estado !== "", cuenta = new Map();
+  for (const p of filtrados) if (p.vig) { const k = porMun ? (D.pl[p.pl][3] || "") : p.edo; cuenta.set(k, (cuenta.get(k) || 0) + 1); }
+  const filas = [...cuenta].sort((a, b) => b[1] - a[1]), max = filas.length ? filas[0][1] : 1;
+  $("t-barras").textContent = porMun ? `Vigentes hoy por municipio · ${nomEstado(D.cat.estado[+est.estado])}` : "Vigentes hoy por estado";
+  $("n-barras").textContent = porMun ? "Incluye RVOE de acuerdos institucionales." : "Toca un estado para filtrar. Incluye RVOE de acuerdos institucionales.";
+  if (!filas.length) { $("g-barras").innerHTML = `<p class="vacio">Sin programas vigentes con estos filtros.</p>`; return; }
+  $("g-barras").innerHTML = filas.map(([k, v]) => {
+    const nom = porMun ? (k ? titulo(k) : "Sin municipio (solo DGAIR)") : nomEstado(D.cat.estado[k]);
+    const dentro = `<span class="nom" title="${esc(nom)}">${esc(nom)}</span><span class="pista"><span class="relleno" style="width:${(v / max * 100).toFixed(1)}%"></span></span><span class="val">${fmt(v)}</span>`;
+    return porMun ? `<div class="barra" style="cursor:default">${dentro}</div>` : `<button class="barra" type="button" data-edo="${k}" aria-label="Filtrar por ${esc(nom)}: ${fmt(v)} vigentes">${dentro}</button>`;
+  }).join("");
+  if (!porMun) $("g-barras").querySelectorAll("[data-edo]").forEach(b => b.addEventListener("click", () => { est.estado = b.dataset.edo; est.pag = 1; sincronizar(); aplicar(); }));
+}
+function pintarTabla() {
+  const n = filtrados.length, pags = Math.max(1, Math.ceil(n / POR_PAGINA)); est.pag = Math.min(Math.max(1, est.pag), pags);
+  if (!n) { $("tabla").innerHTML = `<div class="vacio"><p>Ningún programa coincide con la búsqueda.</p><p>Prueba con menos palabras, revisa la ortografía o quita algún filtro.</p><button class="btn btn-sec" type="button" onclick="document.getElementById('limpiar').click()">Limpiar filtros</button></div>`; $("paginacion").innerHTML = ""; return; }
+  const C = D.cat, desde = (est.pag - 1) * POR_PAGINA, filas = filtrados.slice(desde, desde + POR_PAGINA);
+  $("tabla").innerHTML = `<div style="overflow-x:auto"><table class="res"><caption class="sr">Programas con RVOE, página ${est.pag} de ${pags}</caption>
+    <thead><tr><th scope="col">Institución</th><th scope="col">Programa</th><th scope="col">Nivel</th><th scope="col">Modalidad</th><th scope="col">Estado</th><th scope="col">RVOE</th><th scope="col">Otorgado</th><th scope="col">Estatus</th></tr></thead>
+    <tbody>${filas.map(p => { const pl = D.pl[p.pl]; return `<tr data-i="${p.i}">
+      <td data-et="Institución"><span><span class="inst">${esc(titulo(pl[0]))}</span>${pl[1] ? `<span class="pl">${esc(titulo(pl[1]))}</span>` : ""}</span></td>
+      <td data-et="Programa"><button class="ver" type="button" data-i="${p.i}">${esc(titulo(p.nom))}</button></td>
+      <td data-et="Nivel">${esc(titulo(C.nivel[p.niv]))}</td><td data-et="Modalidad">${esc(titulo(C.modalidad[p.mod]))}</td>
+      <td data-et="Estado">${esc(nomEstado(C.estado[p.edo]))}</td><td data-et="RVOE">${esc(p.rvoe)}</td>
+      <td data-et="Otorgado">${p.otor ? p.otor.slice(0, 4) : "—"}</td>
+      <td data-et="Estatus"><span class="sello ${p.vig ? "vig" : "ret"}">${p.vig ? "Vigente" : "Retirado"}</span></td></tr>`; }).join("")}</tbody></table></div>`;
+  $("tabla").querySelectorAll("tbody tr").forEach(tr => tr.addEventListener("click", e => { if (!e.target.closest("button")) abrirFicha(+tr.dataset.i); }));
+  $("tabla").querySelectorAll("button.ver").forEach(b => b.addEventListener("click", () => abrirFicha(+b.dataset.i)));
+  $("paginacion").innerHTML = `<button type="button" id="ant" ${est.pag <= 1 ? "disabled" : ""}>Anterior</button><span>Página ${fmt(est.pag)} de ${fmt(pags)}</span><button type="button" id="sig" ${est.pag >= pags ? "disabled" : ""}>Siguiente</button>`;
+  const ir = d => { est.pag += d; aplicar(); document.querySelector(".registro").scrollIntoView({block: "start"}); };
+  $("ant").addEventListener("click", () => ir(-1)); $("sig").addEventListener("click", () => ir(1));
+}
+function abrirFicha(i) {
+  const p = P[i], pl = D.pl[p.pl], C = D.cat;
+  $("ficha-nivel").textContent = `${titulo(C.nivel[p.niv])} · ${titulo(C.modalidad[p.mod])}`;
+  $("ficha-titulo").textContent = titulo(p.nom);
+  $("ficha-inst").textContent = titulo(pl[0]) + (pl[1] ? " · " + titulo(pl[1]) : "");
+  const conCP = pl[5] && !pl[4].includes(pl[5].replace(/^0/, ""));  // algunos domicilios ya traen el C.P.
+  const dom = [titulo(pl[4]).replace(/\bC\.p\./g, "C.P."), conCP && "C.P. " + pl[5], titulo(pl[3]), nomEstado(C.estado[p.edo])].filter(Boolean).join(", ");
+  const filas = [["RVOE", p.rvoe + (p.propio ? "" : " (acuerdo o decreto institucional)")], ["Estatus", p.vig ? "Vigente" : "Retirado"], ["Otorgado", fechaLarga(p.otor)],
+    !p.vig && ["Retirado", fechaLarga(p.ret)], !p.vig && ["Motivo", titulo(C.motivo_retiro[p.mot]) || "—"],
+    ["Área", p.macro >= 0 ? MACROS[p.macro] : "—"], ["Razón social", pl[9] ? titulo(pl[9]) : "—"], ["Domicilio", dom || "—"],
+    pl[6] && ["Teléfono", pl[6]], pl[7] && ["Correo", `<a href="mailto:${esc(pl[7])}">${esc(pl[7].toLowerCase())}</a>`, true],
+    pl[8] && ["Sitio web", `<a href="${/^https?:/i.test(pl[8]) ? esc(pl[8]) : "https://" + esc(pl[8])}" target="_blank" rel="noopener">${esc(pl[8].toLowerCase())}</a>`, true],
+    ["Fuente", C.fuente[p.fte] === "DGAIR" ? "Solo DGAIR (PDF de federales vigentes)" : "SIRVOES" + (p.dgair ? ", también en DGAIR" : "")]].filter(Boolean);
+  $("ficha-dl").innerHTML = filas.map(([k, v, html]) => `<dt>${esc(k)}</dt><dd>${html ? v : esc(v)}</dd>`).join("");
+  const a = $("ficha-sirvoes"); a.hidden = !p.idp; if (p.idp) a.href = `https://sirvoes.sep.gob.mx/sirvoes/mvc/jasper/exportarFichaTecnica?idPlantelFicha=${p.idp}`;
+  $("ficha").showModal();
+}
+</script>
+</body>
+</html>
