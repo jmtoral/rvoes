@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 
 DESDE, HASTA = 2000, 2026
 MODALIDADES = {"ESCOLARIZADA": "#2a78d6", "MIXTA": "#eb6834", "NO ESCOLARIZADA": "#1baf7a"}
-SURFACE, INK, INK2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
+CREDITO = "Elaborado por Manuel Toral con información de la SEP (SIRVOES y DGAIR)"
+SURFACE, INK, INK2, GRID ="#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
 
 CARRERAS = {"DERECHO": "#2a78d6", "ADMINISTRACION DE EMPRESAS": "#eb6834", "PEDAGOGIA": "#1baf7a",
              "MERCADOTECNIA": "#eda100", "PSICOLOGIA": "#e87ba4"}
@@ -67,9 +68,9 @@ def graficar_lineas(t, out, ultima_fecha):
     ax.spines["bottom"].set_color(GRID)
     ax.set_xlim(DESDE - 0.5, HASTA + 0.3)
     ax.set_ylim(0, t.values.max() * 1.15)
-    fig.text(0.01, 0.01, f"Fuente: SEP, SIRVOES y DGAIR. Solo RVOE federales; nombre exacto del programa (sin variantes). "
+    fig.text(0.01, 0.01, f"{CREDITO}.\nSolo RVOE federales; nombre exacto del programa (sin variantes). "
              f"Solo se descuentan retiros registrados en SIRVOES.  {HASTA} al {ultima_fecha}.", fontsize=7.5, color=INK2)
-    fig.tight_layout(rect=(0, 0.03, 0.83, 1))
+    fig.tight_layout(rect=(0, 0.05, 0.83, 1))
     fig.savefig(out, facecolor=SURFACE)
 
 def tabla(der):
@@ -101,7 +102,7 @@ def graficar(t, out, ultima_fecha):
     ax.spines["bottom"].set_color(GRID)
     ax.set_xlim(DESDE - 0.7, HASTA + 0.7)
     ax.set_ylim(0, tot.max() * 1.18)
-    fig.text(0.01, 0.01, f"Fuente: SEP, SIRVOES y DGAIR (federales vigentes). Fecha = otorgamiento del RVOE. "
+    fig.text(0.01, 0.01, f"{CREDITO}. Fecha = otorgamiento del RVOE. "
              f"Solo RVOE federales.  * {HASTA} parcial: registros al {ultima_fecha}.",
              fontsize=7.5, color=INK2)
     fig.tight_layout(rect=(0, 0.03, 1, 1))

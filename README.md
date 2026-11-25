@@ -1,5 +1,7 @@
 # RVOEs de educación superior en México
 
+*Elaborado por Manuel Toral con información de la SEP (SIRVOES y DGAIR).*
+
 Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (RVOE) federales del tipo superior**. Se construye a partir de las dos fuentes públicas de la SEP y se cruzan entre sí.
 
 - **46,446 programas** en la tabla unificada: 39,907 vigentes y 6,539 retirados.
