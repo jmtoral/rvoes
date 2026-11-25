@@ -2,3 +2,4 @@ data/pdfs/
 data/sirvoes_raw/
 .venv/
 __pycache__/
+data/conapo/

@@ -25,8 +25,9 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 9. [Licenciaturas más frecuentes: vigentes por año](#licenciaturas-más-frecuentes-vigentes-por-año)
 10. [Doctorados por área: vigentes por año](#doctorados-por-área-vigentes-por-año)
 11. [Doctorados jurídicos por subárea](#doctorados-jurídicos-por-subárea)
-12. [Limitaciones y advertencias](#limitaciones-y-advertencias)
-13. [Reproducir](#reproducir)
+12. [Ingenierías: vigentes por año](#ingenierías-vigentes-por-año)
+13. [Limitaciones y advertencias](#limitaciones-y-advertencias)
+14. [Reproducir](#reproducir)
 
 ---
 
@@ -40,6 +41,10 @@ Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (R
 | `data/cruce_dgair_sirvoes.csv` | Tabla DGAIR con el estatus que cada RVOE tiene en SIRVOES | 41,342 |
 | `img/derecho_por_anio.png` | Gráfica: Derecho, RVOE otorgados por año y modalidad | — |
 | `img/derecho_por_estado.png` | Gráfica: Derecho, vigentes en cada año, un panel por estado | — |
+| `img/derecho_por_estado_tasa.png` | Gráfica: Derecho por cada 100 mil habitantes, un panel por estado | — |
+| `img/ingenierias_acumulados.png` | Gráfica: ingenierías vigentes en cada año, por tipo | — |
+| `data/poblacion_conapo.csv` | Población a mitad de año por estado, 2000–2030 (CONAPO) | 992 |
+| `poblacion_conapo.py` | Descarga y resume la población de CONAPO | |
 | `img/vigentes_acumulados.png` | Gráfica: programas vigentes en cada año, top 5 licenciaturas | — |
 | `img/doctorados_acumulados.png` | Gráfica: doctorados vigentes en cada año, por área | — |
 | `img/doctorados_derecho_subareas.png` | Gráfica: doctorados jurídicos vigentes en cada año, por subárea | — |
@@ -326,6 +331,61 @@ Una línea por estado con los programas de Derecho **vigentes al cierre de cada 
 \* 2026 parcial, con registros hasta el 27-10-2026. La serie completa año por año la imprime `python graficas.py`.
 </details>
 
+### Por estado, por cada 100 mil habitantes
+
+![Licenciatura en Derecho por estado: programas vigentes por cada 100 mil habitantes](img/derecho_por_estado_tasa.png)
+
+Es la misma serie dividida entre la **población a mitad de año de cada estado** (CONAPO: Conciliación Demográfica 1950–2019 y Proyecciones 2020–2070, edición 2023) y multiplicada por 100,000. Aquí **todos los paneles comparten escala**, porque las tasas sí son comparables entre estados. La línea gris es la tasa nacional.
+
+- **A escala nacional hay 1.6 programas de Derecho vigentes por cada 100 mil habitantes.**
+- **Ajustando por población, el mapa cambia.** Ciudad de México sigue primero (3.2), pero le siguen **Querétaro (2.8), Guanajuato (2.7) y Aguascalientes (2.6)**: el Bajío tiene más programas por habitante que el Estado de México (2.6), que en números absolutos es el primero.
+- **Jalisco (1.2) y Nuevo León (0.4) quedan muy por debajo del promedio** pese a ser estados grandes; Nuevo León es el penúltimo del país.
+- **Campeche (2.0)** aparece alto por tener poca población: 19 programas.
+- En Chihuahua, Oaxaca, Guerrero, Nayarit, Sinaloa, Durango, Nuevo León y Tlaxcala la tasa está por debajo de la mitad de la nacional (0.8).
+- Como en la gráfica anterior, los niveles de los primeros años están inflados por programas fechados con el acuerdo de su institución y no con su propia fecha (ver *Limitaciones*). La comparación entre estados en 2026 no se ve afectada.
+
+<details>
+<summary>Tabla: programas de Derecho vigentes por cada 100 mil habitantes, por estado</summary>
+
+| Estado | 2000 | 2010 | 2020 | 2026* | Programas 2026 | Población 2026 |
+|---|--:|--:|--:|--:|--:|--:|
+| Ciudad de México | 0.77 | 1.29 | 2.55 | 3.24 | 297 | 9,159,966 |
+| Querétaro | 0.49 | 0.96 | 1.94 | 2.81 | 76 | 2,700,978 |
+| Guanajuato | 0.36 | 1.09 | 2.20 | 2.72 | 179 | 6,590,749 |
+| Estado de México | 0.32 | 0.81 | 1.97 | 2.57 | 458 | 17,822,420 |
+| Aguascalientes | 0.52 | 0.66 | 1.79 | 2.55 | 40 | 1,567,559 |
+| Campeche | 0.14 | 0.36 | 1.49 | 1.98 | 19 | 962,014 |
+| Hidalgo | 0.22 | 0.74 | 1.28 | 1.77 | 59 | 3,334,060 |
+| Coahuila | 0.30 | 0.64 | 1.31 | 1.63 | 56 | 3,440,385 |
+| Veracruz | 0.33 | 0.74 | 1.22 | 1.61 | 131 | 8,111,813 |
+| Morelos | 0.32 | 0.66 | 1.20 | 1.55 | 32 | 2,067,472 |
+| Quintana Roo | 0.22 | 0.52 | 1.16 | 1.54 | 33 | 2,141,082 |
+| Yucatán | 0.29 | 0.65 | 1.27 | 1.53 | 39 | 2,542,536 |
+| Sonora | 0.44 | 0.78 | 1.57 | 1.51 | 48 | 3,168,624 |
+| Michoacán | 0.15 | 0.49 | 1.10 | 1.49 | 76 | 5,089,383 |
+| Puebla | 0.12 | 0.30 | 0.76 | 1.41 | 101 | 7,149,139 |
+| Baja California Sur | 0.23 | 0.62 | 1.35 | 1.41 | 13 | 921,734 |
+| San Luis Potosí | 0.21 | 0.30 | 0.77 | 1.37 | 41 | 3,002,651 |
+| Jalisco | 0.25 | 0.45 | 0.91 | 1.19 | 107 | 8,982,027 |
+| Tabasco | 0.16 | 0.26 | 0.70 | 1.05 | 26 | 2,472,668 |
+| Colima | 0.18 | 0.91 | 0.81 | 1.04 | 8 | 771,538 |
+| Tamaulipas | 0.36 | 0.57 | 0.78 | 1.01 | 38 | 3,777,472 |
+| Chiapas | 0.10 | 0.36 | 0.63 | 0.99 | 61 | 6,185,469 |
+| Baja California | 0.12 | 0.22 | 0.89 | 0.95 | 40 | 4,189,285 |
+| Zacatecas | 0.00 | 0.13 | 0.49 | 0.81 | 14 | 1,726,898 |
+| Chihuahua | 0.16 | 0.40 | 0.66 | 0.78 | 32 | 4,087,306 |
+| Guerrero | 0.03 | 0.23 | 0.61 | 0.69 | 25 | 3,606,296 |
+| Oaxaca | 0.09 | 0.31 | 0.57 | 0.66 | 29 | 4,368,997 |
+| Nayarit | 0.11 | 0.18 | 0.16 | 0.60 | 8 | 1,338,499 |
+| Sinaloa | 0.00 | 0.21 | 0.52 | 0.56 | 18 | 3,208,039 |
+| Durango | 0.07 | 0.12 | 0.27 | 0.46 | 9 | 1,939,482 |
+| Nuevo León | 0.15 | 0.36 | 0.39 | 0.45 | 29 | 6,516,202 |
+| Tlaxcala | 0.00 | 0.00 | 0.15 | 0.34 | 5 | 1,464,515 |
+| **Nacional** | **0.27** | **0.60** | **1.22** | **1.60** | **2,147** | **134,407,258** |
+
+\* 2026 parcial, con registros hasta el 27-10-2026. Población: CONAPO, población a mitad de año (`data/poblacion_conapo.csv`, generado con `poblacion_conapo.py`).
+</details>
+
 ---
 
 ## Licenciaturas más frecuentes: vigentes por año
@@ -509,13 +569,75 @@ Desglose de los 300 doctorados vigentes del área jurídica (Derecho, Ciencias J
 
 ---
 
+## Ingenierías: vigentes por año
+
+![Licenciaturas en ingeniería por tipo: programas vigentes en cada año](img/ingenierias_acumulados.png)
+
+Licenciaturas con "ingeniería" o "ingeniero" en el nombre (3,814 vigentes), agrupadas en seis tipos por palabra clave. Mismo cálculo que las demás series: vigentes al cierre de cada año, otorgados menos retirados.
+
+**Solo se cuentan programas con RVOE propio.** 1,018 de las 3,814 ingenierías vigentes (27%) pertenecen a instituciones con acuerdo o decreto institucional: Tec de Monterrey (decreto de 1952), UVM (acuerdo 131 de 1988), UNITEC, Anáhuac, ITESO… Esos programas llevan la fecha del acuerdo y no la de su creación, así que, si se incluyeran, aparecerían como existentes desde 1952 o 1988. Sin el filtro, el 86% de las ingenierías "vigentes en 2000" serían de este tipo.
+
+| Tipo | Palabras clave | Programas más frecuentes (vigentes) |
+|---|---|---|
+| Industrial y logística | `INDUSTRIAL`, `LOGISTIC`, `SUMINISTRO`, `GESTION EMPRESARIAL`, `NEGOCIOS`, `PRODUCCION` | Industrial; Industrial y de Sistemas; Industrial en Producción; Industrial y Logística |
+| Química, ambiental y bio | `QUIMIC`, `AMBIENTAL`, `BIO`, `ALIMENT`, `ENERG`, `SUSTENTAB`, `AGRO`, `PETROLE`, `MINER`, `GEOL` | Química; Ambiental; Químico Administrador; Biomédica; Energías Renovables |
+| Mecatrónica, mecánica y electrónica | `MECATRON`, `MECANIC`, `ROBOT`, `ELECTR`, `AUTOMOTRIZ`, `MANUFACTURA`, `AERO`, `AUTOMATIZ`, `SEMICONDUCT` | Mecatrónica; Manufactura y Robótica; Mecánica Automotriz; Sistemas Electrónicos |
+| Software, sistemas y datos | `COMPUTACI`, `SOFTWARE`, `SISTEMAS`, `INFORMATIC`, `INFORMACION`, `DATOS`, `INTELIGENCIA`, `CIBER`, `REDES`, `TELECOMUNICAC`, … | Sistemas Computacionales; Desarrollo de Software; Ciberseguridad; Ciencia de Datos; Inteligencia Artificial |
+| Civil y arquitectura | `CIVIL`, `ARQUITECT`, `CONSTRUC`, `TOPOGRAF` | Civil; Ingeniero Arquitecto; Construcción |
+| Otras ingenierías | lo que no entra en las anteriores | Comercial, Financiera, Audio, Nanotecnología, Física, Matemáticas |
+
+Gana la primera regla que coincide, así que "Industrial y de Sistemas" cuenta como Industrial, "Químico y de Sistemas" como Química y "Sistemas Electrónicos" como Electrónica.
+
+- **Software y sistemas e Industrial van empatados y dominan:** 989 y 978 programas con RVOE propio en 2026. Software fue el primero casi todo el periodo; Industrial lo rebasó entre 2019 y 2022 y Software recuperó el primer lugar en 2023.
+- **Mecatrónica, mecánica y electrónica es la tercera (450)**, con un salto en 2019 (de 155 a 261).
+- **Química, ambiental y bio es la que más se aceleró recientemente:** se duplicó de 2022 (67) a 2026 (141). Civil y arquitectura también se duplicó (de 92 a 183).
+- **Las ingenierías mantienen su peso:** entre los programas con RVOE propio, son entre el 12% y el 13.5% de todas las licenciaturas vigentes a lo largo del periodo (12.9% en 2000, 13.5% en 2026).
+
+<details>
+<summary>Tabla de la gráfica: ingenierías con RVOE propio vigentes al cierre de cada año, por tipo</summary>
+
+| Año | Industrial y logística | Software, sistemas y datos | Mecatrónica, mecánica y electrónica | Civil y arquitectura | Química, ambiental y bio | Otras |
+|--:|--:|--:|--:|--:|--:|--:|
+| 2000 | 55 | 44 | 28 | 19 | 15 | 3 |
+| 2001 | 58 | 50 | 31 | 22 | 15 | 3 |
+| 2002 | 59 | 55 | 32 | 22 | 15 | 3 |
+| 2003 | 61 | 62 | 32 | 22 | 15 | 3 |
+| 2004 | 66 | 65 | 34 | 25 | 15 | 3 |
+| 2005 | 69 | 76 | 40 | 28 | 15 | 4 |
+| 2006 | 72 | 96 | 43 | 28 | 15 | 5 |
+| 2007 | 81 | 115 | 65 | 33 | 16 | 7 |
+| 2008 | 135 | 187 | 85 | 36 | 16 | 11 |
+| 2009 | 169 | 217 | 94 | 38 | 17 | 11 |
+| 2010 | 193 | 255 | 103 | 42 | 18 | 11 |
+| 2011 | 212 | 273 | 113 | 45 | 27 | 16 |
+| 2012 | 252 | 328 | 132 | 50 | 29 | 17 |
+| 2013 | 258 | 335 | 133 | 51 | 29 | 18 |
+| 2014 | 261 | 337 | 135 | 53 | 31 | 18 |
+| 2015 | 282 | 341 | 136 | 56 | 31 | 18 |
+| 2016 | 305 | 351 | 137 | 57 | 36 | 18 |
+| 2017 | 359 | 384 | 153 | 65 | 42 | 18 |
+| 2018 | 381 | 400 | 155 | 67 | 45 | 21 |
+| 2019 | 529 | 521 | 261 | 77 | 48 | 26 |
+| 2020 | 553 | 534 | 265 | 77 | 51 | 26 |
+| 2021 | 591 | 571 | 296 | 83 | 58 | 31 |
+| 2022 | 645 | 615 | 312 | 92 | 67 | 32 |
+| 2023 | 710 | 727 | 341 | 112 | 87 | 40 |
+| 2024 | 785 | 806 | 364 | 129 | 107 | 44 |
+| 2025 | 916 | 897 | 415 | 166 | 130 | 54 |
+| 2026* | 978 | 989 | 450 | 183 | 141 | 55 |
+
+\* 2026 parcial, con registros hasta el 27-10-2026.
+</details>
+
+---
+
 ## Limitaciones y advertencias
 
 - **Solo RVOE federales (SEP).** No incluye los RVOE otorgados por las autoridades educativas estatales ni los estudios incorporados a universidades públicas autónomas. SIRVOES dice incluirlos, pero en la práctica solo devuelve 8 registros estatales.
 - **SIRVOES es informativo.** La propia SEP lo aclara: ante cualquier inconsistencia, la autoridad educativa correspondiente es la que tiene la última palabra.
 - **Un RVOE no es un programa en operación.** Un programa vigente puede no tener matrícula.
 - **El nombre del programa no está normalizado**: SIRVOES le agrega anotaciones entre paréntesis y DGAIR antepone `EN`. Para agrupar por carrera hay que limpiarlo, como en `graficas.py`.
-- **Instituciones con acuerdo secretarial:** su `fecha_otorgamiento` es la del acuerdo institucional (1988 para UVM, por ejemplo), no la del programa.
+- **Instituciones con acuerdo secretarial o decreto:** su `fecha_otorgamiento` es la del acuerdo institucional (1952 para el Tec, 1988 para UVM), no la del programa. **Esto infla los primeros años de las series de "vigentes por año"**, porque esos programas aparecen como existentes desde la fecha del acuerdo aunque se hayan abierto después. En Derecho (licenciatura), 137 de los 269 programas "vigentes en 2000" son de este tipo, así que los factores de crecimiento desde 2000 que se reportan arriba ("8 veces", "23 veces"…) parten de un nivel inflado y no son confiables. En doctorados son 137 de 157 en 2000. La gráfica de **ingenierías** ya los excluye (cuenta solo RVOE propios); las de Derecho, top 5 de licenciaturas y doctorados todavía no.
 - **Las 3,290 filas que solo vienen de DGAIR** no tienen plantel, municipio, contacto ni área. El nombre de institución en DGAIR a veces incluye el campus (`UNIVERSIDAD DEL VALLE DE MEXICO, CAMPUS COYOACAN`) y en SIRVOES va separado en `institucion` y `plantel`.
 - **Datos de contacto:** se publican tal como los difunde la SEP. Algunos correos son de directores o cuentas personales.
 - **Extracción de PDFs:** 105 filas tienen la fecha mal capturada en el original y algunas filas aparecen repetidas en el propio PDF.
@@ -550,7 +672,13 @@ python scrape_sirvoes.py
 python cruce.py
 ```
 
-**4. Gráficas** (imprimen también sus tablas en markdown):
+**4. Población de CONAPO** (descarga ~80 MB a `data/conapo/`, no versionado; el CSV resultante sí está en el repo):
+
+```powershell
+python poblacion_conapo.py
+```
+
+**5. Gráficas** (imprimen también sus tablas en markdown):
 
 ```powershell
 python graficas.py

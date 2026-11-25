@@ -109,13 +109,32 @@ def graficar_lineas(t, out, ultima_fecha, nombres=NOMBRES, colores=CARRERAS,
     fig.tight_layout(rect=(0, 0.05, 0.83, 1))
     fig.savefig(out, facecolor=SURFACE)
 
+# Licenciaturas de ingeniería por tipo. El orden importa: "INDUSTRIAL Y DE SISTEMAS" -> industrial,
+# "QUIMICO Y DE SISTEMAS" -> química, "SISTEMAS ELECTRONICOS" -> electrónica (antes que software).
+TIPOS_ING = [
+    ("Industrial y logística", r"INDUSTRIAL|LOGISTIC|SUMINISTRO|GESTION EMPRESARIAL|NEGOCIOS|PRODUCCION"),
+    ("Química, ambiental y bio", r"QUIMIC|AMBIENTAL|BIO|ALIMENT|ENERG|SUSTENTAB|AGRO|PETROLE|MINER|GEOL"),
+    ("Mecatrónica, mecánica y electrónica", r"MECATRON|MECANIC|ROBOT|ELECTR|AUTOMOTRIZ|MANUFACTURA|AERO|AUTOMATIZ|SEMICONDUCT"),
+    ("Software, sistemas y datos", r"COMPUTACI|SOFTWARE|SISTEMAS|INFORMATIC|INFORMACION|DATOS|INTELIGENCIA|CIBER|REDES|"
+                                   r"APLICACIONES|TELEMATIC|VIDEOJUEGO|TELECOMUNICAC|DIGITAL|PROGRAMACION|NUBE|MULTIMEDIA|ANIMACION"),
+    ("Civil y arquitectura", r"CIVIL|ARQUITECT|CONSTRUC|TOPOGRAF"),
+]
+OTRAS_ING = "Otras ingenierías"
+COLORES_ING = dict(zip([t for t, _ in TIPOS_ING] + [OTRAS_ING],
+                       ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"]))
+
 ESTADO_CORTO = {"MÉXICO": "Estado de México", "CIUDAD DE MÉXICO": "Ciudad de México",
                 "VERACRUZ DE IGNACIO DE LA LLAVE": "Veracruz", "COAHUILA DE ZARAGOZA": "Coahuila",
                 "MICHOACÁN DE OCAMPO": "Michoacán", "SAN LUIS POTOSI": "San Luis Potosí"}
 
-def graficar_facetas(t, out, ultima_fecha, ncols=8):
-    """Small multiples: una línea por estado, ordenados de mayor a menor; escala Y propia por panel."""
+def graficar_facetas(t, out, ultima_fecha, ncols=8, comun=False, referencia=None, fmt="{:,.0f}", fuente_extra="",
+                     titulo="Licenciatura en Derecho por estado: programas vigentes en cada año",
+                     subtitulo="Acumulado de RVOE federales otorgados menos los retirados, al cierre de cada año. "
+                               "Cifra grande = vigentes hoy. Cada panel tiene su propia escala vertical."):
+    """Small multiples: una línea por estado, ordenados de mayor a menor.
+    comun=True: misma escala Y en todos los paneles. referencia: Serie (p. ej. nacional) en gris en cada panel."""
     t = t[t.iloc[-1].sort_values(ascending=False).index]
+    tope = max(t.values.max(), referencia.max() if referencia is not None else 0) * 1.1
     nrows = -(-len(t.columns) // ncols)
     fig, axes = plt.subplots(nrows, ncols, figsize=(16, 2.2 * nrows + 1.4), dpi=150, facecolor=SURFACE, sharex=True)
     for ax, e in zip(axes.flat, t.columns):
@@ -125,9 +144,15 @@ def graficar_facetas(t, out, ultima_fecha, ncols=8):
         ax.plot(y.index, y, color="#2a78d6", linewidth=2, solid_capstyle="round", zorder=3)
         ax.scatter([HASTA], [y.iloc[-1]], s=24, color="#2a78d6", edgecolor=SURFACE, linewidth=1.2, zorder=4)
         ax.set_title(ESTADO_CORTO.get(e, e.title()), loc="left", fontsize=9.5, color=INK, pad=3)
-        ax.text(0.02, 0.97, f"{y.iloc[-1]:,}", transform=ax.transAxes, fontsize=13, weight="bold", color=INK, va="top")
-        ax.set_ylim(0, max(y.max(), 1) * 1.1)
-        ax.set_yticks([0, y.max()])
+        if referencia is not None:
+            ax.plot(referencia.index, referencia, color="#a3a29c", linewidth=1.2, zorder=2.5)
+        ax.text(0.02, 0.97, fmt.format(y.iloc[-1]), transform=ax.transAxes, fontsize=13, weight="bold", color=INK, va="top")
+        if comun:
+            ax.set_ylim(0, tope)
+            ax.set_yticks([0, round(tope / 2.2, 1), round(tope / 1.1, 1)])
+        else:
+            ax.set_ylim(0, max(y.max(), 1) * 1.1)
+            ax.set_yticks([0, y.max()])
         ax.set_xticks([DESDE, HASTA])
         ax.tick_params(colors=INK2, labelsize=7.5, length=0)
         ax.grid(axis="y", color=GRID, linewidth=0.8, zorder=0)
@@ -136,11 +161,10 @@ def graficar_facetas(t, out, ultima_fecha, ncols=8):
         ax.spines["bottom"].set_color(GRID)
     for ax in list(axes.flat)[len(t.columns):]:
         ax.set_visible(False)
-    fig.text(0.01, 0.99, "Licenciatura en Derecho por estado: programas vigentes en cada año", va="top",
+    fig.text(0.01, 0.99, titulo, va="top",
              fontsize=15, weight="bold", color=INK)
-    fig.text(0.01, 0.955, f"Acumulado de RVOE federales otorgados menos los retirados, al cierre de cada año, {DESDE}–{HASTA}. "
-             "Cifra grande = vigentes hoy. Cada panel tiene su propia escala vertical.", va="top", fontsize=10, color=INK2)
-    fig.text(0.01, 0.008, f"{CREDITO}. Solo RVOE federales; programa con nombre exacto \"Derecho\". "
+    fig.text(0.01, 0.955, subtitulo, va="top", fontsize=10, color=INK2)
+    fig.text(0.01, 0.008, f"{CREDITO}{fuente_extra}. Solo RVOE federales; programa con nombre exacto \"Derecho\". "
              f"Solo se descuentan retiros registrados en SIRVOES. {HASTA} al {ultima_fecha}.", fontsize=8, color=INK2)
     fig.tight_layout(rect=(0, 0.02, 1, 0.94), h_pad=1.6, w_pad=1.2)
     fig.savefig(out, facecolor=SURFACE)
@@ -227,6 +251,43 @@ if __name__ == "__main__":
     ve = vigentes_por_anio(der, der["estado"], dict.fromkeys(estados))
     assert len(estados) == 32 and ve.iloc[-1].sum() == v["DERECHO"].iloc[-1]  # los estados suman el total nacional
     graficar_facetas(ve, Path("img/derecho_por_estado.png"), ultima)
+
+    # Tasa por 100 mil habitantes (población a mitad de año, CONAPO; ver poblacion_conapo.py)
+    pob = pd.read_csv("data/poblacion_conapo.csv").pivot(index="anio", columns="estado", values="poblacion").loc[ve.index]
+    assert set(pob.columns) == set(ve.columns)
+    tasa = ve / pob[ve.columns] * 1e5
+    nacional = ve.sum(axis=1) / pob.sum(axis=1) * 1e5
+    graficar_facetas(tasa, Path("img/derecho_por_estado_tasa.png"), ultima, comun=True, referencia=nacional, fmt="{:.1f}", fuente_extra=" y de CONAPO (población)",
+                     titulo="Licenciatura en Derecho por estado: programas vigentes por cada 100 mil habitantes",
+                     subtitulo=f"Programas vigentes al cierre de cada año / población a mitad de año (CONAPO) × 100,000. "
+                               f"Gris = tasa nacional ({nacional.iloc[-1]:.1f} en {HASTA}). Misma escala en todos los paneles.")
+    print(tasa.loc[[2000, 2010, 2020, HASTA]].T.sort_values(HASTA, ascending=False).round(2).to_markdown())
+    print("nacional:", nacional.loc[[2000, 2010, 2020, HASTA]].round(2).to_dict())
+
+    # Solo RVOE propios: los programas bajo acuerdo/decreto institucional (Tec, UVM, UNITEC, Anáhuac...) llevan la
+    # fecha del acuerdo (1952, 1988), no la del programa, y aparecerían como existentes desde entonces.
+    propio = lic["rvoe"].str.fullmatch(r"\d+", na=False)
+    ing_todas = lic[nombre_limpio(lic["programa"]).str.contains("INGENIER")]
+    ing = ing_todas[propio.loc[ing_todas.index]]
+    print("ingenierías vigentes excluidas por acuerdo/decreto:", ((ing_todas["estatus"] == "VIGENTE") & ~propio.loc[ing_todas.index]).sum(),
+          "de", (ing_todas["estatus"] == "VIGENTE").sum())
+    tipo = clasificar(ing["programa"], TIPOS_ING, OTRAS_ING)
+    assert clasificar(pd.Series(["INGENIERIA INDUSTRIAL Y DE SISTEMAS", "INGENIERO QUIMICO Y DE SISTEMAS",
+                                 "INGENIERO EN SISTEMAS ELECTRONICOS", "INGENIERIA EN SISTEMAS COMPUTACIONALES (RETIRADO)",
+                                 "INGENIERIA FINANCIERA"]), TIPOS_ING, OTRAS_ING).tolist() \
+        == ["Industrial y logística", "Química, ambiental y bio", "Mecatrónica, mecánica y electrónica",
+            "Software, sistemas y datos", OTRAS_ING]
+    vi = vigentes_por_anio(ing, tipo, COLORES_ING)
+    graficar_lineas(vi, Path("img/ingenierias_acumulados.png"), ultima, nombres={c: c for c in COLORES_ING},
+                    colores=COLORES_ING, titulo="Licenciaturas en ingeniería por tipo: programas vigentes en cada año",
+                    nota="programas con RVOE propio (sin acuerdos/decretos institucionales); tipo por palabra clave", ncol=3)
+    print(vi.to_markdown())
+    lic_p = lic[propio]
+    lic_tot = vigentes_por_anio(lic_p, pd.Series("LIC", index=lic_p.index), {"LIC": None})["LIC"]
+    print("ingenierías / licenciaturas (%):", (vi.sum(axis=1) / lic_tot * 100).loc[[2000, 2010, 2020, HASTA]].round(1).to_dict())
+    vig = ing["estatus"] == "VIGENTE"
+    for t in COLORES_ING:
+        print(t, "->", nombre_limpio(ing.loc[vig & (tipo == t), "programa"]).value_counts().head(5).to_dict())
     print(ve.rename(columns=lambda e: ESTADO_CORTO.get(e, e.title())).T.to_markdown())
 
     vig = djur["estatus"] == "VIGENTE"
