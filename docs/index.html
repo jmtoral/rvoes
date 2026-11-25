@@ -164,6 +164,12 @@ details.datos th{color:var(--texto-2);font-weight:500}
 .atajos{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
 .atajos button{min-height:40px;padding:8px 14px;border-radius:999px;border:1px solid var(--borde-2);background:#fff;color:var(--texto-2);font:500 14px/1.2 var(--texto-f);cursor:pointer}
 .atajos button:hover{border-color:var(--fuego);color:var(--texto)}
+.atajos.sel button{display:inline-flex;align-items:center;gap:8px}
+.atajos.sel button i{width:12px;height:12px;border-radius:3px;border:1.5px solid var(--borde-2)}
+.atajos.sel button small{color:var(--texto-3);font-size:12px}
+.atajos.sel button[aria-pressed="true"]{border-color:var(--c);color:var(--texto);font-weight:600;background:#fff}
+.atajos.sel button[aria-pressed="true"] i{background:var(--c);border-color:var(--c)}
+.atajos.sel button:disabled{opacity:.45;cursor:not-allowed}
 .rivales{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch;margin-bottom:18px}
 @media (max-width:900px){.rivales{grid-template-columns:1fr}.vs{justify-self:center}}
 .rival{background:#fff;border:1px solid var(--borde);border-radius:var(--r);box-shadow:var(--sombra);padding:18px;border-top:4px solid var(--c)}
@@ -184,7 +190,7 @@ details.datos th{color:var(--texto-2);font-weight:500}
 .veredicto{font:500 clamp(19px,2vw,23px)/1.35 var(--display);margin:0 0 6px;max-width:60ch}
 
 /* Treemap */
-.treemap{position:relative;height:clamp(420px,56vw,600px);border-radius:var(--r);overflow:hidden;background:var(--fondo)}
+.treemap{position:relative;height:clamp(520px,72vw,880px);border-radius:var(--r);overflow:hidden;background:var(--fondo)}
 .tm{position:absolute;padding:8px 10px;overflow:hidden;border:2px solid var(--fondo);border-radius:10px;cursor:pointer;transition:filter .15s;display:flex;flex-direction:column;justify-content:space-between;text-align:left;font:inherit}
 .tm:hover,.tm:focus-visible{filter:brightness(1.08) saturate(1.05);z-index:2}
 .tm .n{font:500 clamp(12px,1.25vw,15px)/1.15 var(--display);overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
@@ -284,6 +290,7 @@ dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
     <a class="logo" href="#inicio"><i aria-hidden="true"></i>ATLAS RVOE</a>
     <nav class="menu" aria-label="Salas">
       <a href="#areas">Áreas</a>
+      <a href="#trayectorias">Trayectorias</a>
       <a href="#instituciones">Instituciones</a>
       <a href="#derecho">Derecho</a>
       <a href="#duelo">Duelo</a>
@@ -333,11 +340,46 @@ dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
     </div>
   </section>
 
-  <!-- SALA II: instituciones -->
+  <!-- SALA II: trayectorias -->
+  <section class="sala" id="trayectorias" aria-labelledby="t-tray">
+    <div class="envoltura">
+      <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:85% 50%">
+        <div class="rotulo"><span class="num">Sala II</span><h2 id="t-tray">Trayectorias comparadas</h2></div></div>
+      <div class="intro">
+        <p>Cómo creció cada área del conocimiento y cada disciplina: programas vigentes al cierre de cada año. Toca las etiquetas para elegir hasta seis líneas por gráfica.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+          <div class="segmentos" role="group" aria-label="Nivel de estudios" id="seg-tray"></div>
+          <div class="segmentos" role="group" aria-label="Medida" id="seg-tray-m">
+            <button type="button" data-m="abs" aria-pressed="true">Programas</button>
+            <button type="button" data-m="pct" aria-pressed="false">% del nivel</button>
+          </div>
+        </div>
+      </div>
+      <div class="obras">
+        <article class="obra">
+          <div class="ficha-obra"><div><span class="lote">Obra 01 · Las áreas</span><h3>Áreas del conocimiento</h3>
+            <p class="desc">Las diez áreas unificadas de SIRVOES.</p></div></div>
+          <div class="atajos sel" id="chips-areas" role="group" aria-label="Áreas a comparar"></div>
+          <div class="grafica" id="g-tray-areas"></div>
+          <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="t-tray-areas"></div></details>
+        </article>
+        <article class="obra">
+          <div class="ficha-obra"><div><span class="lote">Obra 02 · Las disciplinas</span><h3>Disciplinas</h3>
+            <p class="desc">Grupos por palabras clave en el nombre del programa, los mismos de El duelo. Un programa puede caer en dos disciplinas (Criminología también cuenta en Derecho).</p></div></div>
+          <div class="atajos sel" id="chips-disc" role="group" aria-label="Disciplinas a comparar"></div>
+          <div class="grafica" id="g-tray-disc"></div>
+          <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="t-tray-disc"></div></details>
+        </article>
+      </div>
+      <p class="nota">Programas vigentes al cierre de cada año con RVOE propio (sin acuerdos o decretos institucionales, que llevan la fecha del acuerdo). "% del nivel" divide entre todos los programas vigentes de ese nivel en cada año.</p>
+    </div>
+  </section>
+
+  <!-- SALA III: instituciones -->
   <section class="sala" id="instituciones" aria-labelledby="t-inst">
     <div class="envoltura">
       <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:45% 50%">
-        <div class="rotulo"><span class="num">Sala II</span><h2 id="t-inst">Las instituciones</h2></div></div>
+        <div class="rotulo"><span class="num">Sala III</span><h2 id="t-inst">Las instituciones</h2></div></div>
       <div class="intro"><p id="inst-intro">Quién concentra los RVOE vigentes. Cada rectángulo es una institución, con todos sus campus juntos; su tamaño es el número de programas vigentes.</p></div>
       <article class="obra">
         <div class="ctrl-tm">
@@ -356,7 +398,7 @@ dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
   <section class="sala" id="derecho" aria-labelledby="t-derecho">
     <div class="envoltura">
       <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:70% 50%">
-        <div class="rotulo"><span class="num">Sala III · Exposición</span><h2 id="t-derecho">Derecho</h2></div></div>
+        <div class="rotulo"><span class="num">Sala IV · Exposición</span><h2 id="t-derecho">Derecho</h2></div></div>
       <div class="intro"><p id="derecho-intro">La licenciatura con más RVOE federales del país.</p></div>
 
       <div class="obras">
@@ -400,7 +442,7 @@ dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
   <section class="sala" id="duelo" aria-labelledby="t-duelo">
     <div class="envoltura">
       <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:55% 50%">
-        <div class="rotulo"><span class="num">Sala IV</span><h2 id="t-duelo">El duelo</h2></div></div>
+        <div class="rotulo"><span class="num">Sala V</span><h2 id="t-duelo">El duelo</h2></div></div>
       <div class="intro"><p>Pon a competir dos rivales: elige para cada uno un nivel educativo y una disciplina, un área del conocimiento o una palabra del nombre del programa.</p></div>
       <div class="atajos" id="atajos" aria-label="Duelos sugeridos"></div>
       <div class="rivales">
@@ -422,7 +464,7 @@ dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
   <section class="sala" id="registro" aria-labelledby="t-registro">
     <div class="envoltura">
       <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:20% 50%">
-        <div class="rotulo"><span class="num">Sala V</span><h2 id="t-registro">El registro</h2></div></div>
+        <div class="rotulo"><span class="num">Sala VI</span><h2 id="t-registro">El registro</h2></div></div>
       <div class="intro"><p>Busca por institución, programa, municipio o número de RVOE y acota por estado, nivel, modalidad, estatus o área. Toca un programa para ver su ficha con domicilio y contacto.</p></div>
 
       <form class="filtros" role="search" onsubmit="return false">
@@ -580,6 +622,7 @@ function lineas(el, series, {alto = 280, fmtY = fmt, aria = ""} = {}) {
     // etiquetas finales sin encimarse
     const fin = series.map((s, i) => ({i, y: y(s.valores[N - 1])})).sort((a, b) => a.y - b.y);
     for (let j = 1; j < fin.length; j++) fin[j].y = Math.max(fin[j].y, fin[j - 1].y + 16);
+    for (let j = fin.length - 1; j >= 0; j--) fin[j].y = Math.min(fin[j].y, j === fin.length - 1 ? m.t + ih : fin[j + 1].y - 16);
     const etq = Object.fromEntries(fin.map(f => [f.i, f.y]));
     const cuerpo = series.map((s, i) => {
       const pts = s.valores.map((v, k) => `${x(k)},${y(v)}`).join(" ");
@@ -618,17 +661,18 @@ function iniciar(datos) {
   D = datos;
   const C = D.cat, VIG = C.estatus.indexOf("VIGENTE");
   const macroDe = C.area.map(a => AREA_MACRO[a] ? MACROS.indexOf(AREA_MACRO[a]) : -1);
+  const NN = D.nombres.map(n => sinAcentos(n).toUpperCase());  // nombre sin acentos, para las disciplinas
   P = D.pr.map((r, i) => {
     const pl = D.pl[r[0]], nom = D.nombres[r[1]];
     return {i, pl: r[0], nom, niv: r[2], mod: r[3], area: r[4], macro: macroDe[r[4]], rvoe: r[5], est: r[6], otor: r[7], ret: r[8], mot: r[9], fte: r[10],
       dgair: r[11], idp: r[12], edo: pl[2], ao: +r[7].slice(0, 4) || null, ar: +r[8].slice(0, 4) || null, vig: r[6] === VIG,
-      propio: /^\d{6,}$/.test(r[5]) /* "142" a secas es el ACUERDO 142 (UNITEC) */, busca: sinAcentos([pl[0], pl[1], pl[3], nom, r[5]].join(" "))};
+      nn: NN[r[1]], propio: /^\d{6,}$/.test(r[5]) /* "142" a secas es el ACUERDO 142 (UNITEC) */, busca: sinAcentos([pl[0], pl[1], pl[3], nom, r[5]].join(" "))};
   });
   pintarCifras($("chips"), P);
   const desde = Math.min(...P.map(p => p.ao).filter(a => a >= 1900));  /* sin el marcador 1899 de "sin fecha" */
   $("periodo").textContent = `RVOE otorgados de ${desde} al ${fechaLarga(D.meta.corte)} · SEP (SIRVOES y DGAIR)`;
   $("corte").textContent = `Registros con fecha de otorgamiento hasta el ${fechaLarga(D.meta.corte)}.`;
-  salaAreas(); salaInstituciones(); salaDerecho(); salaDuelo(); iniciarRegistro();
+  salaAreas(); salaTrayectorias(); salaInstituciones(); salaDerecho(); salaDuelo(); iniciarRegistro();
   addEventListener("resize", (() => { let t; return () => { clearTimeout(t); t = setTimeout(() => redibujar.forEach(f => f()), 150); }; })());
   const barra = $("barra"); const solida = () => barra.classList.toggle("solida", scrollY > 40); addEventListener("scroll", solida, {passive: true}); solida();
 }
@@ -679,7 +723,7 @@ function salaAreas() {
   pinta();
 }
 
-/* ---------- Sala II: Derecho ---------- */
+/* ---------- Sala IV: Derecho ---------- */
 function salaDerecho() {
   const C = D.cat, LIC = C.nivel.indexOf("LICENCIATURA"), DOC = C.nivel.indexOf("DOCTORADO");
   const lic = P.filter(p => p.niv === LIC), der = lic.filter(p => p.nom === "DERECHO");
@@ -772,7 +816,46 @@ function salaDerecho() {
     <h3 style="font-size:15px;min-height:2.6em">${esc(n)}</h3>${sparkline(s, MURAL.fuego)}</div></div>`).join("");
 }
 
-/* ---------- Sala II: instituciones (treemap) ---------- */
+/* ---------- Sala II: trayectorias comparadas ---------- */
+const PALETA = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"];  // categórica validada, en orden fijo; tope de 6 líneas
+function salaTrayectorias() {
+  const C = D.cat, NIV = NIVELES_DUELO.filter(n => !["esp", "tsu"].includes(n[0]));
+  let nivel = "lic", medida = "abs", total;
+  $("seg-tray").innerHTML = NIV.map(([k, t]) => `<button type="button" data-v="${k}" aria-pressed="${k === nivel}">${t}</button>`).join("");
+  const obras = [
+    {chips: $("chips-areas"), graf: $("g-tray-areas"), tabla: $("t-tray-areas"), items: MACROS.map((n, i) => ({k: String(i), n, f: p => p.macro === i}))},
+    {chips: $("chips-disc"), graf: $("g-tray-disc"), tabla: $("t-tray-disc"), items: DISCIPLINAS.map(([k, n, f]) => ({k, n, f: p => f(p.nn)}))}];
+  const calcula = () => {
+    const nv = NIV.find(n => n[0] === nivel)[2], set = nv && new Set(nv.map(n => C.nivel.indexOf(n)));
+    const filas = P.filter(p => p.propio && (!set || set.has(p.niv))), cero = new Array(N).fill(0);
+    total = trayectorias(filas, () => 0).get(0) || cero;
+    for (const o of obras) for (const it of o.items) it.s = trayectorias(filas.filter(it.f), () => 0).get(0) || cero;
+  };
+  const pintaObra = o => {
+    const orden = [...o.items].sort((a, b) => b.s[N - 1] - a.s[N - 1]);
+    if (!o.sel) { o.sel = new Map(); orden.slice(0, 5).forEach((it, j) => o.sel.set(it.k, PALETA[j])); }  // el color sigue a la serie, no a su lugar
+    const lleno = o.sel.size >= PALETA.length, fmtY = medida === "abs" ? fmt : v => fmt1(v) + "%";
+    o.chips.innerHTML = orden.map(it => { const c = o.sel.get(it.k);
+      return `<button type="button" data-k="${it.k}" aria-pressed="${!!c}"${!c && lleno ? " disabled" : ""}${c ? ` style="--c:${c}"` : ""}><i></i>${esc(it.n)} <small>${fmt(it.s[N - 1])}</small></button>`; }).join("");
+    const series = orden.filter(it => o.sel.has(it.k)).map(it => ({nombre: it.n, color: o.sel.get(it.k),
+      valores: medida === "abs" ? it.s : it.s.map((v, k) => total[k] ? v / total[k] * 100 : 0)}));
+    o.pinta = lineas(o.graf, series, {alto: 340, fmtY, aria: series.map(x => `${x.nombre}: ${fmtY(x.valores[N - 1])}`).join("; ") + ` en ${HASTA}`});
+    tablaDatos(o.tabla, ["Año", ...series.map(x => x.nombre)], ANIOS.map((a, k) => [String(a), ...series.map(x => medida === "abs" ? x.valores[k] : fmt1(x.valores[k]) + "%")]));
+  };
+  obras.forEach(o => o.chips.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b || b.disabled) return; const k = b.dataset.k;
+    if (o.sel.has(k)) { if (o.sel.size > 1) o.sel.delete(k); }
+    else o.sel.set(k, PALETA.find(c => ![...o.sel.values()].includes(c)));
+    pintaObra(o); o.chips.querySelector(`[data-k="${k}"]`).focus();
+  }));
+  const segmento = (id, attr, fija) => $(id).addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; fija(b.dataset[attr]);
+    $(id).querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); obras.forEach(pintaObra); });
+  segmento("seg-tray", "v", v => { nivel = v; calcula(); });
+  segmento("seg-tray-m", "m", v => { medida = v; });
+  calcula(); obras.forEach(pintaObra); redibujar.push(() => obras.forEach(o => o.pinta()));
+}
+
+/* ---------- Sala III: instituciones (treemap) ---------- */
 const raizInst = n => n.replace(/,?\s*(CAMPUS|PLANTEL)\b.*$/, "").replace(/\(.*?\)/g, "").replace(/\s+/g, " ").trim().replace(/,$/, "");
 /* Treemap "squarified" (Bruls et al.): filas que mantienen los rectángulos lo más cuadrados posible */
 function squarify(vals, x, y, w, h) {
@@ -809,16 +892,16 @@ function salaInstituciones() {
     return {todos, total};
   };
   const pinta = () => {
-    const {todos, total} = calcula(), N_TM = innerWidth < 600 ? 24 : 45, top = todos.slice(0, N_TM), resto = todos.slice(N_TM);
+    const {todos, total} = calcula(), N_TM = innerWidth < 600 ? 60 : 160, top = todos.slice(0, N_TM), resto = todos.slice(N_TM);
     datos = [...top, {n: `Otras ${fmt(resto.length)} instituciones`, v: resto.reduce((s, o) => s + o.v, 0), resto: true}];
     const W = el.clientWidth, H = el.clientHeight, rects = squarify(datos.map(d => d.v), 0, 0, W, H), max = top[0].v;
     const top10 = todos.slice(0, 10).reduce((s, o) => s + o.v, 0);
     $("tm-clave").innerHTML = `${fmt1(top10 / total * 100)}%<small>de los ${fmt(total)} programas vigentes están en las 10 instituciones más grandes (de ${fmt(todos.length)})</small>`;
     el.innerHTML = rects.map((r, i) => {
       const d = datos[i], t = d.resto ? 0.02 : Math.sqrt(d.v / max), col = d.resto ? "#e9e2d6" : colorRampa(.12 + t * .88);
-      const tam = r.w < 54 || r.h < 34 ? "chico" : r.w < 110 || r.h < 60 ? "mediano" : "";
+      const tam = r.w < 60 || r.h < 46 ? "chico" : r.w < 120 || r.h < 64 ? "mediano" : "";
       return `<button type="button" class="tm ${tam}" data-i="${i}" style="left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px;background:${col};color:${lumHex(col) > .3 ? "#231c16" : "#fff8ef"}"
-        aria-label="${esc(titulo(d.n))}: ${fmt(d.v)} programas vigentes"><span class="n">${esc(d.resto ? d.n : titulo(d.n))}</span><span class="c">${fmt(d.v)}${d.resto ? ` · ${fmt1(d.v / total * 100)}% del total` : ""}</span></button>`;
+        aria-label="${esc(titulo(d.n))}: ${fmt(d.v)} programas vigentes"><span class="n"${tam === "mediano" ? ` style="-webkit-line-clamp:${Math.max(1, Math.floor((r.h - 34) / 14))}"` : ""}>${esc(d.resto ? d.n : tam ? corto(d.n) : titulo(d.n))}</span><span class="c">${fmt(d.v)}${d.resto ? ` · ${fmt1(d.v / total * 100)}% del total` : ""}</span></button>`;
     }).join("");
     el.setAttribute("aria-label", `Treemap de instituciones. Las más grandes: ${top.slice(0, 5).map(o => `${titulo(o.n)} (${fmt(o.v)})`).join(", ")}.`);
     el.querySelectorAll(".tm").forEach(b => {
@@ -836,6 +919,8 @@ function salaInstituciones() {
     $("seg-tm").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); pinta(); });
   pinta(); redibujar.push(pinta);
 }
+/* Nombre corto para los rectángulos chicos: "Universidad Tecnológica de México" -> "U. Tecnológica de México" */
+const corto = n => titulo(n).replace(/^Universidad\b/, "U.").replace(/^Instituto\b/, "Inst.").replace(/^Centro\b/, "C.").replace(/^Escuela\b/, "Esc.").replace(/\bde Estudios Superiores\b/, "de E. S.");
 function colorRampa(t) {
   const x = Math.max(0, Math.min(1, t)) * (RAMPA.length - 1), i = Math.floor(x);
   if (i >= RAMPA.length - 1) return RAMPA.at(-1);
@@ -844,7 +929,7 @@ function colorRampa(t) {
 }
 function lumHex(hex) { const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4); return .2126 * r + .7152 * g + .0722 * b; }
 
-/* ---------- Sala IV: el duelo ---------- */
+/* ---------- Sala V: el duelo ---------- */
 const NIVELES_DUELO = [["lic", "Licenciatura", ["LICENCIATURA"]], ["pos", "Posgrado", ["ESPECIALIDAD", "MAESTRÍA", "DOCTORADO"]], ["mae", "Maestría", ["MAESTRÍA"]],
   ["doc", "Doctorado", ["DOCTORADO"]], ["esp", "Especialidad", ["ESPECIALIDAD"]], ["tsu", "TSU y profesional asociado", ["TÉCNICO SUPERIOR UNIVERSITARIO", "PROFESIONAL ASOCIADO"]], ["todos", "Todos los niveles", null]];
 /* Disciplinas por palabras clave sobre el nombre sin acentos */
@@ -873,8 +958,7 @@ const ATAJOS = [["Licenciatura: Derecho vs. Ingenierías", ["lic", "d:derecho"],
   ["Licenciatura: Psicología vs. Ciencia de datos e IA", ["lic", "d:psicologia"], ["lic", "d:datos"]],
   ["Doctorado: Derecho vs. Educación", ["doc", "d:derecho"], ["doc", "d:educacion"]]];
 function salaDuelo() {
-  const C = D.cat, NOMN = new Map();
-  const nomN = p => { let v = NOMN.get(p.nom); if (v === undefined) NOMN.set(p.nom, v = sinAcentos(p.nom).toUpperCase()); return v; };
+  const C = D.cat;
   const rivales = [{niv: "lic", tema: "d:derecho", libre: "", color: MURAL.azul, el: $("rival-a"), letra: "A"},
                    {niv: "lic", tema: "d:ingenierias", libre: "", color: MURAL.naranja, el: $("rival-b"), letra: "B"}];
   const opcTema = `<optgroup label="Disciplinas">${DISCIPLINAS.map(([k, n]) => `<option value="d:${k}">${esc(n)}</option>`).join("")}</optgroup>
@@ -905,7 +989,7 @@ function salaDuelo() {
     if (r.tema.startsWith("d:")) f = DISCIPLINAS.find(d => "d:" + d[0] === r.tema)[2];
     else if (r.tema.startsWith("a:")) { const a = +r.tema.slice(2); return P.filter(p => (!niv || niv.has(p.niv)) && p.macro === a); }
     else { const w = sinAcentos(r.libre.trim()).toUpperCase(); if (!w) return []; f = n => n.includes(w); }
-    return P.filter(p => (!niv || niv.has(p.niv)) && f(nomN(p)));
+    return P.filter(p => (!niv || niv.has(p.niv)) && f(p.nn));
   };
   let pintaLinea = null;
   function pinta() {
@@ -936,7 +1020,7 @@ function salaDuelo() {
   sincronizaCtrl(); pinta(); redibujar.push(() => pintaLinea && pintaLinea());
 }
 
-/* ---------- Sala V: registro ---------- */
+/* ---------- Sala VI: registro ---------- */
 function iniciarRegistro() {
   const C = D.cat;
   const llenar = (id, vals, todos, f) => $(id).innerHTML = `<option value="">${todos}</option>` + vals.map((v, i) => v ? `<option value="${i}">${esc(f(v))}</option>` : "").join("");
