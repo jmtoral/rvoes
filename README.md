@@ -342,8 +342,8 @@ Es el mismo cálculo que la gráfica anterior (otorgados menos retirados al cier
 | Psicología | `PSICOLOG` | Psicología, Investigación Psicológica |
 
 - **Educación domina los doctorados:** 434 programas vigentes, y junto con Derecho (268) suman más de la mitad de los 1,328 doctorados vigentes.
-- **Crecieron más rápido que las licenciaturas.** Educación pasó de 19 programas en 2000 a 432 (unas 23 veces) y Derecho de 11 a 266 (unas 24 veces). Las licenciaturas de esas mismas áreas crecieron entre 8 y 14 veces.
-- **La mitad del crecimiento es reciente.** Educación tenía 212 programas en 2021 y Derecho 144; en cinco años ambas casi se duplicaron.
+- **Crecieron más rápido que las licenciaturas.** Educación pasó de 19 programas en 2000 a 432 (unas 23 veces) y Derecho de 11 a 266 (unas 24 veces). Las licenciaturas más frecuentes crecieron entre 4 y 14 veces en el mismo periodo.
+- **Buena parte del crecimiento es reciente.** De 2021 a 2026, Educación se duplicó (de 212 a 432 programas) y Derecho casi (de 144 a 266).
 - **Administración iba por delante de Derecho hasta 2007** y ahora tiene la mitad.
 - **En Mercadotecnia y Psicología casi no hay doctorados** (7 y 8 programas), aunque estén entre las licenciaturas más frecuentes.
 
