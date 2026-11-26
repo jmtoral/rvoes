@@ -2,7 +2,7 @@
 
 *Elaborado por Manuel Toral con información de la SEP (SIRVOES y DGAIR).*
 
-**Explora los datos en el sitio: [jmtoral.github.io/rvoes](https://jmtoral.github.io/rvoes/)** (áreas del conocimiento, trayectorias, mapa y líneas por estado que siguen los filtros del buscador, y buscador de todos los programas).
+**Explora los datos en el sitio: [jmtoral.github.io/rvoes](https://jmtoral.github.io/rvoes/)** (áreas del conocimiento, trayectorias, y una sala con filtros (mapa, paneles por estado y el registro de todos los programas)).
 
 Base de datos abierta de los **Reconocimientos de Validez Oficial de Estudios (RVOE) federales del tipo superior**. Se construye a partir de las dos fuentes públicas de la SEP y se cruzan entre sí.
 

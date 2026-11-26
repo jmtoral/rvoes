@@ -207,6 +207,20 @@ details.datos th{color:var(--texto-2);font-weight:500}
 .campo input,.campo select{width:100%;min-height:44px;padding:8px 12px;font:400 16px/1.3 var(--texto-f);color:var(--texto);background:#fff;border:1px solid var(--borde-2);border-radius:10px}
 .campo select{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2354493f' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 12px center;padding-right:32px}
 .campo input:focus,.campo select:focus{border-color:var(--fuego);outline:none;box-shadow:0 0 0 3px rgba(180,71,31,.18)}
+@media (min-width:1081px){#seleccion .filtros{position:sticky;top:72px;z-index:6;box-shadow:var(--sombra)}}
+.ctrl-fila{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 16px}
+.facetas{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:10px}
+@media (max-width:420px){.facetas{grid-template-columns:repeat(2,minmax(0,1fr))}.facetas .f-cab{font-size:12px;align-items:flex-start;min-height:2.6em}.facetas .f-cab span{white-space:normal}}
+.faceta{min-width:0}
+.faceta{background:#fff;border:1px solid var(--borde);border-radius:12px;padding:10px 12px 8px}
+.f-cab{display:flex;justify-content:space-between;gap:6px;align-items:baseline;font-size:13px;color:var(--texto-2)}
+.f-cab span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.f-cab b{font:600 15px/1 var(--texto-f);color:var(--texto);font-variant-numeric:tabular-nums}
+.f-graf{position:relative;height:56px;margin:10px 0 4px;border-bottom:1px solid var(--borde-2);border-top:1px dashed var(--borde);cursor:crosshair;touch-action:pan-y}
+.f-graf svg{width:100%;height:100%;display:block;overflow:visible}
+.f-tope{position:absolute;top:-8px;left:0;font-size:11px;line-height:1;color:var(--texto-3);background:#fff;padding:0 3px 0 0}
+.f-cruz{position:absolute;top:0;bottom:0;width:1px;background:rgba(43,33,24,.45);opacity:0;pointer-events:none}
+.f-eje{display:flex;justify-content:space-between;font-size:11px;color:var(--texto-3)}
 .barra-acc{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0}
 .resumen{margin:0;color:var(--texto-2)}
 .resumen b{color:var(--texto)}
@@ -292,8 +306,8 @@ dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
       <a href="#areas">Áreas</a>
       <a href="#trayectorias">Trayectorias</a>
       <a href="#instituciones">Instituciones</a>
-      <a href="#seleccion">Tu selección</a>
       <a href="#duelo">Duelo</a>
+      <a href="#seleccion">Tu selección</a>
       <a href="#metodo">Método</a>
       <a class="menu-cta" href="#registro">El registro</a>
     </nav>
@@ -385,14 +399,49 @@ dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
     </div>
   </section>
 
-  <!-- SALA IV: sigue los filtros del registro -->
+  <!-- SALA IV: duelo -->
+  <section class="sala" id="duelo" aria-labelledby="t-duelo">
+    <div class="envoltura">
+      <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:55% 50%">
+        <div class="rotulo"><span class="num">Sala IV</span><h2 id="t-duelo">El duelo</h2></div></div>
+      <div class="intro"><p>Pon a competir dos rivales: elige para cada uno un nivel educativo y una disciplina, un área del conocimiento o una palabra del nombre del programa.</p></div>
+      <div class="atajos" id="atajos" aria-label="Duelos sugeridos"></div>
+      <div class="rivales">
+        <div class="rival" id="rival-a" style="--c:#2a78d6"></div>
+        <div class="vs" aria-hidden="true">vs</div>
+        <div class="rival" id="rival-b" style="--c:#eb6834"></div>
+      </div>
+      <article class="obra">
+        <p class="veredicto" id="veredicto" aria-live="polite"></p>
+        <p class="desc" id="veredicto-2"></p>
+        <div class="leyenda" id="duelo-leyenda" style="margin-top:12px"></div>
+        <div class="grafica" id="g-duelo"></div>
+        <p class="nota">Programas vigentes al cierre de cada año con RVOE propio (sin acuerdos o decretos institucionales, que llevan la fecha del acuerdo). Los temas se asignan por palabras clave en el nombre del programa. En el marcador, "vigentes hoy" sí incluye los acuerdos institucionales.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- SALA V: tu selección (aquí viven los filtros) -->
   <section class="sala" id="seleccion" aria-labelledby="t-sel">
     <div class="envoltura">
       <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:70% 50%">
-        <div class="rotulo"><span class="num">Sala IV · Sigue los filtros de El registro</span><h2 id="t-sel">Tu selección</h2></div></div>
-      <div class="intro"><p>Estas tres obras cambian con la búsqueda y los filtros de El registro (Sala VI): nivel, área, modalidad, estatus, estado o una palabra como "derecho".</p></div>
-      <div class="barra-acc"><p class="resumen" id="sel-intro" aria-live="polite">Cargando…</p>
-        <span><button class="lnk" type="button" id="ir-filtros">Cambiar filtros</button> <button class="lnk" type="button" id="sel-limpiar">Quitar filtros</button></span></div>
+        <div class="rotulo"><span class="num">Sala V · Explora con filtros</span><h2 id="t-sel">Tu selección</h2></div></div>
+      <div class="intro"><p>Busca por institución, programa, municipio o número de RVOE y acota por estado, nivel, modalidad, estatus o área. Las cifras, las obras de esta sala y El registro de abajo cambian con tu selección.</p></div>
+
+      <form class="filtros" role="search" onsubmit="return false">
+        <div class="campo campo-busqueda"><label for="f-q">Buscar</label>
+          <input id="f-q" type="search" placeholder="p. ej. derecho, UVM, Tlalpan, 20240279" autocomplete="off"></div>
+        <div class="campo"><label for="f-estado">Estado</label><select id="f-estado"></select></div>
+        <div class="campo"><label for="f-nivel">Nivel</label><select id="f-nivel"></select></div>
+        <div class="campo"><label for="f-modalidad">Modalidad</label><select id="f-modalidad"></select></div>
+        <div class="campo"><label for="f-estatus">Estatus</label><select id="f-estatus"></select></div>
+        <div class="campo"><label for="f-area">Área</label><select id="f-area"></select></div>
+      </form>
+      <div class="barra-acc"><p class="resumen" id="resumen" aria-live="polite">Cargando el registro…</p>
+        <button class="lnk" type="button" id="limpiar">Limpiar filtros</button></div>
+      <div class="cifras" id="cifras">
+        <div><b>—</b><small>programas</small></div><div><b>—</b><small>vigentes</small></div><div><b>—</b><small>retirados</small></div>
+        <div><b>—</b><small>instituciones</small></div><div><b>—</b><small>planteles</small></div></div>
 
       <div class="obras">
         <article class="obra">
@@ -403,6 +452,14 @@ dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
           <div class="grafica" id="g-olas"></div>
           <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="g-olas-tabla"></div></details>
         </article>
+
+        <article class="obra media"><span class="lote">Trayectoria</span><h3>Vigentes en cada año</h3>
+          <p class="desc">Con los filtros actuales. Solo RVOE propios.</p>
+          <div class="grafica" id="g-anios" style="margin-top:12px"></div>
+          <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="g-anios-tabla"></div></details></article>
+        <article class="obra media"><span class="lote" id="l-barras">Territorio</span><h3 id="t-barras">Vigentes hoy por estado</h3>
+          <p class="desc" id="n-barras">Toca un estado para filtrar.</p>
+          <div class="barras" id="g-barras" style="margin-top:12px"></div></article>
 
         <article class="obra">
           <div class="ficha-obra"><div><span class="lote">Obra 02 · El territorio</span><h3>Dónde están los programas</h3>
@@ -424,73 +481,33 @@ dialog.ficha::backdrop{background:rgba(35,28,22,.45);backdrop-filter:blur(4px)}
 
         <article class="obra">
           <div class="ficha-obra"><div><span class="lote">Obra 03 · Los estados</span><h3>Trayectoria por estado</h3>
-            <p class="desc">Programas de tu selección vigentes al cierre de cada año. Toca los estados para comparar hasta seis.</p></div>
+            <p class="desc">Un panel por estado con los programas de tu selección vigentes al cierre de cada año, de más a menos. Pasa el cursor por cualquier panel para ver el mismo año en todos.</p></div>
+            <div class="dato-clave" id="edos-anio"></div></div>
+          <div class="ctrl-fila">
             <div class="segmentos" role="group" aria-label="Medida" id="seg-edos-m">
               <button type="button" data-m="abs" aria-pressed="true">Programas</button>
               <button type="button" data-m="tasa" aria-pressed="false">Por 100 mil hab.</button>
+            </div>
+            <div class="segmentos" role="group" aria-label="Escala vertical" id="seg-edos-e">
+              <button type="button" data-e="propia" aria-pressed="true">Escala de cada estado</button>
+              <button type="button" data-e="comun" aria-pressed="false">Escala común</button>
             </div></div>
-          <div class="atajos sel" id="chips-edos" role="group" aria-label="Estados a comparar"></div>
-          <div class="grafica" id="g-edos"></div>
+          <div class="facetas" id="facetas"></div>
           <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="t-edos"></div></details>
         </article>
       </div>
-      <p class="nota">Las series por año cuentan solo programas con RVOE propio (sin acuerdos o decretos institucionales, que llevan la fecha del acuerdo).</p>
+      <p class="nota">Las series por año cuentan solo programas con RVOE propio (sin acuerdos o decretos institucionales, que llevan la fecha del acuerdo). Con "Escala de cada estado" la forma de la curva se ve aun con pocos programas; la cifra pequeña arriba de cada panel es su tope. Para comparar tamaños entre estados usa "Escala común".</p>
     </div>
   </section>
 
-  <!-- SALA IV: duelo -->
-  <section class="sala" id="duelo" aria-labelledby="t-duelo">
-    <div class="envoltura">
-      <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:55% 50%">
-        <div class="rotulo"><span class="num">Sala V</span><h2 id="t-duelo">El duelo</h2></div></div>
-      <div class="intro"><p>Pon a competir dos rivales: elige para cada uno un nivel educativo y una disciplina, un área del conocimiento o una palabra del nombre del programa.</p></div>
-      <div class="atajos" id="atajos" aria-label="Duelos sugeridos"></div>
-      <div class="rivales">
-        <div class="rival" id="rival-a" style="--c:#2a78d6"></div>
-        <div class="vs" aria-hidden="true">vs</div>
-        <div class="rival" id="rival-b" style="--c:#eb6834"></div>
-      </div>
-      <article class="obra">
-        <p class="veredicto" id="veredicto" aria-live="polite"></p>
-        <p class="desc" id="veredicto-2"></p>
-        <div class="leyenda" id="duelo-leyenda" style="margin-top:12px"></div>
-        <div class="grafica" id="g-duelo"></div>
-        <p class="nota">Programas vigentes al cierre de cada año con RVOE propio (sin acuerdos o decretos institucionales, que llevan la fecha del acuerdo). Los temas se asignan por palabras clave en el nombre del programa. En el marcador, "vigentes hoy" sí incluye los acuerdos institucionales.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- SALA V -->
+  <!-- SALA VI -->
   <section class="sala" id="registro" aria-labelledby="t-registro">
     <div class="envoltura">
       <div class="friso"><img src="img/mural.webp" srcset="img/mural-600.webp 600w, img/mural.webp 1155w" sizes="(max-width:1240px) 100vw, 1240px" alt="" loading="lazy" width="1155" height="255" style="object-position:20% 50%">
         <div class="rotulo"><span class="num">Sala VI</span><h2 id="t-registro">El registro</h2></div></div>
-      <div class="intro"><p>Busca por institución, programa, municipio o número de RVOE y acota por estado, nivel, modalidad, estatus o área. Toca un programa para ver su ficha con domicilio y contacto. Los filtros también mueven las obras de Tu selección (Sala IV).</p></div>
-
-      <form class="filtros" role="search" onsubmit="return false">
-        <div class="campo campo-busqueda"><label for="f-q">Buscar</label>
-          <input id="f-q" type="search" placeholder="p. ej. derecho, UVM, Tlalpan, 20240279" autocomplete="off"></div>
-        <div class="campo"><label for="f-estado">Estado</label><select id="f-estado"></select></div>
-        <div class="campo"><label for="f-nivel">Nivel</label><select id="f-nivel"></select></div>
-        <div class="campo"><label for="f-modalidad">Modalidad</label><select id="f-modalidad"></select></div>
-        <div class="campo"><label for="f-estatus">Estatus</label><select id="f-estatus"></select></div>
-        <div class="campo"><label for="f-area">Área</label><select id="f-area"></select></div>
-      </form>
-      <div class="barra-acc"><p class="resumen" id="resumen" aria-live="polite">Cargando el registro…</p>
-        <button class="lnk" type="button" id="limpiar">Limpiar filtros</button></div>
-      <div class="cifras" id="cifras">
-        <div><b>—</b><small>programas</small></div><div><b>—</b><small>vigentes</small></div><div><b>—</b><small>retirados</small></div>
-        <div><b>—</b><small>instituciones</small></div><div><b>—</b><small>planteles</small></div></div>
-
-      <div class="obras">
-        <article class="obra media"><span class="lote">Trayectoria</span><h3>Vigentes en cada año</h3>
-          <p class="desc">Con los filtros actuales. Solo RVOE propios.</p>
-          <div class="grafica" id="g-anios" style="margin-top:12px"></div>
-          <details class="datos"><summary>Ver los datos</summary><div class="tabla-datos" id="g-anios-tabla"></div></details></article>
-        <article class="obra media"><span class="lote" id="l-barras">Territorio</span><h3 id="t-barras">Vigentes hoy por estado</h3>
-          <p class="desc" id="n-barras">Toca un estado para filtrar.</p>
-          <div class="barras" id="g-barras" style="margin-top:12px"></div></article>
-      </div>
+      <div class="intro"><p>Los programas de tu selección, uno por uno. Toca un programa para ver su ficha con domicilio y contacto.</p></div>
+      <div class="barra-acc"><p class="resumen" id="reg-resumen" aria-live="polite"></p>
+        <button class="lnk" type="button" id="ir-filtros">Cambiar filtros</button></div>
 
       <div class="registro">
         <div class="registro-cab"><h3>Programas</h3>
@@ -719,7 +736,7 @@ function salaAreas() {
   pinta();
 }
 
-/* ---------- Sala IV: tu selección (sigue los filtros de El registro) ---------- */
+/* ---------- Sala V: tu selección (filtros, cifras y obras; El registro usa los mismos filtros) ---------- */
 let pintarSeleccion = () => {};
 function describeFiltros() {
   const C = D.cat, f = [];
@@ -732,7 +749,7 @@ function salaSeleccion() {
   const C = D.cat, cero = new Array(N).fill(0);
   const MODS = [["ESCOLARIZADA", "Escolarizada", MURAL.azul], ["MIXTA", "Mixta", MURAL.naranja], ["NO ESCOLARIZADA", "No escolarizada", MURAL.aqua]];
   const estados = C.estado.map((n, i) => i).filter(i => TESELAS[C.estado[i]]);
-  let olas, tot, abs, tas, medida = "tasa", medLin = "abs", anio = HASTA, timer = null, sel = null, edoPrevio = null;
+  let olas, tot, abs, tas, medida = "tasa", medLin = "abs", anio = HASTA, timer = null;
   const S = m => m === "abs" ? abs : tas;
   const recalc = () => {
     olas = MODS.map(() => new Array(N).fill(0));
@@ -743,14 +760,12 @@ function salaSeleccion() {
     tas = new Map(estados.map(e => [e, abs.get(e).map((v, k) => D.pob[e] ? v / D.pob[e][k] * 1e5 : 0)]));
   };
 
-  /* Encabezado: qué filtros están puestos */
-  const pintaIntro = () => {
-    const f = describeFiltros(), vig = filtrados.filter(p => p.vig).length;
-    $("sel-intro").innerHTML = (f.length ? `Con <b>${esc(f.join(" · "))}</b>: ` : "Sin filtros, toda la colección: ") + `<b>${fmt(filtrados.length)}</b> programas, ${fmt(vig)} vigentes.`;
-    $("sel-limpiar").hidden = !f.length;
+  /* El registro (más abajo) recuerda qué filtros están puestos */
+  const pintaResumen = () => {
+    const f = describeFiltros();
+    $("reg-resumen").innerHTML = (f.length ? `Con <b>${esc(f.join(" · "))}</b>: ` : "Sin filtros: ") + `<b>${fmt(filtrados.length)}</b> programas.`;
   };
   $("ir-filtros").addEventListener("click", () => { document.querySelector(".filtros").scrollIntoView({behavior: "smooth", block: "center"}); $("f-q").focus({preventScroll: true}); });
-  $("sel-limpiar").addEventListener("click", () => $("limpiar").click());
 
   /* Obra 01: oleadas por modalidad */
   $("ola-leyenda").innerHTML = MODS.map(([, n, c]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
@@ -815,33 +830,44 @@ function salaSeleccion() {
     timer = setInterval(() => { anio++; $("anio").value = anio; pintaMapa(); if (anio >= HASTA) { clearInterval(timer); timer = null; icono(false); $("play").setAttribute("aria-label", "Reproducir la evolución"); } }, 380);
   });
 
-  /* Obra 03: una línea por estado */
-  const chips = $("chips-edos");
-  const pintaLineas = () => {
-    const M = S(medLin), fmtY = medLin === "abs" ? fmt : fmt1, orden = [...estados].sort((a, b) => M.get(b)[N - 1] - M.get(a)[N - 1]);
-    if (!sel || edoPrevio !== est.estado) {  // al cambiar el filtro de estado, vuelve a los cinco con más programas
-      edoPrevio = est.estado; sel = new Map();
-      const top = [...estados].sort((a, b) => abs.get(b)[N - 1] - abs.get(a)[N - 1]).filter(e => abs.get(e)[N - 1] > 0).slice(0, 5);
-      (top.length ? top : orden.slice(0, 1)).forEach((e, j) => sel.set(e, PALETA[j]));  // el color sigue al estado, no a su lugar
-    }
-    const lleno = sel.size >= PALETA.length;
-    chips.innerHTML = orden.map(e => { const c = sel.get(e);
-      return `<button type="button" data-k="${e}" aria-pressed="${!!c}"${!c && lleno ? " disabled" : ""}${c ? ` style="--c:${c}"` : ""}><i></i>${esc(nomEstado(C.estado[e]))} <small>${fmtY(M.get(e)[N - 1])}</small></button>`; }).join("");
-    const series = orden.filter(e => sel.has(e)).map(e => ({nombre: nomEstado(C.estado[e]), color: sel.get(e), valores: M.get(e)}));
-    lineas($("g-edos"), series, {alto: 340, fmtY, aria: series.map(x => `${x.nombre}: ${fmtY(x.valores[N - 1])}`).join("; ") + ` en ${HASTA}`});
-    tablaDatos($("t-edos"), ["Año", ...series.map(x => x.nombre)], ANIOS.map((a, k) => [String(a), ...series.map(x => medLin === "abs" ? x.valores[k] : fmt1(x.valores[k]))]));
+  /* Obra 03: un panel por estado (facetas), con la misma cruz en todos */
+  const fac = $("facetas"); let escala = "propia";
+  const fmtL = () => medLin === "abs" ? fmt : fmt1;
+  const marca = k => {  // k = año señalado; null = último año
+    const kk = k ?? N - 1, f = fmtL(), M = S(medLin);
+    fac.querySelectorAll(".faceta").forEach(d => { d.querySelector("b").textContent = f(M.get(+d.dataset.e)[kk]);
+      const c = d.querySelector(".f-cruz"); c.style.left = (kk / (N - 1) * 100) + "%"; c.style.opacity = k == null ? 0 : 1; });
+    $("edos-anio").innerHTML = `${DESDE + kk}<small>${k == null ? "cifras al cierre del último año" : "año señalado en todos los paneles"}</small>`;
   };
-  chips.addEventListener("click", e => {
-    const b = e.target.closest("button"); if (!b || b.disabled) return; const k = +b.dataset.k;
-    if (sel.has(k)) { if (sel.size > 1) sel.delete(k); }
-    else sel.set(k, PALETA.find(c => ![...sel.values()].includes(c)));
-    pintaLineas(); chips.querySelector(`[data-k="${k}"]`).focus();
-  });
-  $("seg-edos-m").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; medLin = b.dataset.m;
-    $("seg-edos-m").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); pintaLineas(); });
+  const pintaFacetas = () => {
+    const M = S(medLin), f = fmtL();
+    const orden = estados.filter(e => abs.get(e).some(v => v > 0)).sort((a, b) => M.get(b)[N - 1] - M.get(a)[N - 1]);
+    if (!orden.length) { fac.innerHTML = `<p class="vacio">Ningún programa con RVOE propio coincide con estos filtros.</p>`; $("t-edos").innerHTML = ""; $("edos-anio").innerHTML = ""; return; }
+    const comun = Math.max(...orden.flatMap(e => M.get(e)));
+    fac.innerHTML = orden.map(e => {
+      const s = M.get(e), max = Math.max(...s), tope = (escala === "comun" ? comun : max) || 1, nom = nomEstado(C.estado[e]);
+      const pts = s.map((v, k) => `${(k / (N - 1) * 100).toFixed(2)},${(40 - v / tope * 38).toFixed(2)}`).join(" ");
+      return `<div class="faceta" data-e="${e}" role="img" aria-label="${esc(nom)}: ${f(s[N - 1])} en ${HASTA}, ${f(s[0])} en ${DESDE}">
+        <div class="f-cab"><span title="${esc(nom)}">${esc(nom)}</span><b>${f(s[N - 1])}</b></div>
+        <div class="f-graf"><svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,40 L${pts.replace(/ /g, " L")} L100,40 Z" fill="${MURAL.fuego}" opacity=".13"/>
+          <polyline points="${pts}" fill="none" stroke="${MURAL.fuego}" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>
+          <span class="f-tope" aria-hidden="true">${f(tope)}</span><i class="f-cruz"></i></div>
+        <div class="f-eje" aria-hidden="true"><span>${DESDE}</span><span>${HASTA}</span></div></div>`; }).join("");
+    marca(null);
+    const cortes = ANIOS.filter(a => (a - DESDE) % 5 === 0 || a === HASTA);
+    tablaDatos($("t-edos"), ["Estado", ...cortes.map(String)], orden.map(e => [nomEstado(C.estado[e]), ...cortes.map(a => medLin === "abs" ? M.get(e)[a - DESDE] : fmt1(M.get(e)[a - DESDE]))]));
+  };
+  fac.addEventListener("pointermove", ev => { const g = ev.target.closest(".f-graf"); if (!g) return; const r = g.getBoundingClientRect();
+    marca(Math.max(0, Math.min(N - 1, Math.round((ev.clientX - r.left) / r.width * (N - 1))))); });
+  fac.addEventListener("pointerleave", () => marca(null));
+  const segmento = (id, attr, fija) => $(id).addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; fija(b.dataset[attr]);
+    $(id).querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); pintaFacetas(); });
+  segmento("seg-edos-m", "m", v => medLin = v);
+  segmento("seg-edos-e", "e", v => escala = v);
 
-  pintarSeleccion = () => { recalc(); pintaIntro(); pintaOlas(); pintaMapa(); pintaLineas(); };  // lo llama aplicar()
-  redibujar.push(() => { pintaOlas(); pintaLineas(); });
+  pintarSeleccion = () => { recalc(); pintaResumen(); pintaOlas(); pintaMapa(); pintaFacetas(); };  // lo llama aplicar()
+  redibujar.push(pintaOlas);
 }
 
 /* ---------- Sala II: trayectorias comparadas ---------- */
@@ -956,7 +982,7 @@ function colorRampa(t) {
 }
 function lumHex(hex) { const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4); return .2126 * r + .7152 * g + .0722 * b; }
 
-/* ---------- Sala V: el duelo ---------- */
+/* ---------- Sala IV: el duelo ---------- */
 const NIVELES_DUELO = [["lic", "Licenciatura", ["LICENCIATURA"]], ["pos", "Posgrado", ["ESPECIALIDAD", "MAESTRÍA", "DOCTORADO"]], ["mae", "Maestría", ["MAESTRÍA"]],
   ["doc", "Doctorado", ["DOCTORADO"]], ["esp", "Especialidad", ["ESPECIALIDAD"]], ["tsu", "TSU y profesional asociado", ["TÉCNICO SUPERIOR UNIVERSITARIO", "PROFESIONAL ASOCIADO"]], ["todos", "Todos los niveles", null]];
 /* Disciplinas por palabras clave sobre el nombre sin acentos */
